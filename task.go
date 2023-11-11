@@ -84,6 +84,7 @@ func (task *Task) Run() (*Report, error) {
 			case <-ctx.Done():
 				// nothing to do
 			case <-sigint:
+				// Stop query on interrupt
 				cancel()
 				eg.Wait() //nolint:errcheck
 				os.Exit(130)

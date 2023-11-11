@@ -46,7 +46,7 @@ func NewTask(options *Options) *Task {
 	return task
 }
 
-func (task *Task) init() ([]*Agent, *Recorder, error) {
+func (task *Task) makeAgents() ([]*Agent, *Recorder, error) {
 	agents := make([]*Agent, task.Nagents)
 	rec := NewRecorder(task.ID, task.Options)
 	limiter := rate.NewLimiter(rate.Limit(task.Rate), 1)
@@ -64,7 +64,7 @@ func (task *Task) init() ([]*Agent, *Recorder, error) {
 }
 
 func (task *Task) Run() (*Report, error) {
-	agents, rec, err := task.init()
+	agents, rec, err := task.makeAgents()
 
 	if err != nil {
 		return nil, err

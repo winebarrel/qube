@@ -16,10 +16,11 @@ type Options struct {
 	AgentOptions
 	DataOptions
 	DBConfig
-	Nagents int           `kong:"short='n',default='1',help='Number of agents.'"`
-	Rate    int           `kong:"short='r',help='Rate limit (qps). \"0\" means unlimited.'"`
-	Time    time.Duration `json:"-" kong:"short='t',help='Maximum execution time of the test. \"0\" means unlimited.'"`
-	X_Time  JSONDuration  `json:"Time" kong:"-"` // for report
+	Nagents  int           `kong:"short='n',default='1',help='Number of agents.'"`
+	Rate     int           `kong:"short='r',help='Rate limit (qps). \"0\" means unlimited.'"`
+	Time     time.Duration `json:"-" kong:"short='t',help='Maximum execution time of the test. \"0\" means unlimited.'"`
+	X_Time   JSONDuration  `json:"Time" kong:"-"` // for report
+	Progress bool          `json:"-" kong:"negatable,default='true',help='Show progress report. (default: enabled)'"`
 }
 
 func (options *Options) AfterApply() error {
@@ -103,7 +104,7 @@ func (task *Task) Run() (*Report, error) {
 		}()
 	}
 
-	var progress = NewProgress(os.Stderr, task.Noop)
+	var progress = NewProgress(os.Stderr, !task.Progress || task.Noop)
 	rec.Start()
 
 	for _, v := range agents {

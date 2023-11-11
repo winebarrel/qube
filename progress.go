@@ -20,6 +20,7 @@ type Progress struct {
 	noop        bool
 	prevDPLen   int
 	nDeadAgents int32
+	closed      chan struct{}
 }
 
 func NewProgress(w io.Writer, noop bool) *Progress {
@@ -36,6 +37,7 @@ func (progress *Progress) Start(ctx context.Context, rec *Recorder) {
 		return
 	}
 
+	progress.closed = make(chan struct{})
 	tk := time.NewTicker(InterimReportIntvl)
 
 	go func() {
@@ -50,7 +52,7 @@ func (progress *Progress) Start(ctx context.Context, rec *Recorder) {
 			}
 		}
 
-		progress.clear()
+		close(progress.closed)
 	}()
 }
 
@@ -86,11 +88,12 @@ func (progress *Progress) report(rec *Recorder) {
 	fmt.Fprintf(progress.w, "\r%-*s", width, line)
 }
 
-func (progress *Progress) clear() {
+func (progress *Progress) Close() {
 	if progress.noop {
 		return
 	}
 
+	<-progress.closed
 	width, _, err := term.GetSize(0)
 
 	if err != nil {

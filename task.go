@@ -119,7 +119,8 @@ func (task *Task) Run() (*Report, error) {
 	progress.Start(ctx, rec)
 	err = eg.Wait()
 	cancel()
-	rec.Close() // wait for buffer flush
+	progress.Close() // wait for ticker to stop
+	rec.Close()      // wait for buffer flush
 
 	if err != nil && !errors.Is(err, context.DeadlineExceeded) {
 		return nil, err

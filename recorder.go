@@ -29,13 +29,14 @@ func NewRecorder(id string, options *Options) *Recorder {
 		ID:         id,
 		DataPoints: []DataPoint{},
 		ch:         make(chan []DataPoint, options.Nagents*3),
-		closed:     make(chan struct{}),
 	}
 
 	return rec
 }
 
 func (rec *Recorder) Start() {
+	rec.closed = make(chan struct{})
+
 	push := func(dps []DataPoint) {
 		rec.Lock()
 		defer rec.Unlock()

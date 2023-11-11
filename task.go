@@ -85,7 +85,6 @@ func (task *Task) Run() (*Report, error) {
 				// nothing to do
 			case <-sigint:
 				cancel()
-				eg.Wait() //nolint:errcheck
 				os.Exit(130)
 			}
 		}()

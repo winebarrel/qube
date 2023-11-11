@@ -49,6 +49,8 @@ func (progress *Progress) Start(ctx context.Context, rec *Recorder) {
 				progress.report(rec)
 			}
 		}
+
+		progress.clear()
 	}()
 }
 
@@ -84,7 +86,7 @@ func (progress *Progress) report(rec *Recorder) {
 	fmt.Fprintf(progress.w, "\r%-*s", width, line)
 }
 
-func (progress *Progress) Clear() {
+func (progress *Progress) clear() {
 	if progress.noop {
 		return
 	}

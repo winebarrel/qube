@@ -82,7 +82,7 @@ func (task *Task) Run() (*Report, error) {
 		go func() {
 			select {
 			case <-ctx.Done():
-				// nothing to do
+				// Nothing to do
 			case <-sigint:
 				// Stop query on interrupt
 				cancel()
@@ -119,8 +119,7 @@ func (task *Task) Run() (*Report, error) {
 	progress.Start(ctx, rec)
 	err = eg.Wait()
 	cancel()
-	progress.Clear()
-	rec.Close()
+	rec.Close() // Wait for buffer flush
 
 	if err != nil && !errors.Is(err, context.DeadlineExceeded) {
 		return nil, err

@@ -11,4 +11,4 @@ vet:
 
 .PHONY: lint
 lint:
-	golangci-lint run -E misspell
+	golangci-lint run

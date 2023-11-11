@@ -19,7 +19,6 @@ func (jd JSONDuration) MarshalJSON() (b []byte, err error) {
 
 type Report struct {
 	ID              string
-	DSN             string
 	StartedAt       time.Time
 	FinishedAt      time.Time
 	ElapsedTime     JSONDuration
@@ -45,7 +44,6 @@ func NewReport(rec *Recorder) *Report {
 
 	report := &Report{
 		ID:              rec.ID,
-		DSN:             rec.DSN,
 		StartedAt:       rec.StartedAt,
 		FinishedAt:      rec.FinishedAt,
 		ElapsedTime:     JSONDuration(nanoElapsed),

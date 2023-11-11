@@ -23,6 +23,8 @@ type Options struct {
 	Progress bool          `json:"-" kong:"negatable,default='true',help='Show progress report. (default: enabled)'"`
 }
 
+// Kong hook
+// see https://github.com/alecthomas/kong#hooks-beforereset-beforeresolve-beforeapply-afterapply-and-the-bind-option
 func (options *Options) AfterApply() error {
 	options.nconns = options.Nagents
 	options.autoCommit = options.CommitRate == 0

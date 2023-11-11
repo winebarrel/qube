@@ -65,9 +65,7 @@ func (agent *Agent) Start(ctx context.Context) error {
 
 	err = agent.start0(ctx)
 
-	if err == EOD {
-		err = nil
-	} else if err != nil {
+	if err != nil && err != EOD {
 		return err
 	}
 

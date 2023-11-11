@@ -100,9 +100,10 @@ L:
 			break L
 		case <-tkrec.C:
 			agent.rec.Add(dps)
-			dps = dps[:0]
+			// Create new slices to avoid race conditions
+			dps = []DataPoint{}
 		default:
-			// nothing to do
+			// Nothing to do
 		}
 
 		q, err := agent.data.Next()

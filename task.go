@@ -74,7 +74,7 @@ func (task *Task) Run() (*Report, error) {
 		ctx, cancel = context.WithTimeout(ctx, task.Time)
 	}
 
-	// trap SIGINT
+	// Trap SIGINT
 	{
 		sigint := make(chan os.Signal, 1)
 		signal.Notify(sigint, os.Interrupt)
@@ -82,9 +82,9 @@ func (task *Task) Run() (*Report, error) {
 		go func() {
 			select {
 			case <-ctx.Done():
-				// nothing to do
+				// Nothing to do
 			case <-sigint:
-				// stop query on interrupt
+				// Stop query on interrupt
 				cancel()
 				eg.Wait() //nolint:errcheck
 				os.Exit(130)
@@ -92,7 +92,7 @@ func (task *Task) Run() (*Report, error) {
 		}()
 	}
 
-	// timeout
+	// Timeout
 	if task.Time > 0 {
 		go func() {
 			<-ctx.Done()
@@ -119,8 +119,8 @@ func (task *Task) Run() (*Report, error) {
 	progress.Start(ctx, rec)
 	err = eg.Wait()
 	cancel()
-	progress.Close() // wait for ticker to stop
-	rec.Close()      // wait for buffer flush
+	progress.Close() // Wait for ticker to stop
+	rec.Close()      // Wait for buffer flush
 
 	if err != nil && !errors.Is(err, context.DeadlineExceeded) {
 		return nil, err

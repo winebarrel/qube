@@ -73,3 +73,10 @@ func (rec *Recorder) Add(dps []DataPoint) {
 func (rec *Recorder) Report() *Report {
 	return NewReport(rec)
 }
+
+func (rec *Recorder) Count() int {
+	// Lock to avoid race conditions
+	rec.Lock()
+	defer rec.Unlock()
+	return len(rec.DataPoints)
+}

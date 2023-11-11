@@ -2,7 +2,7 @@
 
 [![build](https://github.com/winebarrel/qube/actions/workflows/build.yml/badge.svg)](https://github.com/winebarrel/qube/actions/workflows/build.yml)
 
-qube is a DB load testing tool.
+qube is a MySQL load testing tool.
 
 ## Usage
 

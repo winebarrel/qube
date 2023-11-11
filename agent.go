@@ -102,7 +102,7 @@ L:
 			agent.rec.Add(dps)
 			dps = dps[:0]
 		default:
-			// Nothing to do
+			// nothing to do
 		}
 
 		q, err := agent.data.Next()

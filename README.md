@@ -10,21 +10,21 @@ qube is a DB load testing tool.
 Usage: qube --data-file=STRING --dsn=STRING
 
 Flags:
-  -h, --help                 Show context-sensitive help.
-      --[no-]abort-on-err    Abort test on error. (default: disabled)
-  -f, --data-file=STRING     NDJSON file path of queries to execute.
-      --key="q"              Key name of the query field in the test data. e.g. {"q":"SELECT ..."}
-      --[no-]loop            Return to the beginning after reading the test data. (default: enabled)
-      --[no-]random          Randomize the starting position of the test data. (default: disabled)
-      --commit-rate=INT      Number of queries to execute "COMMIT".
-  -d, --dsn=STRING           DSN to connect to.
-                               - MySQL: https://github.com/go-sql-driver/mysql#examples
-                               - PostgreSQL: https://github.com/jackc/pgx/blob/df5d00e/stdlib/sql.go
-      --[no-]noop            No-op mode. No actual query execution. (default: disabled)
-  -n, --nagents=1            Number of agents.
-  -r, --rate=INT             Rate limit (qps). "0" means unlimited.
-  -t, --time=DURATION        Maximum execution time of the test. "0" means unlimited.
-      --[no-]progress        Show progress report. (default: enabled)
+  -h, --help                Show context-sensitive help.
+      --[no-]force          Do not abort test on error. (default: disabled)
+  -f, --data-file=STRING    NDJSON file path of queries to execute.
+      --key="q"             Key name of the query field in the test data. e.g. {"q":"SELECT ..."}
+      --[no-]loop           Return to the beginning after reading the test data. (default: enabled)
+      --[no-]random         Randomize the starting position of the test data. (default: disabled)
+      --commit-rate=INT     Number of queries to execute "COMMIT".
+  -d, --dsn=STRING          DSN to connect to.
+                              - MySQL: https://github.com/go-sql-driver/mysql#examples
+                              - PostgreSQL: https://github.com/jackc/pgx/blob/df5d00e/stdlib/sql.go
+      --[no-]noop           No-op mode. No actual query execution. (default: disabled)
+  -n, --nagents=1           Number of agents.
+  -r, --rate=INT            Rate limit (qps). "0" means unlimited.
+  -t, --time=DURATION       Maximum execution time of the test. "0" means unlimited.
+      --[no-]progress       Show progress report. (default: enabled)
       --version
 ```
 
@@ -34,15 +34,15 @@ $  echo '{"q":"select 2"}' >> data.jsonl
 $  echo '{"q":"select 3"}' >> data.jsonl
 
 $ qube -d 'root@tcp(127.0.0.1:13306)/' -f data.jsonl -n 5 -t 10s
-00:07 | 5 agents / exec 147489 queries, 0 errors (24276 qps)
+00:05 | 5 agents / exec 95788 queries, 0 errors (23637 qps)
 ...
 {
-  "ID": "21111f0e-c40a-465b-999c-734674f57721",
-  "StartedAt": "2023-11-12T12:03:33.320236+09:00",
-  "FinishedAt": "2023-11-12T12:03:43.321728+09:00",
-  "ElapsedTime": "10.001689666s",
+  "ID": "b1e23c00-1601-46eb-ad2b-fdf01154243d",
+  "StartedAt": "2023-11-12T12:08:29.296154+09:00",
+  "FinishedAt": "2023-11-12T12:08:39.297268+09:00",
+  "ElapsedTime": "10.001173875s",
   "Options": {
-    "AbortOnErr": false,
+    "Force": false,
     "DataFile": "data.jsonl",
     "Key": "q",
     "Loop": true,
@@ -56,64 +56,64 @@ $ qube -d 'root@tcp(127.0.0.1:13306)/' -f data.jsonl -n 5 -t 10s
     "Time": "10s"
   },
   "GOMAXPROCS": 10,
-  "QueryCount": 245221,
+  "QueryCount": 238001,
   "ErrorQueryCount": 0,
-  "AvgQPS": 24517,
-  "MaxQPS": 25487,
-  "MinQPS": 23609,
-  "MedianQPS": 24663,
+  "AvgQPS": 23797,
+  "MaxQPS": 24977,
+  "MinQPS": 21623,
+  "MedianQPS": 24051.5,
   "Duration": {
     "Time": {
-      "Cumulative": "49.578293032s",
-      "HMean": "195.952µs",
-      "Avg": "202.178µs",
-      "P50": "197.125µs",
-      "P75": "215.583µs",
-      "P95": "264.708µs",
-      "P99": "332.125µs",
-      "P999": "592.166µs",
-      "Long5p": "319.822µs",
-      "Short5p": "140.433µs",
-      "Max": "2.671708ms",
-      "Min": "87.417µs",
-      "Range": "2.584291ms",
-      "StdDev": "46.378µs"
+      "Cumulative": "49.569869935s",
+      "HMean": "200.366µs",
+      "Avg": "208.275µs",
+      "P50": "199.75µs",
+      "P75": "222.042µs",
+      "P95": "288.875µs",
+      "P99": "363.375µs",
+      "P999": "594.208µs",
+      "Long5p": "349.679µs",
+      "Short5p": "142.483µs",
+      "Max": "2.796209ms",
+      "Min": "98.709µs",
+      "Range": "2.6975ms",
+      "StdDev": "54.681µs"
     },
     "Rate": {
-      "Second": 4946.136403722566
+      "Second": 4801.323875008872
     },
-    "Samples": 245221,
-    "Count": 245221,
+    "Samples": 238001,
+    "Count": 238001,
     "Histogram": [
       {
-        "87µs - 345µs": 243387
+        "98µs - 368µs": 235807
       },
       {
-        "345µs - 604µs": 1610
+        "368µs - 638µs": 2008
       },
       {
-        "604µs - 862µs": 146
+        "638µs - 907µs": 117
       },
       {
-        "862µs - 1.121ms": 29
+        "907µs - 1.177ms": 19
       },
       {
-        "1.121ms - 1.379ms": 17
+        "1.177ms - 1.447ms": 9
       },
       {
-        "1.379ms - 1.637ms": 4
+        "1.447ms - 1.717ms": 4
       },
       {
-        "1.637ms - 1.896ms": 10
+        "1.717ms - 1.986ms": 2
       },
       {
-        "1.896ms - 2.154ms": 3
+        "1.986ms - 2.256ms": 3
       },
       {
-        "2.154ms - 2.413ms": 1
+        "2.256ms - 2.526ms": 12
       },
       {
-        "2.413ms - 2.671ms": 14
+        "2.526ms - 2.796ms": 20
       }
     ]
   }

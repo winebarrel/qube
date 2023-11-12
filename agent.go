@@ -90,7 +90,7 @@ func (agent *Agent) start0(ctx context.Context) error {
 	}()
 
 L:
-	for i := 1; ; i++ { // Infinite loop
+	for {
 		if agent.limiter != nil {
 			agent.limiter.Wait(ctx) //nolint:errcheck
 		}

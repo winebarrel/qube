@@ -34,13 +34,13 @@ $  echo '{"q":"select 2"}' >> data.jsonl
 $  echo '{"q":"select 3"}' >> data.jsonl
 
 $ qube -d 'root@tcp(127.0.0.1:13306)/' -f data.jsonl -n 5 -t 10s
-00:05 | 5 agents / exec 88756 queries, 0 errors (22101 qps)
+00:07 | 5 agents / exec 147489 queries, 0 errors (24276 qps)
 ...
 {
-  "ID": "bea6f7c0-fd09-46ed-a801-440a380581c6",
-  "StartedAt": "2023-11-11T14:56:17.048404+09:00",
-  "FinishedAt": "2023-11-11T14:56:27.049823+09:00",
-  "ElapsedTime": "10.001450833s",
+  "ID": "21111f0e-c40a-465b-999c-734674f57721",
+  "StartedAt": "2023-11-12T12:03:33.320236+09:00",
+  "FinishedAt": "2023-11-12T12:03:43.321728+09:00",
+  "ElapsedTime": "10.001689666s",
   "Options": {
     "AbortOnErr": false,
     "DataFile": "data.jsonl",
@@ -49,70 +49,71 @@ $ qube -d 'root@tcp(127.0.0.1:13306)/' -f data.jsonl -n 5 -t 10s
     "Random": false,
     "CommitRate": 0,
     "DSN": "root@tcp(127.0.0.1:13306)/",
+    "Driver": "mysql",
     "Noop": false,
     "Nagents": 5,
     "Rate": 0,
     "Time": "10s"
   },
   "GOMAXPROCS": 10,
-  "QueryCount": 221386,
-  "ErrorQueryCount": 5,
-  "AvgQPS": 22135,
-  "MaxQPS": 23252,
-  "MinQPS": 21054,
-  "MedianQPS": 22307,
+  "QueryCount": 245221,
+  "ErrorQueryCount": 0,
+  "AvgQPS": 24517,
+  "MaxQPS": 25487,
+  "MinQPS": 23609,
+  "MedianQPS": 24663,
   "Duration": {
     "Time": {
-      "Cumulative": "49.111531104s",
-      "HMean": "0s",
-      "Avg": "221.836µs",
-      "P50": "217µs",
-      "P75": "244.458µs",
-      "P95": "295.542µs",
-      "P99": "347.75µs",
-      "P999": "495.042µs",
-      "Long5p": "335.835µs",
-      "Short5p": "149.046µs",
-      "Max": "2.21125ms",
-      "Min": "0s",
-      "Range": "2.21125ms",
-      "StdDev": "47.517µs"
+      "Cumulative": "49.578293032s",
+      "HMean": "195.952µs",
+      "Avg": "202.178µs",
+      "P50": "197.125µs",
+      "P75": "215.583µs",
+      "P95": "264.708µs",
+      "P99": "332.125µs",
+      "P999": "592.166µs",
+      "Long5p": "319.822µs",
+      "Short5p": "140.433µs",
+      "Max": "2.671708ms",
+      "Min": "87.417µs",
+      "Range": "2.584291ms",
+      "StdDev": "46.378µs"
     },
     "Rate": {
-      "Second": 4507.821178109609
+      "Second": 4946.136403722566
     },
-    "Samples": 221386,
-    "Count": 221386,
+    "Samples": 245221,
+    "Count": 245221,
     "Histogram": [
       {
-        "0s - 221µs": 120362
+        "87µs - 345µs": 243387
       },
       {
-        "221µs - 442µs": 100638
+        "345µs - 604µs": 1610
       },
       {
-        "442µs - 663µs": 315
+        "604µs - 862µs": 146
       },
       {
-        "663µs - 884µs": 34
+        "862µs - 1.121ms": 29
       },
       {
-        "884µs - 1.105ms": 7
+        "1.121ms - 1.379ms": 17
       },
       {
-        "1.105ms - 1.326ms": 4
+        "1.379ms - 1.637ms": 4
       },
       {
-        "1.326ms - 1.547ms": 1
+        "1.637ms - 1.896ms": 10
       },
       {
-        "1.547ms - 1.769ms": 3
+        "1.896ms - 2.154ms": 3
       },
       {
-        "1.769ms - 1.99ms": 4
+        "2.154ms - 2.413ms": 1
       },
       {
-        "1.99ms - 2.211ms": 18
+        "2.413ms - 2.671ms": 14
       }
     ]
   }

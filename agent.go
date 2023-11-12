@@ -123,7 +123,7 @@ L:
 		dps = append(dps, DataPoint{
 			Time:     time.Now(),
 			Duration: dur,
-			IsError:  err != nil,
+			IsError:  err != nil && errors.Is(err, context.Canceled),
 		})
 	}
 

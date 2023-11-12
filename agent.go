@@ -114,7 +114,7 @@ L:
 
 		dur, err := agent.execQuery(ctx, q)
 
-		if errors.Is(err, context.Canceled) {
+		if errors.Is(err, context.DeadlineExceeded) || errors.Is(err, context.Canceled) {
 			continue
 		} else if err != nil && !agent.Force {
 			return fmt.Errorf("failed to execute query - %s (%w)", q, err)
@@ -123,7 +123,7 @@ L:
 		dps = append(dps, DataPoint{
 			Time:     time.Now(),
 			Duration: dur,
-			IsError:  err != nil && errors.Is(err, context.Canceled),
+			IsError:  err != nil,
 		})
 	}
 

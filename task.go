@@ -104,7 +104,7 @@ func (task *Task) Run() (*Report, error) {
 	progress.Close() // Wait for ticker to stop
 	rec.Close()      // Wait for buffer flush
 
-	if err != nil && !errors.Is(err, context.DeadlineExceeded) {
+	if err != nil && !errors.Is(err, context.DeadlineExceeded) && !errors.Is(err, context.Canceled) {
 		return nil, err
 	}
 

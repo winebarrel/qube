@@ -23,7 +23,7 @@ type DBConfig struct {
 	autoCommit bool
 }
 
-func (config *DBConfig) OpenWithPing() (DBIface, error) {
+func (config *DBConfig) OpenDBWithPing() (DBIface, error) {
 	if config.Noop {
 		return &NullDB{os.Stderr}, nil
 	}

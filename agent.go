@@ -27,7 +27,7 @@ type Agent struct {
 }
 
 func NewAgent(taskID string, n int, options *Options, rec *Recorder, limiter *rate.Limiter) (*Agent, error) {
-	db, err := options.OpenWithPing()
+	db, err := options.OpenDBWithPing()
 
 	if err != nil {
 		return nil, err

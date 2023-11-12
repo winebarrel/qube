@@ -20,7 +20,6 @@ type DBConfig struct {
 	DSN        string   `kong:"short='d',required,help='DSN to connect to. \n - MySQL: https://github.com/go-sql-driver/mysql#examples \n - PostgreSQL: https://github.com/jackc/pgx/blob/df5d00e/stdlib/sql.go'"`
 	Driver     DBDriver `kong:"-"`
 	Noop       bool     `kong:"negatable,default='false',help='No-op mode. No actual query execution. (default: disabled)'"`
-	nconns     int
 	autoCommit bool
 }
 
@@ -37,7 +36,8 @@ func (config *DBConfig) OpenWithPing() (DBIface, error) {
 
 	db.SetConnMaxLifetime(0)
 	db.SetConnMaxIdleTime(0)
-	db.SetMaxIdleConns(0)
+	db.SetMaxIdleConns(1)
+	db.SetMaxOpenConns(1)
 
 	err = db.Ping()
 
@@ -52,9 +52,6 @@ func (config *DBConfig) OpenWithPing() (DBIface, error) {
 			return nil, fmt.Errorf("failed to disable autocommit (%w)", err)
 		}
 	}
-
-	db.SetMaxIdleConns(config.nconns)
-	db.SetMaxOpenConns(config.nconns)
 
 	return db,
 		nil

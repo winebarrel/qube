@@ -2,7 +2,7 @@
 
 [![build](https://github.com/winebarrel/qube/actions/workflows/build.yml/badge.svg)](https://github.com/winebarrel/qube/actions/workflows/build.yml)
 
-qube is a MySQL load testing tool.
+qube is a DB load testing tool.
 
 ## Usage
 
@@ -17,7 +17,9 @@ Flags:
       --[no-]loop            Return to the beginning after reading the test data. (default: enabled)
       --[no-]random          Randomize the starting position of the test data. (default: disabled)
       --commit-rate=INT      Number of queries to execute "COMMIT".
-  -d, --dsn=STRING           DSN to connect to. see https://github.com/go-sql-driver/mysql#examples
+  -d, --dsn=STRING           DSN to connect to.
+                               - MySQL: https://github.com/go-sql-driver/mysql#examples
+                               - PostgreSQL: https://github.com/jackc/pgx/blob/df5d00e/stdlib/sql.go
       --[no-]noop            No-op mode. No actual query execution. (default: disabled)
   -n, --nagents=1            Number of agents.
   -r, --rate=INT             Rate limit (qps). "0" means unlimited.

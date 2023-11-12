@@ -20,14 +20,14 @@ type DataOptions struct {
 	Key        string `kong:"default='q',help='Key name of the query field in the test data. e.g. {\"q\":\"SELECT ...\"}'"`
 	Loop       bool   `kong:"negatable,default='true',help='Return to the beginning after reading the test data. (default: enabled)'"`
 	Random     bool   `kong:"negatable,default='false',help='Randomize the starting position of the test data. (default: disabled)'"`
-	CommitRate int    `kong:"help='Number of queries to execute \"COMMIT\".'"`
+	CommitRate uint   `kong:"help='Number of queries to execute \"COMMIT\".'"`
 }
 
 type Data struct {
 	*DataOptions
 	file   *os.File
 	reader *bufio.Reader
-	count  int
+	count  uint
 	inTxn  bool
 }
 

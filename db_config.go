@@ -44,8 +44,12 @@ func (config *DBConfig) OpenDBWithPing(autoCommit bool) (DBIface, error) {
 		return nil, fmt.Errorf("failed to ping DB (%w)", err)
 	}
 
-	if !autoCommit && config.Driver == DBDriverMySQL {
-		_, err = db.Exec("set autocommit = 0")
+	if config.Driver == DBDriverMySQL {
+		if autoCommit {
+			_, err = db.Exec("set autocommit = 1")
+		} else {
+			_, err = db.Exec("set autocommit = 0")
+		}
 
 		if err != nil {
 			return nil, fmt.Errorf("failed to disable autocommit (%w)", err)

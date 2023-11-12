@@ -22,8 +22,6 @@ type Options struct {
 // Kong hook
 // see https://github.com/alecthomas/kong#hooks-beforereset-beforeresolve-beforeapply-afterapply-and-the-bind-option
 func (options *Options) AfterApply() error {
-	options.nconns = options.Nagents
-	options.autoCommit = options.CommitRate == 0
 	options.X_Time = JSONDuration(options.Time)
 
 	if _, err := mysql.ParseDSN(options.DSN); err == nil {

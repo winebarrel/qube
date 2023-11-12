@@ -14,7 +14,7 @@ const (
 )
 
 type AgentOptions struct {
-	AbortOnErr bool `kong:"negatable,default='false',help='Abort test on error. (default: disabled)'"`
+	Force bool `kong:"negatable,default='false',help='Do not abort test on error. (default: disabled)'"`
 }
 
 type Agent struct {
@@ -116,7 +116,7 @@ L:
 
 		if errors.Is(err, context.Canceled) {
 			continue
-		} else if err != nil && agent.AbortOnErr {
+		} else if err != nil && !agent.Force {
 			return fmt.Errorf("failed to execute query - %s (%w)", q, err)
 		}
 

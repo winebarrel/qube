@@ -74,17 +74,6 @@ func (task *Task) Run() (*Report, error) {
 		}()
 	}
 
-	// Timeout
-	if task.Time > 0 {
-		go func() {
-			<-ctx.Done()
-
-			if errors.Is(ctx.Err(), context.DeadlineExceeded) {
-				cancel()
-			}
-		}()
-	}
-
 	var progress = NewProgress(os.Stderr, !task.Progress || task.Noop)
 	rec.Start()
 

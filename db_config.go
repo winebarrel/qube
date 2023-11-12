@@ -6,11 +6,20 @@ import (
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/jackc/pgx/v5/stdlib"
+)
+
+type DBDriver string
+
+const (
+	DBDriverMySQL      DBDriver = "mysql"
+	DBDriverPostgreSQL DBDriver = "pgx"
 )
 
 type DBConfig struct {
-	DSN        string `kong:"short='d',required,help='DSN to connect to. see https://github.com/go-sql-driver/mysql#examples'"`
-	Noop       bool   `kong:"negatable,default='false',help='No-op mode. No actual query execution. (default: disabled)'"`
+	DSN        string   `kong:"short='d',required,help='DSN to connect to.\n - MySQL: https://github.com/go-sql-driver/mysql#examples\n - PostgreSQL: https://github.com/jackc/pgx/blob/df5d00e/stdlib/sql.go'"`
+	Driver     DBDriver `kong:"-"`
+	Noop       bool     `kong:"negatable,default='false',help='No-op mode. No actual query execution. (default: disabled)'"`
 	nconns     int
 	autoCommit bool
 }
@@ -20,7 +29,7 @@ func (config *DBConfig) OpenWithPing() (DBIface, error) {
 		return &NullDB{os.Stderr}, nil
 	}
 
-	db, err := sql.Open("mysql", config.DSN)
+	db, err := sql.Open(string(config.Driver), config.DSN)
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to open DB (%w)", err)
@@ -36,7 +45,7 @@ func (config *DBConfig) OpenWithPing() (DBIface, error) {
 		return nil, fmt.Errorf("failed to ping DB (%w)", err)
 	}
 
-	if config.autoCommit {
+	if config.autoCommit && config.Driver == DBDriverMySQL {
 		_, err = db.Exec("set autocommit = 0")
 
 		if err != nil {

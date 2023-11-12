@@ -28,6 +28,7 @@ type Data struct {
 	file   *os.File
 	reader *bufio.Reader
 	count  int
+	inTxn  bool
 }
 
 func NewData(options *Options) (*Data, error) {
@@ -73,7 +74,13 @@ func NewData(options *Options) (*Data, error) {
 func (data *Data) Next() (string, error) {
 	data.count++
 
-	if data.CommitRate > 0 && data.count%(data.CommitRate+1) == 0 {
+	if data.CommitRate > 0 && !data.inTxn {
+		data.inTxn = true
+		return "begin", nil
+	}
+
+	if data.CommitRate > 0 && data.count%(data.CommitRate+2) == 0 {
+		data.inTxn = false
 		return "commit", nil
 	}
 

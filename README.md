@@ -29,9 +29,9 @@ Flags:
 ```
 
 ```
-$  echo '{"q":"select 1"}' > data.jsonl
-$  echo '{"q":"select 2"}' >> data.jsonl
-$  echo '{"q":"select 3"}' >> data.jsonl
+$ echo '{"q":"select 1"}' > data.jsonl
+$ echo '{"q":"select 2"}' >> data.jsonl
+$ echo '{"q":"select 3"}' >> data.jsonl
 
 $ qube -d 'root@tcp(127.0.0.1:13306)/' -f data.jsonl -n 5 -t 10s
 00:05 | 5 agents / exec 95788 queries, 0 errors (23637 qps)

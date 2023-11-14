@@ -13,6 +13,10 @@ on:
       - LICENSE
       - README.md
 
+defaults:
+  run:
+    shell: bash -xe {0}
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -27,6 +31,11 @@ jobs:
       - name: Start services
         run: |
           for i in {1..60}; do docker compose up -d && break; sleep 1; done
-          for i in {1..60}; do pg_isready -U postgres -h 127.0.0.1 -p 15432 && break; sleep 1; done
           for i in {1..60}; do mysqladmin -u root -h 127.0.0.1 -P 13306 ping && break; sleep 1; done
+          for i in {1..60}; do pg_isready -U postgres -h 127.0.0.1 -p 15432 && break; sleep 1; done
       - run: make testacc
+      - name: Check race conditions
+        run: |
+          echo '{"q":"select 1"}' > data.jsonl
+          go run -race ./cmd/qube -d 'root@tcp(127.0.0.1:13306)/' --no-progress -f data.jsonl -t 3s
+          go run -race ./cmd/qube -d 'postgres://postgres@localhost:15432' --no-progress -f data.jsonl -t 3s

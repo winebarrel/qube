@@ -1,5 +1,5 @@
 .PHONY: all
-all: vet build
+all: vet test build
 
 .PHONY: build
 build:

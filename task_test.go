@@ -1,6 +1,7 @@
 package qube_test
 
 import (
+	"bytes"
 	"os"
 	"testing"
 	"time"
@@ -10,7 +11,7 @@ import (
 	"github.com/winebarrel/qube"
 )
 
-func Test_Task_Acc(t *testing.T) {
+func TestAcc_Task(t *testing.T) {
 	if !testAcc {
 		t.Skip()
 	}
@@ -122,9 +123,60 @@ func Test_Task_Acc(t *testing.T) {
 			task.DSN = d.DSN
 			task.Driver = d.Driver
 			report, err := task.Run()
+
 			require.NoError(err)
 			assert.Equal(testUUID, report.ID)
 			assert.NotEqual(0, report.AvgQPS)
 		}
 	}
+}
+
+func TestAcc_Task_CommitRate(t *testing.T) {
+	if !testAcc {
+		t.Skip()
+	}
+
+	assert := assert.New(t)
+	require := require.New(t)
+
+	f, _ := os.CreateTemp("", "")
+	defer os.Remove(f.Name())
+	f.WriteString(`{"q":"select 1"}` + "\n") //nolint:errcheck
+	f.Sync()                                 //nolint:errcheck
+
+	var buf bytes.Buffer
+
+	task := &qube.Task{
+		Options: &qube.Options{
+			AgentOptions: qube.AgentOptions{
+				Force: false,
+			},
+			DataOptions: qube.DataOptions{
+				DataFile:   f.Name(),
+				Key:        "q",
+				Loop:       true,
+				Random:     false,
+				CommitRate: 1,
+			},
+			DBConfig: qube.DBConfig{
+				DSN:       testDSN_MySQL,
+				Driver:    qube.DBDriverMySQL,
+				Noop:      true,
+				NullDBOut: &buf,
+			},
+			Nagents:  1,
+			Rate:     0,
+			Time:     1 * time.Second,
+			Progress: false,
+		},
+		ID: testUUID,
+	}
+
+	report, err := task.Run()
+
+	require.NoError(err)
+	assert.Equal(testUUID, report.ID)
+	assert.Regexp("begin", buf.String())
+	assert.Regexp("select 1", buf.String())
+	assert.Regexp("commit", buf.String())
 }

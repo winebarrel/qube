@@ -3,7 +3,7 @@ package qube
 import (
 	"database/sql"
 	"fmt"
-	"os"
+	"io"
 
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/jackc/pgx/v5/stdlib"
@@ -17,14 +17,15 @@ const (
 )
 
 type DBConfig struct {
-	DSN    string   `kong:"short='d',required,help='DSN to connect to. \n - MySQL: https://github.com/go-sql-driver/mysql#examples \n - PostgreSQL: https://github.com/jackc/pgx/blob/df5d00e/stdlib/sql.go'"`
-	Driver DBDriver `kong:"-"`
-	Noop   bool     `kong:"negatable,default='false',help='No-op mode. No actual query execution. (default: disabled)'"`
+	DSN       string    `kong:"short='d',required,help='DSN to connect to. \n - MySQL: https://github.com/go-sql-driver/mysql#examples \n - PostgreSQL: https://github.com/jackc/pgx/blob/df5d00e/stdlib/sql.go'"`
+	Driver    DBDriver  `kong:"-"`
+	Noop      bool      `kong:"negatable,default='false',help='No-op mode. No actual query execution. (default: disabled)'"`
+	NullDBOut io.Writer `kong:"-"`
 }
 
 func (config *DBConfig) OpenDBWithPing(autoCommit bool) (DBIface, error) {
 	if config.Noop {
-		return &NullDB{os.Stderr}, nil
+		return &NullDB{config.NullDBOut}, nil
 	}
 
 	db, err := sql.Open(string(config.Driver), config.DSN)

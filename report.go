@@ -34,9 +34,10 @@ type Report struct {
 }
 
 func NewReport(rec *Recorder) *Report {
-	dpLen := len(rec.DataPoints)
+	dps := rec.DataPointsWithoutError()
+	dpOkLen := len(dps)
 
-	if dpLen == 0 {
+	if rec.Count() == 0 {
 		return nil
 	}
 
@@ -49,23 +50,26 @@ func NewReport(rec *Recorder) *Report {
 		ElapsedTime:     JSONDuration(nanoElapsed),
 		Options:         rec.Options,
 		GOMAXPROCS:      runtime.GOMAXPROCS(0),
-		QueryCount:      dpLen,
+		QueryCount:      rec.Count(),
 		ErrorQueryCount: rec.ErrorQueryCount,
-		AvgQPS:          float64(time.Duration(dpLen) * time.Second / nanoElapsed),
 	}
 
-	t := tachymeter.New(&tachymeter.Config{
-		Size:  dpLen,
-		HBins: 10,
-	})
+	if dpOkLen > 0 {
+		report.AvgQPS = float64(time.Duration(dpOkLen) * time.Second / nanoElapsed)
 
-	for _, v := range rec.DataPoints {
-		t.AddTime(v.Duration)
+		t := tachymeter.New(&tachymeter.Config{
+			Size:  dpOkLen,
+			HBins: 10,
+		})
+
+		for _, v := range dps {
+			t.AddTime(v.Duration)
+		}
+
+		report.Duration = t.Calc()
+		qpsSet := NewQPSSet(dps)
+		report.MinQPS, report.MaxQPS, report.MedianQPS = qpsSet.Stats()
 	}
-
-	report.Duration = t.Calc()
-	qpsSet := NewQPSSet(rec.DataPoints)
-	report.MinQPS, report.MaxQPS, report.MedianQPS = qpsSet.Stats()
 
 	return report
 }

@@ -9,7 +9,7 @@ type Recorder struct {
 	sync.Mutex
 	*Options
 	ID              string
-	DataPoints      []DataPoint
+	dataPoints      []DataPoint
 	ErrorQueryCount int
 	StartedAt       time.Time
 	FinishedAt      time.Time
@@ -27,7 +27,7 @@ func NewRecorder(id string, options *Options) *Recorder {
 	rec := &Recorder{
 		Options:    options,
 		ID:         id,
-		DataPoints: []DataPoint{},
+		dataPoints: []DataPoint{},
 		ch:         make(chan []DataPoint, options.Nagents*3),
 	}
 
@@ -40,7 +40,7 @@ func (rec *Recorder) Start() {
 	push := func(dps []DataPoint) {
 		rec.Lock()
 		defer rec.Unlock()
-		rec.DataPoints = append(rec.DataPoints, dps...)
+		rec.dataPoints = append(rec.dataPoints, dps...)
 
 		for _, v := range dps {
 			if v.IsError {
@@ -78,5 +78,28 @@ func (rec *Recorder) Count() int {
 	// Lock to avoid race conditions
 	rec.Lock()
 	defer rec.Unlock()
-	return len(rec.DataPoints)
+	return len(rec.dataPoints)
+}
+
+func (rec *Recorder) CountWithoutError() int {
+	// Lock to avoid race conditions
+	rec.Lock()
+	defer rec.Unlock()
+	return len(rec.dataPoints) - rec.ErrorQueryCount
+}
+
+func (rec *Recorder) DataPointsWithoutError() []DataPoint {
+	// Lock to avoid race conditions
+	rec.Lock()
+	defer rec.Unlock()
+
+	newDps := []DataPoint{}
+
+	for _, dp := range rec.dataPoints {
+		if !dp.IsError {
+			newDps = append(newDps, dp)
+		}
+	}
+
+	return newDps
 }

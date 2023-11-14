@@ -126,6 +126,8 @@ func TestAcc_Task(t *testing.T) {
 
 			require.NoError(err)
 			assert.Equal(testUUID, report.ID)
+			assert.NotEqual(0, report.QueryCount)
+			assert.Equal(0, report.ErrorQueryCount)
 			assert.NotEqual(0, report.AvgQPS)
 		}
 	}
@@ -179,4 +181,68 @@ func TestAcc_Task_CommitRate(t *testing.T) {
 	assert.Regexp("begin", buf.String())
 	assert.Regexp("select 1", buf.String())
 	assert.Regexp("commit", buf.String())
+}
+
+func TestAcc_Task_Force(t *testing.T) {
+	if !testAcc {
+		t.Skip()
+	}
+
+	assert := assert.New(t)
+	require := require.New(t)
+
+	f, _ := os.CreateTemp("", "")
+	defer os.Remove(f.Name())
+	f.WriteString(`{"q":"invalid"}` + "\n") //nolint:errcheck
+	f.Sync()                                //nolint:errcheck
+
+	task := &qube.Task{
+		Options: &qube.Options{
+			AgentOptions: qube.AgentOptions{
+				Force: true,
+			},
+			DataOptions: qube.DataOptions{
+				DataFile:   f.Name(),
+				Key:        "q",
+				Loop:       true,
+				Random:     false,
+				CommitRate: 0,
+			},
+			DBConfig: qube.DBConfig{
+				Noop: false,
+			},
+			Nagents:  1,
+			Rate:     0,
+			Time:     1 * time.Second,
+			Progress: false,
+		},
+		ID: testUUID,
+	}
+
+	ds := []struct {
+		DSN    string
+		Driver qube.DBDriver
+	}{
+		{
+			DSN:    testDSN_MySQL,
+			Driver: qube.DBDriverMySQL,
+		},
+		{
+			DSN:    testDSN_PostgreSQL,
+			Driver: qube.DBDriverPostgreSQL,
+		},
+	}
+
+	for _, d := range ds {
+		task.DSN = d.DSN
+		task.Driver = d.Driver
+		report, err := task.Run()
+
+		require.NoError(err)
+		assert.Equal(testUUID, report.ID)
+		assert.NotEqual(0, report.QueryCount)
+		assert.NotEqual(0, report.ErrorQueryCount)
+		assert.Equal(report.QueryCount, report.ErrorQueryCount)
+		assert.Equal(float64(0), report.AvgQPS)
+	}
 }

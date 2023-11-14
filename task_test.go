@@ -10,7 +10,7 @@ import (
 	"github.com/winebarrel/qube"
 )
 
-func Test_Tasc_Acc(t *testing.T) {
+func Test_Task_Acc(t *testing.T) {
 	if !testAcc {
 		t.Skip()
 	}

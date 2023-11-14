@@ -119,3 +119,10 @@ $ qube -d 'root@tcp(127.0.0.1:13306)/' -f data.jsonl -n 5 -t 10s
   }
 }
 ```
+
+## Testing
+
+```sh
+docker compose up -d
+make testacc
+```

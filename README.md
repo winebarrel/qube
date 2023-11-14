@@ -1,6 +1,6 @@
 # qube
 
-[![build](https://github.com/winebarrel/qube/actions/workflows/build.yml/badge.svg)](https://github.com/winebarrel/qube/actions/workflows/build.yml)
+[![build](https://github.com/winebarrel/qube/actions/workflows/test.yml/badge.svg)](https://github.com/winebarrel/qube/actions/workflows/test.yml)
 
 qube is a DB load testing tool.
 

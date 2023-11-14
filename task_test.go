@@ -19,18 +19,67 @@ func Test_Task_Acc(t *testing.T) {
 	require := require.New(t)
 
 	tt := []struct {
-		URL    string
-		Driver qube.DBDriver
+		Key     string
+		Nagents int
+		Rate    int
+		Loop    bool
+		Random  bool
 	}{
-		{URL: testMySQLURL, Driver: qube.DBDriverMySQL},
-		{URL: testPostgreSQLURL, Driver: qube.DBDriverPostgreSQL},
+		// Default
+		{
+			Key:     "q",
+			Nagents: 1,
+			Rate:    0,
+			Loop:    true,
+			Random:  false,
+		},
+		// No-loop
+		{
+			Key:     "q",
+			Nagents: 1,
+			Rate:    0,
+			Loop:    false,
+			Random:  false,
+		},
+		// Randome
+		{
+			Key:     "q",
+			Nagents: 1,
+			Rate:    0,
+			Loop:    true,
+			Random:  true,
+		},
+		// Mult-agents
+		{
+			Key:     "q",
+			Nagents: 3,
+			Rate:    0,
+			Loop:    true,
+			Random:  false,
+		},
+		// Non-default key
+		{
+			Key:     "query",
+			Nagents: 1,
+			Rate:    0,
+			Loop:    true,
+			Random:  false,
+		},
+		// Limit rate
+		{
+			Key:     "q",
+			Nagents: 1,
+			Rate:    1,
+			Loop:    true,
+			Random:  false,
+		},
 	}
 
 	for _, t := range tt {
 		f, _ := os.CreateTemp("", "")
 		defer os.Remove(f.Name())
-		f.WriteString(`{"q":"select 1"}` + "\n") //nolint:errcheck
-		f.Sync()                                 //nolint:errcheck
+		f.WriteString(`{"` + t.Key + `":"select 1"}` + "\n") //nolint:errcheck
+		f.Sync()                                             //nolint:errcheck
 
 		task := &qube.Task{
 			Options: &qube.Options{
@@ -39,17 +88,15 @@ func Test_Task_Acc(t *testing.T) {
 				},
 				DataOptions: qube.DataOptions{
 					DataFile:   f.Name(),
-					Key:        "q",
-					Loop:       true,
-					Random:     false,
+					Key:        t.Key,
+					Loop:       t.Loop,
+					Random:     t.Random,
 					CommitRate: 0,
 				},
 				DBConfig: qube.DBConfig{
-					DSN:    t.URL,
-					Driver: t.Driver,
-					Noop:   false,
+					Noop: false,
 				},
-				Nagents:  1,
+				Nagents:  t.Nagents,
 				Rate:     0,
 				Time:     1 * time.Second,
 				Progress: false,
@@ -57,10 +104,27 @@ func Test_Task_Acc(t *testing.T) {
 			ID: testUUID,
 		}
 
-		report, err := task.Run()
+		ds := []struct {
+			DSN    string
+			Driver qube.DBDriver
+		}{
+			{
+				DSN:    testDSN_MySQL,
+				Driver: qube.DBDriverMySQL,
+			},
+			{
+				DSN:    testDSN_PostgreSQL,
+				Driver: qube.DBDriverPostgreSQL,
+			},
+		}
 
-		require.NoError(err)
-		assert.Equal(testUUID, report.ID)
-		assert.NotEqual(0, report.AvgQPS)
+		for _, d := range ds {
+			task.DSN = d.DSN
+			task.Driver = d.Driver
+			report, err := task.Run()
+			require.NoError(err)
+			assert.Equal(testUUID, report.ID)
+			assert.NotEqual(0, report.AvgQPS)
+		}
 	}
 }

@@ -3,7 +3,15 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - .github/dependabot.yml
+      - LICENSE
+      - README.md
   pull_request:
+    paths-ignore:
+      - .github/dependabot.yml
+      - LICENSE
+      - README.md
 
 jobs:
   test:

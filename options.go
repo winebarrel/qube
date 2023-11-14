@@ -2,6 +2,7 @@ package qube
 
 import (
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/go-sql-driver/mysql"
@@ -23,6 +24,7 @@ type Options struct {
 // see https://github.com/alecthomas/kong#hooks-beforereset-beforeresolve-beforeapply-afterapply-and-the-bind-option
 func (options *Options) AfterApply() error {
 	options.X_Time = JSONDuration(options.Time)
+	options.NullDBOut = os.Stderr
 
 	if _, err := mysql.ParseDSN(options.DSN); err == nil {
 		options.Driver = DBDriverMySQL

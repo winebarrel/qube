@@ -6,11 +6,13 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"github.com/winebarrel/qube/util"
 )
 
 func Test_RandSeek(t *testing.T) {
 	assert := assert.New(t)
+	require := require.New(t)
 
 	f, _ := os.CreateTemp("", "")
 	defer os.Remove(f.Name())
@@ -18,12 +20,13 @@ func Test_RandSeek(t *testing.T) {
 	f.WriteString(`{"q":"select 2"}` + "\n") //nolint:errcheck
 	f.WriteString(`{"q":"select 3"}` + "\n") //nolint:errcheck
 	f.Sync()                                 //nolint:errcheck
-	f.Seek(0, io.SeekStart)
+	f.Seek(0, io.SeekStart)                  //nolint:errcheck
 
 	offsets := map[int64]struct{}{}
 
 	for i := 0; i < 100; i++ {
-		util.RandSeek(f)
+		err := util.RandSeek(f)
+		require.NoError(err)
 		offset, _ := f.Seek(0, io.SeekCurrent)
 		offsets[offset] = struct{}{}
 	}

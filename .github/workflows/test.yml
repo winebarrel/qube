@@ -1,0 +1,24 @@
+name: test
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v4
+        with:
+          go-version-file: go.mod
+          cache: false
+      - uses: golangci/golangci-lint-action@v3
+      - run: make vet
+      - name: Start services
+        run: |
+          for i in {1..60}; do docker compose up -d && break; sleep 1; done
+          for i in {1..60}; do pg_isready -U postgres -h 127.0.0.1 -p 15432 && break; sleep 1; done
+          for i in {1..60}; do mysqladmin -u root -h 127.0.0.1 -P 13306 ping && break; sleep 1; done
+      - run: make testacc

@@ -11,7 +11,7 @@ import (
 	"github.com/winebarrel/qube"
 )
 
-func Test_Task_Acc(t *testing.T) {
+func TestAcc_Task(t *testing.T) {
 	if !testAcc {
 		t.Skip()
 	}
@@ -131,7 +131,7 @@ func Test_Task_Acc(t *testing.T) {
 	}
 }
 
-func Test_Task_CommitRate_Acc(t *testing.T) {
+func TestAcc_Task_CommitRate(t *testing.T) {
 	if !testAcc {
 		t.Skip()
 	}

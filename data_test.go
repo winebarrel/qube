@@ -27,6 +27,7 @@ func Test_Data(t *testing.T) {
 
 	data, err := qube.NewData(options)
 	require.NoError(err)
+	defer data.Close()
 
 	q, err := data.Next()
 	require.NoError(err)
@@ -54,6 +55,7 @@ func Test_Data_Loop(t *testing.T) {
 
 	data, err := qube.NewData(options)
 	require.NoError(err)
+	defer data.Close()
 
 	q, err := data.Next()
 	require.NoError(err)
@@ -83,6 +85,7 @@ func Test_Data_Random(t *testing.T) {
 
 	data, err := qube.NewData(options)
 	require.NoError(err)
+	defer data.Close()
 
 	q, err := data.Next()
 	require.NoError(err)
@@ -90,6 +93,46 @@ func Test_Data_Random(t *testing.T) {
 	q, err = data.Next()
 	require.NoError(err)
 	assert.Equal("select 1", q)
+}
+
+func Test_Data_WithCommitRate(t *testing.T) {
+	assert := assert.New(t)
+	require := require.New(t)
+
+	f, _ := os.CreateTemp("", "")
+	defer os.Remove(f.Name())
+	f.WriteString(`{"q":"select 1"}` + "\n") //nolint:errcheck
+	f.Sync()                                 //nolint:errcheck
+
+	options := &qube.Options{
+		DataOptions: qube.DataOptions{
+			DataFile:   f.Name(),
+			Key:        "q",
+			Loop:       true,
+			CommitRate: 2,
+		},
+	}
+
+	data, err := qube.NewData(options)
+	require.NoError(err)
+	defer data.Close()
+
+	qs := []string{
+		"begin",
+		"select 1",
+		"select 1",
+		"commit",
+		"begin",
+		"select 1",
+		"select 1",
+		"commit",
+	}
+
+	for _, expected := range qs {
+		q, err := data.Next()
+		require.NoError(err)
+		assert.Equal(expected, q)
+	}
 }
 
 func Test_Data_WithoutKey(t *testing.T) {

@@ -4,6 +4,12 @@
 
 qube is a DB load testing tool.
 
+## Installation
+
+```sh
+brew install winebarrel/qube/qube
+```
+
 ## Usage
 
 ```

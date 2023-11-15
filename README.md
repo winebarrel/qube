@@ -132,3 +132,10 @@ $ qube -d 'root@tcp(127.0.0.1:13306)/' -f data.jsonl -n 5 -t 10s
 docker compose up -d
 make testacc
 ```
+
+## Tools to convert logs to test data
+
+* MySQL
+    * https://github.com/winebarrel/genlog
+* PostgreSQL
+    * https://github.com/winebarrel/poslog

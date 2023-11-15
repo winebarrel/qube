@@ -21,7 +21,8 @@ func NewQPSSet(dps []DataPoint) QPSSet {
 
 	// Calculate number of queries per second
 	for _, v := range dps {
-		if baseTime.Add(1 * time.Second).Before(v.Time) {
+		// baseTime + 1s <= v.Time
+		if !v.Time.Before(baseTime.Add(1 * time.Second)) {
 			baseTime = baseTime.Add(1 * time.Second)
 			countSet = append(countSet, 0)
 		}
@@ -57,7 +58,7 @@ func (qpsSet QPSSet) Stats() (minQPS float64, maxQPS float64, medianQPS float64)
 	} else if len(qpsSet)%2 == 0 {
 		medianQPS = (qpsSet[median] + qpsSet[medianNext]) / 2
 	} else {
-		medianQPS = qpsSet[medianNext]
+		medianQPS = qpsSet[median]
 	}
 
 	return

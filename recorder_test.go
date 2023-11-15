@@ -70,6 +70,7 @@ func Test_Recorder(t *testing.T) {
 	report.FinishedAt = time.Time{}
 	report.ElapsedTime = 0
 	report.AvgQPS = 0
+	report.GOMAXPROCS = 10
 	var buf bytes.Buffer
 	report.Print(&buf)
 
@@ -196,6 +197,7 @@ func Test_Recorder_WithError(t *testing.T) {
 	report.FinishedAt = time.Time{}
 	report.ElapsedTime = 0
 	report.AvgQPS = 0
+	report.GOMAXPROCS = 10
 	var buf bytes.Buffer
 	report.Print(&buf)
 

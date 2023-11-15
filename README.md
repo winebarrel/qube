@@ -133,7 +133,7 @@ docker compose up -d
 make testacc
 ```
 
-## Tools to convert logs to test data
+## Tools to convert logs to NDJSON
 
 * MySQL
     * https://github.com/winebarrel/genlog

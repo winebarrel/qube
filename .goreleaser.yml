@@ -12,3 +12,21 @@ builds:
       - darwin
 checksum:
   name_template: "checksums.txt"
+brews:
+  - tap:
+      owner: winebarrel
+      name: homebrew-qube
+    homepage: https://github.com/winebarrel/qube
+    description: qube is a DB load testing tool.
+    license: MIT
+    install: |
+      bin.install 'qube'
+nfpms:
+  - file_name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Arch }}"
+    homepage: https://github.com/winebarrel/qube
+    description: qube is a DB load testing tool.
+    license: MIT
+    formats:
+      - deb
+      - rpm
+    bindir: /usr/bin

@@ -4,6 +4,8 @@
 
 qube is a DB load testing tool.
 
+![](https://github.com/winebarrel/qube/assets/117768/fb0b9924-a2df-4b64-b3f7-b372a17cb06d)
+
 ## Installation
 
 ```sh

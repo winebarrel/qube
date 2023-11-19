@@ -13,7 +13,7 @@ builds:
 checksum:
   name_template: "checksums.txt"
 brews:
-  - tap:
+  - repository:
       owner: winebarrel
       name: homebrew-qube
     homepage: https://github.com/winebarrel/qube
@@ -26,6 +26,7 @@ nfpms:
     homepage: https://github.com/winebarrel/qube
     description: qube is a DB load testing tool.
     license: MIT
+    maintainer: "Genki Sugawara <sugawara@winebarrel.jp>"
     formats:
       - deb
       - rpm

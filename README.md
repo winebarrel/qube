@@ -22,13 +22,13 @@ Flags:
       --key="q"             Key name of the query field in the test data. e.g. {"q":"SELECT ..."}
       --[no-]loop           Return to the beginning after reading the test data. (default: enabled)
       --[no-]random         Randomize the starting position of the test data. (default: disabled)
-      --commit-rate=INT     Number of queries to execute "COMMIT".
+      --commit-rate=UINT    Number of queries to execute "COMMIT".
   -d, --dsn=STRING          DSN to connect to.
                               - MySQL: https://github.com/go-sql-driver/mysql#examples
                               - PostgreSQL: https://github.com/jackc/pgx/blob/df5d00e/stdlib/sql.go
       --[no-]noop           No-op mode. No actual query execution. (default: disabled)
   -n, --nagents=1           Number of agents.
-  -r, --rate=INT            Rate limit (qps). "0" means unlimited.
+  -r, --rate=FLOAT-64       Rate limit (qps). "0" means unlimited.
   -t, --time=DURATION       Maximum execution time of the test. "0" means unlimited.
       --[no-]progress       Show progress report. (default: enabled)
       --version

@@ -108,7 +108,7 @@ func (data *Data) Next() (string, error) {
 	query := fastjson.GetString(line, data.Key)
 
 	if query == "" {
-		return "", fmt.Errorf("failed to get query field from '%s'", line)
+		return "", fmt.Errorf(`failed to get query field "%s" from '%s'`, data.Key, line)
 	}
 
 	return query, nil

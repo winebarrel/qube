@@ -19,7 +19,7 @@ type Progress struct {
 	w           io.Writer
 	noop        bool
 	prevDPLen   int
-	nDeadAgents int32
+	nDeadAgents uint64
 	closed      chan struct{}
 }
 
@@ -61,7 +61,7 @@ func (progress *Progress) IncrDead() {
 		return
 	}
 
-	atomic.AddInt32(&progress.nDeadAgents, 1)
+	atomic.AddUint64(&progress.nDeadAgents, 1)
 }
 
 func (progress *Progress) report(rec *Recorder) {
@@ -74,7 +74,7 @@ func (progress *Progress) report(rec *Recorder) {
 	progress.prevDPLen = dpLen
 	qps := float64(time.Duration(delta) * time.Second / InterimReportIntvl)
 	elapsed := time.Since(rec.StartedAt)
-	running := rec.Nagents - int(progress.nDeadAgents)
+	running := uint64(rec.Nagents) - progress.nDeadAgents
 	width, _, err := term.GetSize(0)
 
 	if err != nil {

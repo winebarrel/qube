@@ -21,7 +21,7 @@ func TestAcc_Task(t *testing.T) {
 
 	tt := []struct {
 		Key     string
-		Nagents int
+		Nagents uint
 		Rate    int
 		Loop    bool
 		Random  bool

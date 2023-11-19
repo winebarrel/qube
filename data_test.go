@@ -156,5 +156,5 @@ func Test_Data_WithoutKey(t *testing.T) {
 	require.NoError(err)
 
 	_, err = data.Next()
-	assert.ErrorContains(err, `failed to get query field from '{"_q_":"select 1"}'`)
+	assert.ErrorContains(err, `failed to get query field "q" from '{"_q_":"select 1"}'`)
 }

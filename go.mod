@@ -8,7 +8,7 @@ require (
 	github.com/google/uuid v1.4.0
 	github.com/jackc/pgx/v5 v5.5.0
 	github.com/jamiealquiza/tachymeter v2.0.0+incompatible
-	github.com/stretchr/testify v1.8.1
+	github.com/stretchr/testify v1.8.4
 	github.com/valyala/fastjson v1.6.4
 	golang.org/x/sync v0.5.0
 	golang.org/x/term v0.14.0

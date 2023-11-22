@@ -75,12 +75,13 @@ func (task *Task) Run() (*Report, error) {
 	}
 
 	var progress = NewProgress(os.Stderr, !task.Progress || task.Noop)
-	rec.Start()
+	fire := make(chan struct{})
 
 	for _, v := range agents {
 		agent := v
 
 		eg.Go(func() error {
+			<-fire
 			err := agent.Start(ctx)
 			progress.IncrDead()
 			return err
@@ -88,6 +89,8 @@ func (task *Task) Run() (*Report, error) {
 	}
 
 	progress.Start(ctx, rec)
+	rec.Start()
+	close(fire)
 	err = eg.Wait()
 	cancel()
 	progress.Close() // Wait for ticker to stop

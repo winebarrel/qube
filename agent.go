@@ -26,7 +26,7 @@ type Agent struct {
 	limiter *rate.Limiter
 }
 
-func NewAgent(taskID string, n uint, options *Options, rec *Recorder, limiter *rate.Limiter) (*Agent, error) {
+func NewAgent(taskID string, agentNum uint, options *Options, rec *Recorder, limiter *rate.Limiter) (*Agent, error) {
 	autoCommit := options.CommitRate == 0
 	db, err := options.OpenDBWithPing(autoCommit)
 
@@ -42,7 +42,7 @@ func NewAgent(taskID string, n uint, options *Options, rec *Recorder, limiter *r
 
 	agent := &Agent{
 		AgentOptions: &options.AgentOptions,
-		ID:           fmt.Sprintf("%s/%d", taskID, n),
+		ID:           fmt.Sprintf("%s/%d", taskID, agentNum),
 		db:           db,
 		data:         data,
 		rec:          rec,

@@ -20,3 +20,8 @@ testacc:
 .PHONY: lint
 lint:
 	golangci-lint run
+
+.PHONY: demo
+# see https://github.com/charmbracelet/vhs
+demo:
+	vhs demo.tape

@@ -12,6 +12,7 @@ import (
 )
 
 var (
+	// End of data
 	EOD = errors.New("EOD")
 )
 
@@ -49,6 +50,7 @@ func NewData(options *Options) (*Data, error) {
 	reader := bufio.NewReader(file)
 
 	if options.Random {
+		// If it is random, skip one line
 		_, err = util.ReadLine(reader)
 
 		if err == io.EOF {

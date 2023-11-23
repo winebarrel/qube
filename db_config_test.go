@@ -58,10 +58,6 @@ func TestAcc_DBConfig(t *testing.T) {
 }
 
 func Test_DBConfig_Noop(t *testing.T) {
-	if !testAcc {
-		t.Skip()
-	}
-
 	require := require.New(t)
 	assert := assert.New(t)
 

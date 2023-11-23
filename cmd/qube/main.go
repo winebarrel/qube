@@ -1,8 +1,8 @@
 package main
 
 import (
+	"fmt"
 	"log"
-	"os"
 
 	"github.com/alecthomas/kong"
 	"github.com/winebarrel/qube"
@@ -37,5 +37,5 @@ func main() {
 		log.Fatal(err)
 	}
 
-	report.Print(os.Stdout)
+	fmt.Println(report.JSON())
 }

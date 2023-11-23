@@ -1,7 +1,6 @@
 package qube_test
 
 import (
-	"bytes"
 	"testing"
 	"time"
 
@@ -71,8 +70,6 @@ func Test_Recorder(t *testing.T) {
 	report.ElapsedTime = 0
 	report.AvgQPS = 0
 	report.GOMAXPROCS = 10
-	var buf bytes.Buffer
-	report.Print(&buf)
 
 	assert.Equal(`{
   "ID": "473d2574-4d1c-46cf-a275-5f3541eb47b7",
@@ -128,8 +125,7 @@ func Test_Recorder(t *testing.T) {
       }
     ]
   }
-}
-`, buf.String())
+}`, report.JSON())
 }
 
 func Test_Recorder_WithError(t *testing.T) {
@@ -198,8 +194,6 @@ func Test_Recorder_WithError(t *testing.T) {
 	report.ElapsedTime = 0
 	report.AvgQPS = 0
 	report.GOMAXPROCS = 10
-	var buf bytes.Buffer
-	report.Print(&buf)
 
 	assert.Equal(`{
   "ID": "473d2574-4d1c-46cf-a275-5f3541eb47b7",
@@ -255,6 +249,5 @@ func Test_Recorder_WithError(t *testing.T) {
       }
     ]
   }
-}
-`, buf.String())
+}`, report.JSON())
 }

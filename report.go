@@ -2,8 +2,6 @@ package qube
 
 import (
 	"encoding/json"
-	"fmt"
-	"io"
 	"runtime"
 	"time"
 
@@ -74,7 +72,7 @@ func NewReport(rec *Recorder) *Report {
 	return report
 }
 
-func (report *Report) Print(w io.Writer) {
+func (report *Report) JSON() string {
 	rawJson, _ := json.MarshalIndent(report, "", "  ")
-	fmt.Fprintln(w, string(rawJson))
+	return string(rawJson)
 }

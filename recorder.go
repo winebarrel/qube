@@ -6,7 +6,7 @@ import (
 )
 
 type Recorder struct {
-	sync.Mutex
+	mu sync.Mutex
 	*Options
 	ID              string
 	dataPoints      []DataPoint
@@ -38,8 +38,8 @@ func (rec *Recorder) Start() {
 	rec.closed = make(chan struct{})
 
 	push := func(dps []DataPoint) {
-		rec.Lock()
-		defer rec.Unlock()
+		rec.mu.Lock()
+		defer rec.mu.Unlock()
 		rec.dataPoints = append(rec.dataPoints, dps...)
 
 		for _, v := range dps {
@@ -76,22 +76,22 @@ func (rec *Recorder) Report() *Report {
 
 func (rec *Recorder) Count() int {
 	// Lock to avoid race conditions
-	rec.Lock()
-	defer rec.Unlock()
+	rec.mu.Lock()
+	defer rec.mu.Unlock()
 	return len(rec.dataPoints)
 }
 
 func (rec *Recorder) CountWithoutError() int {
 	// Lock to avoid race conditions
-	rec.Lock()
-	defer rec.Unlock()
+	rec.mu.Lock()
+	defer rec.mu.Unlock()
 	return len(rec.dataPoints) - rec.ErrorQueryCount
 }
 
 func (rec *Recorder) DataPointsWithoutError() []DataPoint {
 	// Lock to avoid race conditions
-	rec.Lock()
-	defer rec.Unlock()
+	rec.mu.Lock()
+	defer rec.mu.Unlock()
 
 	newDps := []DataPoint{}
 

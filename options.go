@@ -13,7 +13,7 @@ type Options struct {
 	AgentOptions
 	DataOptions
 	DBConfig
-	Nagents  uint          `kong:"short='n',default='1',help='Number of agents.'"`
+	Nagents  uint64        `kong:"short='n',default='1',help='Number of agents.'"`
 	Rate     float64       `kong:"short='r',help='Rate limit (qps). \"0\" means unlimited.'"`
 	Time     time.Duration `json:"-" kong:"short='t',help='Maximum execution time of the test. \"0\" means unlimited.'"`
 	X_Time   JSONDuration  `json:"Time" kong:"-"` // for report

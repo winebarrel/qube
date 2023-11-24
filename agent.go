@@ -82,11 +82,11 @@ func (agent *Agent) Start(ctx context.Context) error {
 func (agent *Agent) start0(ctx context.Context) error {
 	tkrec := time.NewTicker(RecIntvl)
 	defer tkrec.Stop()
-	dps := []DataPoint{}
+	dpes := []DataPointWithErr{}
 
 	defer func() {
-		if len(dps) > 0 {
-			agent.rec.Add(dps)
+		if len(dpes) > 0 {
+			agent.rec.Add(dpes)
 		}
 	}()
 
@@ -100,9 +100,9 @@ L:
 		case <-ctx.Done():
 			break L
 		case <-tkrec.C:
-			agent.rec.Add(dps)
+			agent.rec.Add(dpes)
 			// Create new slices to avoid race conditions
-			dps = []DataPoint{}
+			dpes = []DataPointWithErr{}
 		default:
 			// Nothing to do
 		}
@@ -121,10 +121,12 @@ L:
 			return fmt.Errorf("failed to execute query - %s (%w)", q, err)
 		}
 
-		dps = append(dps, DataPoint{
-			Time:     time.Now().Unix(),
-			Duration: dur,
-			IsError:  err != nil,
+		dpes = append(dpes, DataPointWithErr{
+			DataPoint: DataPoint{
+				Time:     time.Now().Unix(),
+				Duration: dur,
+			},
+			IsError: err != nil,
 		})
 	}
 

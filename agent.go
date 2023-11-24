@@ -122,7 +122,7 @@ L:
 		}
 
 		dps = append(dps, DataPoint{
-			Time:     time.Now(),
+			Time:     time.Now().Unix(),
 			Duration: dur,
 			IsError:  err != nil,
 		})

@@ -2,7 +2,6 @@ package qube
 
 import (
 	"sort"
-	"time"
 )
 
 type QPSSet []float64
@@ -13,7 +12,7 @@ func NewQPSSet(dps []DataPoint) QPSSet {
 	}
 
 	sort.Slice(dps, func(i, j int) bool {
-		return dps[i].Time.Before(dps[j].Time)
+		return dps[i].Time < dps[j].Time
 	})
 
 	baseTime := dps[0].Time
@@ -22,8 +21,8 @@ func NewQPSSet(dps []DataPoint) QPSSet {
 	// Calculate number of queries per second
 	for _, v := range dps {
 		// baseTime + 1s <= v.Time
-		if !v.Time.Before(baseTime.Add(1 * time.Second)) {
-			baseTime = baseTime.Add(1 * time.Second)
+		if (baseTime + 1) <= v.Time {
+			baseTime += 1
 			countSet = append(countSet, 0)
 		}
 

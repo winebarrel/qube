@@ -13,14 +13,18 @@ type Recorder struct {
 	ErrorQueryCount int
 	StartedAt       time.Time
 	FinishedAt      time.Time
-	ch              chan []DataPoint
+	ch              chan []DataPointWithErr
 	closed          chan struct{}
 }
 
 type DataPoint struct {
 	Time     int64
 	Duration time.Duration
-	IsError  bool
+}
+
+type DataPointWithErr struct {
+	DataPoint
+	IsError bool
 }
 
 func NewRecorder(id string, options *Options) *Recorder {
@@ -28,7 +32,7 @@ func NewRecorder(id string, options *Options) *Recorder {
 		Options:    options,
 		ID:         id,
 		dataPoints: []DataPoint{},
-		ch:         make(chan []DataPoint, options.Nagents*3),
+		ch:         make(chan []DataPointWithErr, options.Nagents*3),
 	}
 
 	return rec
@@ -37,13 +41,13 @@ func NewRecorder(id string, options *Options) *Recorder {
 func (rec *Recorder) Start() {
 	rec.closed = make(chan struct{})
 
-	push := func(dps []DataPoint) {
+	push := func(dpes []DataPointWithErr) {
 		rec.mu.Lock()
 		defer rec.mu.Unlock()
 
-		for _, v := range dps {
+		for _, v := range dpes {
 			if !v.IsError {
-				rec.dataPoints = append(rec.dataPoints, v)
+				rec.dataPoints = append(rec.dataPoints, v.DataPoint)
 			} else {
 				rec.ErrorQueryCount++
 			}
@@ -51,8 +55,8 @@ func (rec *Recorder) Start() {
 	}
 
 	go func() {
-		for dps := range rec.ch {
-			push(dps)
+		for dpes := range rec.ch {
+			push(dpes)
 		}
 
 		close(rec.closed)
@@ -67,8 +71,8 @@ func (rec *Recorder) Close() {
 	<-rec.closed
 }
 
-func (rec *Recorder) Add(dps []DataPoint) {
-	rec.ch <- dps
+func (rec *Recorder) Add(dpes []DataPointWithErr) {
+	rec.ch <- dpes
 }
 
 func (rec *Recorder) Report() *Report {

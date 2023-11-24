@@ -33,34 +33,34 @@ func Test_Recorder(t *testing.T) {
 		Progress: false,
 	}
 
-	dps := []qube.DataPoint{
+	deps := []qube.DataPointWithErr{
 		// 1 qps
-		{Time: time.Date(2023, 10, 11, 12, 13, 14, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 15, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 16, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 14, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 15, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 16, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
 		// 2 qps
-		{Time: time.Date(2023, 10, 11, 12, 13, 17, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 17, 1, time.UTC).Unix(), Duration: 1 * time.Millisecond},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 17, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 17, 1, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
 		// 6 qps
-		{Time: time.Date(2023, 10, 11, 12, 13, 18, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 18, 1, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 18, 2, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 18, 3, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 18, 4, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 18, 5, time.UTC).Unix(), Duration: 1 * time.Millisecond},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 18, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 18, 1, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 18, 2, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 18, 3, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 18, 4, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 18, 5, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
 		// 7 qps
-		{Time: time.Date(2023, 10, 11, 12, 13, 19, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 19, 1, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 19, 2, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 19, 3, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 19, 4, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 19, 5, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 19, 6, time.UTC).Unix(), Duration: 1 * time.Millisecond},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 19, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 19, 1, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 19, 2, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 19, 3, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 19, 4, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 19, 5, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 19, 6, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
 	}
 
 	rec := qube.NewRecorder(testUUID, options)
 	rec.Start()
-	rec.Add(dps)
+	rec.Add(deps)
 	rec.Close()
 
 	report := rec.Report()
@@ -153,38 +153,38 @@ func Test_Recorder_WithError(t *testing.T) {
 		Progress: false,
 	}
 
-	dps := []qube.DataPoint{
+	dpes := []qube.DataPointWithErr{
 		// 1 qps
-		{Time: time.Date(2023, 10, 11, 12, 13, 14, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 15, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 16, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 14, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 15, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 16, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
 		// 2 qps
-		{Time: time.Date(2023, 10, 11, 12, 13, 17, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 17, 1, time.UTC).Unix(), Duration: 1 * time.Millisecond},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 17, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 17, 1, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
 		// 6 qps
-		{Time: time.Date(2023, 10, 11, 12, 13, 18, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 18, 1, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 18, 2, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 18, 3, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 18, 4, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 18, 5, time.UTC).Unix(), Duration: 1 * time.Millisecond},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 18, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 18, 1, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 18, 2, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 18, 3, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 18, 4, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 18, 5, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
 		// 7 qps
-		{Time: time.Date(2023, 10, 11, 12, 13, 19, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 19, 1, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 19, 2, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 19, 3, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 19, 4, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 19, 5, time.UTC).Unix(), Duration: 1 * time.Millisecond},
-		{Time: time.Date(2023, 10, 11, 12, 13, 19, 6, time.UTC).Unix(), Duration: 1 * time.Millisecond},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 19, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 19, 1, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 19, 2, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 19, 3, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 19, 4, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 19, 5, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 19, 6, time.UTC).Unix(), Duration: 1 * time.Millisecond}, false},
 		// error
-		{Time: time.Date(2023, 10, 11, 12, 13, 20, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond, IsError: true},
-		{Time: time.Date(2023, 10, 11, 12, 13, 21, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond, IsError: true},
-		{Time: time.Date(2023, 10, 11, 12, 13, 22, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond, IsError: true},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 20, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond}, true},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 21, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond}, true},
+		{qube.DataPoint{Time: time.Date(2023, 10, 11, 12, 13, 22, 0, time.UTC).Unix(), Duration: 1 * time.Millisecond}, true},
 	}
 
 	rec := qube.NewRecorder(testUUID, options)
 	rec.Start()
-	rec.Add(dps)
+	rec.Add(dpes)
 	rec.Close()
 
 	report := rec.Report()

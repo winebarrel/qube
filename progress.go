@@ -21,6 +21,7 @@ type Progress struct {
 	prevDPLen   int
 	nDeadAgents atomic.Uint64
 	closed      chan struct{}
+	startedAt   atomic.Pointer[time.Time] // Use atomic to avoid race conditions
 }
 
 func NewProgress(w io.Writer, noop bool) *Progress {
@@ -54,6 +55,9 @@ func (progress *Progress) Start(ctx context.Context, rec *Recorder) {
 
 		close(progress.closed)
 	}()
+
+	now := time.Now()
+	progress.startedAt.Store(&now)
 }
 
 func (progress *Progress) IncrDead() {
@@ -73,7 +77,7 @@ func (progress *Progress) report(rec *Recorder) {
 	delta := dpLen - progress.prevDPLen
 	progress.prevDPLen = dpLen
 	qps := float64(time.Duration(delta) * time.Second / InterimReportIntvl)
-	elapsed := time.Since(rec.StartedAt)
+	elapsed := time.Since(*progress.startedAt.Load())
 	running := rec.Nagents - progress.nDeadAgents.Load()
 	width, _, err := term.GetSize(0)
 

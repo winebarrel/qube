@@ -73,7 +73,7 @@ func (progress *Progress) report(rec *Recorder) {
 		return
 	}
 
-	dpLen := rec.CountWithoutError()
+	dpLen := rec.CountSuccess()
 	delta := dpLen - progress.prevDPLen
 	progress.prevDPLen = dpLen
 	qps := float64(time.Duration(delta) * time.Second / InterimReportIntvl)

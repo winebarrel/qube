@@ -32,10 +32,10 @@ type Report struct {
 }
 
 func NewReport(rec *Recorder) *Report {
-	dps := rec.DataPointsWithoutError()
+	dps := rec.DataPoints()
 	dpOkLen := len(dps)
 
-	if rec.Count() == 0 {
+	if rec.CountAll() == 0 {
 		return nil
 	}
 
@@ -48,7 +48,7 @@ func NewReport(rec *Recorder) *Report {
 		ElapsedTime:     JSONDuration(nanoElapsed),
 		Options:         rec.Options,
 		GOMAXPROCS:      runtime.GOMAXPROCS(0),
-		QueryCount:      rec.Count(),
+		QueryCount:      rec.CountAll(),
 		ErrorQueryCount: rec.ErrorQueryCount,
 	}
 

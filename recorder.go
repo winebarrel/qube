@@ -18,7 +18,7 @@ type Recorder struct {
 }
 
 type DataPoint struct {
-	Time     time.Time
+	Time     int64
 	Duration time.Duration
 	IsError  bool
 }

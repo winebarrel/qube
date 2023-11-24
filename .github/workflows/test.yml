@@ -34,4 +34,5 @@ jobs:
         run: |
           echo '{"q":"select 1"}' > data.jsonl
           go run -race ./cmd/qube -d 'root@tcp(127.0.0.1:13306)/' --no-progress -f data.jsonl -t 3s
-          go run -race ./cmd/qube -d 'postgres://postgres@localhost:15432' --no-progress -f data.jsonl -t 3s
+          echo '{"q":"invalid"}' >> data.jsonl
+          go run -race ./cmd/qube -d 'postgres://postgres@localhost:15432' --no-progress -f data.jsonl -t 3s --force

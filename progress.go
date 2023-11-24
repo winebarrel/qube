@@ -8,7 +8,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"golang.org/x/term"
+	"github.com/winebarrel/qube/util"
 )
 
 const (
@@ -93,13 +93,7 @@ func (progress *Progress) report(rec *Recorder) {
 
 	running := rec.Nagents - progress.nDeadAgents.Load()
 	line := fmt.Sprintf("%02d:%02d | %d agents / exec %d queries, %d errors (%.0f qps)", minute, second, running, rec.CountAll(), rec.ErrorQueryCount(), qps)
-	width, _, err := term.GetSize(0)
-
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Fprintf(progress.w, "\r%-*s", width, line)
+	fmt.Fprintf(progress.w, "\r%-*s", util.MustGetTermSize(), line)
 }
 
 func (progress *Progress) Close() {
@@ -108,11 +102,5 @@ func (progress *Progress) Close() {
 	}
 
 	<-progress.closed
-	width, _, err := term.GetSize(0)
-
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Fprintf(progress.w, "\r"+strings.Repeat(" ", width)+"\r")
+	fmt.Fprintf(progress.w, "\r"+strings.Repeat(" ", util.MustGetTermSize())+"\r")
 }

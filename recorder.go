@@ -40,10 +40,11 @@ func (rec *Recorder) Start() {
 	push := func(dps []DataPoint) {
 		rec.mu.Lock()
 		defer rec.mu.Unlock()
-		rec.dataPoints = append(rec.dataPoints, dps...)
 
 		for _, v := range dps {
-			if v.IsError {
+			if !v.IsError {
+				rec.dataPoints = append(rec.dataPoints, v)
+			} else {
 				rec.ErrorQueryCount++
 			}
 		}
@@ -74,32 +75,20 @@ func (rec *Recorder) Report() *Report {
 	return NewReport(rec)
 }
 
-func (rec *Recorder) Count() int {
+func (rec *Recorder) CountAll() int {
+	// Lock to avoid race conditions
+	rec.mu.Lock()
+	defer rec.mu.Unlock()
+	return len(rec.dataPoints) + rec.ErrorQueryCount
+}
+
+func (rec *Recorder) CountSuccess() int {
 	// Lock to avoid race conditions
 	rec.mu.Lock()
 	defer rec.mu.Unlock()
 	return len(rec.dataPoints)
 }
 
-func (rec *Recorder) CountWithoutError() int {
-	// Lock to avoid race conditions
-	rec.mu.Lock()
-	defer rec.mu.Unlock()
-	return len(rec.dataPoints) - rec.ErrorQueryCount
-}
-
-func (rec *Recorder) DataPointsWithoutError() []DataPoint {
-	// Lock to avoid race conditions
-	rec.mu.Lock()
-	defer rec.mu.Unlock()
-
-	newDps := []DataPoint{}
-
-	for _, dp := range rec.dataPoints {
-		if !dp.IsError {
-			newDps = append(newDps, dp)
-		}
-	}
-
-	return newDps
+func (rec *Recorder) DataPoints() []DataPoint {
+	return rec.dataPoints
 }

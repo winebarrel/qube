@@ -73,22 +73,32 @@ func (progress *Progress) report(rec *Recorder) {
 		return
 	}
 
-	dpLen := rec.CountSuccess()
-	delta := dpLen - progress.prevDPLen
-	progress.prevDPLen = dpLen
-	qps := float64(time.Duration(delta) * time.Second / InterimReportIntvl)
-	elapsed := time.Since(*progress.startedAt.Load())
+	var qps float64
+
+	{
+		dpLen := rec.CountSuccess()
+		delta := dpLen - progress.prevDPLen
+		progress.prevDPLen = dpLen
+		qps = float64(time.Duration(delta) * time.Second / InterimReportIntvl)
+	}
+
+	var minute, second time.Duration
+
+	{
+		elapsed := time.Since(*progress.startedAt.Load())
+		elapsed = elapsed.Round(time.Second)
+		minute = elapsed / time.Minute
+		second = (elapsed - minute*time.Minute) / time.Second
+	}
+
 	running := rec.Nagents - progress.nDeadAgents.Load()
+	line := fmt.Sprintf("%02d:%02d | %d agents / exec %d queries, %d errors (%.0f qps)", minute, second, running, rec.CountAll(), rec.ErrorQueryCount(), qps)
 	width, _, err := term.GetSize(0)
 
 	if err != nil {
 		panic(err)
 	}
 
-	elapsed = elapsed.Round(time.Second)
-	minute := elapsed / time.Minute
-	second := (elapsed - minute*time.Minute) / time.Second
-	line := fmt.Sprintf("%02d:%02d | %d agents / exec %d queries, %d errors (%.0f qps)", minute, second, running, dpLen, rec.ErrorQueryCount(), qps)
 	fmt.Fprintf(progress.w, "\r%-*s", width, line)
 }
 

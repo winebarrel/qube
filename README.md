@@ -32,7 +32,7 @@ Flags:
   -n, --nagents=1           Number of agents.
   -r, --rate=FLOAT-64       Rate limit (qps). "0" means unlimited.
   -t, --time=DURATION       Maximum execution time of the test. "0" means unlimited.
-      --[no-]progress       Show progress report. (default: enabled)
+      --[no-]progress       Show progress report.
       --version
 ```
 

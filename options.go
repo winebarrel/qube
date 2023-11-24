@@ -7,6 +7,7 @@ import (
 
 	"github.com/go-sql-driver/mysql"
 	"github.com/jackc/pgx/v5"
+	"github.com/mattn/go-isatty"
 )
 
 type Options struct {
@@ -17,7 +18,7 @@ type Options struct {
 	Rate     float64       `kong:"short='r',help='Rate limit (qps). \"0\" means unlimited.'"`
 	Time     time.Duration `json:"-" kong:"short='t',help='Maximum execution time of the test. \"0\" means unlimited.'"`
 	X_Time   JSONDuration  `json:"Time" kong:"-"` // for report
-	Progress bool          `json:"-" kong:"negatable,default='true',help='Show progress report. (default: enabled)'"`
+	Progress bool          `json:"-" kong:"negatable,help='Show progress report.'"`
 }
 
 // Kong hook
@@ -25,6 +26,7 @@ type Options struct {
 func (options *Options) AfterApply() error {
 	options.X_Time = JSONDuration(options.Time)
 	options.NullDBOut = os.Stderr
+	options.Progress = isatty.IsTerminal(0)
 
 	if _, err := mysql.ParseDSN(options.DSN); err == nil {
 		options.Driver = DBDriverMySQL

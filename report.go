@@ -49,7 +49,7 @@ func NewReport(rec *Recorder) *Report {
 		Options:         rec.Options,
 		GOMAXPROCS:      runtime.GOMAXPROCS(0),
 		QueryCount:      rec.CountAll(),
-		ErrorQueryCount: rec.ErrorQueryCount,
+		ErrorQueryCount: rec.ErrorQueryCount(),
 	}
 
 	if dpOkLen > 0 {

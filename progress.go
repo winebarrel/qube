@@ -88,7 +88,7 @@ func (progress *Progress) report(rec *Recorder) {
 	elapsed = elapsed.Round(time.Second)
 	minute := elapsed / time.Minute
 	second := (elapsed - minute*time.Minute) / time.Second
-	line := fmt.Sprintf("%02d:%02d | %d agents / exec %d queries, %d errors (%.0f qps)", minute, second, running, dpLen, rec.ErrorQueryCount, qps)
+	line := fmt.Sprintf("%02d:%02d | %d agents / exec %d queries, %d errors (%.0f qps)", minute, second, running, dpLen, rec.ErrorQueryCount(), qps)
 	fmt.Fprintf(progress.w, "\r%-*s", width, line)
 }
 

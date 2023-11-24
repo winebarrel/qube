@@ -1,6 +1,7 @@
 # qube
 
 [![build](https://github.com/winebarrel/qube/actions/workflows/test.yml/badge.svg)](https://github.com/winebarrel/qube/actions/workflows/test.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/winebarrel/qube)](https://goreportcard.com/report/github.com/winebarrel/qube)
 
 qube is a DB load testing tool.
 

@@ -2,7 +2,6 @@ package qube
 
 import (
 	"sync"
-	"sync/atomic"
 	"time"
 )
 
@@ -11,7 +10,7 @@ type Recorder struct {
 	*Options
 	ID              string
 	dataPoints      []DataPoint
-	errorQueryCount atomic.Int64 // Use atomic to avoid race conditions
+	errorQueryCount int
 	StartedAt       time.Time
 	FinishedAt      time.Time
 	ch              chan []DataPointWithErr
@@ -45,17 +44,14 @@ func (rec *Recorder) Start() {
 	push := func(dpes []DataPointWithErr) {
 		rec.mu.Lock()
 		defer rec.mu.Unlock()
-		var errCnt int64
 
 		for _, v := range dpes {
 			if !v.IsError {
 				rec.dataPoints = append(rec.dataPoints, v.DataPoint)
 			} else {
-				errCnt++
+				rec.errorQueryCount++
 			}
 		}
-
-		rec.errorQueryCount.Add(errCnt)
 	}
 
 	go func() {
@@ -87,7 +83,7 @@ func (rec *Recorder) CountAll() int {
 	// Lock to avoid race conditions
 	rec.mu.Lock()
 	defer rec.mu.Unlock()
-	return len(rec.dataPoints) + int(rec.errorQueryCount.Load())
+	return len(rec.dataPoints) + rec.errorQueryCount
 }
 
 func (rec *Recorder) CountSuccess() int {
@@ -102,5 +98,8 @@ func (rec *Recorder) DataPoints() []DataPoint {
 }
 
 func (rec *Recorder) ErrorQueryCount() int {
-	return int(rec.errorQueryCount.Load())
+	// Lock to avoid race conditions
+	rec.mu.Lock()
+	defer rec.mu.Unlock()
+	return rec.errorQueryCount
 }

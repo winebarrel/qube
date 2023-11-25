@@ -33,6 +33,6 @@ jobs:
       - name: Check race conditions
         run: |
           echo '{"q":"select 1"}' > data.jsonl
-          go run -race ./cmd/qube -d 'root@tcp(127.0.0.1:13306)/' -f data.jsonl -t 3s
+          go run -race ./cmd/qube -d 'root@tcp(127.0.0.1:13306)/' -f data.jsonl -t 3s -n 10
           echo '{"q":"invalid"}' >> data.jsonl
-          go run -race ./cmd/qube -d 'postgres://postgres@localhost:15432' -f data.jsonl -t 3s --force
+          go run -race ./cmd/qube -d 'postgres://postgres@localhost:15432' -f data.jsonl -t 3s -n 10 --force

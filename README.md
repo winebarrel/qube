@@ -19,7 +19,7 @@ brew install winebarrel/qube/qube
 Usage: qube --data-file=STRING --dsn=STRING
 
 Flags:
-  -h, --help                Show context-sensitive help.
+  -h, --help                Show help.
       --[no-]force          Do not abort test on error. (default: disabled)
   -f, --data-file=STRING    NDJSON file path of queries to execute.
       --key="q"             Key name of the query field in the test data. e.g. {"q":"SELECT ..."}

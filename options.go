@@ -8,7 +8,6 @@ import (
 	"github.com/go-sql-driver/mysql"
 	"github.com/jackc/pgx/v5"
 	"github.com/mattn/go-isatty"
-	"github.com/winebarrel/qube/util"
 )
 
 type Options struct {
@@ -27,7 +26,7 @@ type Options struct {
 func (options *Options) AfterApply() error {
 	options.X_Time = JSONDuration(options.Time)
 	options.NullDBOut = os.Stderr
-	options.Progress = isatty.IsTerminal(util.Stdin)
+	options.Progress = isatty.IsTerminal(os.Stderr.Fd())
 
 	if _, err := mysql.ParseDSN(options.DSN); err == nil {
 		options.Driver = DBDriverMySQL

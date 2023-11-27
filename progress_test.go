@@ -10,13 +10,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/winebarrel/qube"
-	"github.com/winebarrel/qube/util"
 )
 
 func Test_Progress(t *testing.T) {
-	origStdin := util.Stdin
-	defer func() { util.Stdin = origStdin }()
-
 	require := require.New(t)
 	assert := assert.New(t)
 
@@ -24,7 +20,6 @@ func Test_Progress(t *testing.T) {
 	require.NoError(err)
 	defer pty.Close()
 	defer tty.Close()
-	util.Stdin = tty.Fd()
 
 	rec := qube.NewRecorder(testUUID, &qube.Options{})
 	progress := qube.NewProgress(tty, false)

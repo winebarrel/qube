@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/alecthomas/kong"
 	"github.com/winebarrel/qube"
@@ -20,10 +21,10 @@ func parseArgs() *qube.Options {
 		Version kong.VersionFlag
 	}
 
-	kong.Parse(
-		&CLI,
-		kong.Vars{"version": version},
-	)
+	parser := kong.Must(&CLI, kong.Vars{"version": version})
+	parser.Model.HelpFlag.Help = "Show help."
+	_, err := parser.Parse(os.Args[1:])
+	parser.FatalIfErrorf(err)
 
 	return &CLI.Options
 }

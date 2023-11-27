@@ -4,6 +4,12 @@
 
 * N/A
 
+## [1.0.4] - 2023-11-27
+
+### Changed
+
+- Update help message.
+
 ## [1.0.3] - 2023-11-27
 
 ### Changed

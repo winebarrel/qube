@@ -4,6 +4,12 @@
 
 * N/A
 
+## [1.0.3] - 2023-11-27
+
+### Changed
+
+- Check stdout tty instead of stdin tty.
+
 ## [1.0.2] - 2023-11-27
 
 ### Changed

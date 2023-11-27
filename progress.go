@@ -15,8 +15,13 @@ const (
 	InterimReportIntvl = 1 * time.Second
 )
 
+type TTY interface {
+	io.Writer
+	Fd() uintptr
+}
+
 type Progress struct {
-	w           io.Writer
+	w           TTY
 	noop        bool
 	prevDPLen   int
 	nDeadAgents atomic.Uint64
@@ -24,7 +29,7 @@ type Progress struct {
 	startedAt   atomic.Pointer[time.Time] // Use atomic to avoid race conditions
 }
 
-func NewProgress(w io.Writer, noop bool) *Progress {
+func NewProgress(w TTY, noop bool) *Progress {
 	progress := &Progress{
 		w:    w,
 		noop: noop,
@@ -93,7 +98,7 @@ func (progress *Progress) report(rec *Recorder) {
 
 	running := rec.Nagents - progress.nDeadAgents.Load()
 	line := fmt.Sprintf("%02d:%02d | %d agents / exec %d queries, %d errors (%.0f qps)", minute, second, running, rec.CountAll(), rec.ErrorQueryCount(), qps)
-	fmt.Fprintf(progress.w, "\r%-*s", util.MustGetTermSize(), line)
+	fmt.Fprintf(progress.w, "\r%-*s", util.MustGetTermSize(progress.w.Fd()), line)
 }
 
 func (progress *Progress) Close() {
@@ -102,5 +107,5 @@ func (progress *Progress) Close() {
 	}
 
 	<-progress.closed
-	fmt.Fprintf(progress.w, "\r"+strings.Repeat(" ", util.MustGetTermSize())+"\r")
+	fmt.Fprintf(progress.w, "\r"+strings.Repeat(" ", util.MustGetTermSize(progress.w.Fd()))+"\r")
 }

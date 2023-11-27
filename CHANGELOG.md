@@ -2,7 +2,9 @@
 
 ## [Unreleased]
 
-* N/A
+### Changed
+
+- refactor: Change agent loop flow.
 
 ## [1.0.1] - 2023-11-25
 

@@ -5,6 +5,7 @@
 ### Changed
 
 - refactor: Change agent loop flow.
+- Add progress.go test.
 
 ## [1.0.1] - 2023-11-25
 

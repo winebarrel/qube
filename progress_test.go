@@ -38,5 +38,5 @@ func Test_Progress(t *testing.T) {
 	buf := make([]byte, 1024)
 	_, err = pty.Read(buf)
 	require.NoError(err)
-	assert.Equal("\r00:01 | 0 agents / exec 0 queries, 0 errors (0 qps)\r\r", strings.Trim(string(buf), "\x00"))
+	assert.Equal("00:01 | 0 agents / exec 0 queries, 0 errors (0 qps)", strings.Trim(string(buf), "\r\x00"))
 }

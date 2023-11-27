@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+* N/A
+
+## [1.0.2] - 2023-11-27
+
 ### Changed
 
 - refactor: Change agent loop flow.

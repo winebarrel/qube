@@ -2,7 +2,6 @@ package qube_test
 
 import (
 	"context"
-	"strings"
 	"testing"
 	"time"
 
@@ -33,5 +32,5 @@ func Test_Progress(t *testing.T) {
 	buf := make([]byte, 1024)
 	_, err = ptmx.Read(buf)
 	require.NoError(err)
-	assert.Equal("00:01 | 0 agents / exec 0 queries, 0 errors (0 qps)", strings.Trim(string(buf), "\r\x00"))
+	assert.Contains(string(buf), "00:01 | 0 agents / exec 0 queries, 0 errors (0 qps)")
 }

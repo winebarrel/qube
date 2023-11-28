@@ -16,9 +16,9 @@ func Test_Progress(t *testing.T) {
 	require := require.New(t)
 	assert := assert.New(t)
 
-	pty, tty, err := pty.Open()
+	ptmx, tty, err := pty.Open()
 	require.NoError(err)
-	defer pty.Close()
+	defer ptmx.Close()
 	defer tty.Close()
 
 	rec := qube.NewRecorder(testUUID, &qube.Options{})
@@ -31,7 +31,7 @@ func Test_Progress(t *testing.T) {
 	progress.Close()
 
 	buf := make([]byte, 1024)
-	_, err = pty.Read(buf)
+	_, err = ptmx.Read(buf)
 	require.NoError(err)
 	assert.Equal("00:01 | 0 agents / exec 0 queries, 0 errors (0 qps)", strings.Trim(string(buf), "\r\x00"))
 }

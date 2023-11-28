@@ -57,6 +57,5 @@ func (config *DBConfig) OpenDBWithPing(autoCommit bool) (DBIface, error) {
 		}
 	}
 
-	return db,
-		nil
+	return db, nil
 }

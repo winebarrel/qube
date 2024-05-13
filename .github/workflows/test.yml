@@ -22,7 +22,7 @@ jobs:
         with:
           go-version-file: go.mod
           cache: false
-      - uses: golangci/golangci-lint-action@v5
+      - uses: golangci/golangci-lint-action@v6
       - run: make vet
       - name: Start services
         run: |

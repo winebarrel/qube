@@ -20,5 +20,5 @@ func TestMain(m *testing.M) {
 		testAcc = true
 	}
 
-	m.Run()
+	os.Exit(m.Run())
 }

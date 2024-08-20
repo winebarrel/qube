@@ -107,5 +107,5 @@ func (progress *Progress) Close() {
 	}
 
 	<-progress.closed
-	fmt.Fprintf(progress.w, "\r"+strings.Repeat(" ", util.MustGetTermSize(progress.w.Fd()))+"\r")
+	fmt.Fprint(progress.w, "\r"+strings.Repeat(" ", util.MustGetTermSize(progress.w.Fd()))+"\r")
 }

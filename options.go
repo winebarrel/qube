@@ -19,7 +19,7 @@ type Options struct {
 	Time     time.Duration `json:"-" kong:"short='t',help='Maximum execution time of the test. \"0\" means unlimited.'"`
 	X_Time   JSONDuration  `json:"Time" kong:"-"` // for report
 	Progress bool          `json:"-" kong:"negatable,help='Show progress report.'"`
-	Color    bool          `json:"-" kong:"negatable,short='C',help='Show progress report.'"`
+	Color    bool          `json:"-" kong:"negatable,short='C',help='Color report JSON.'"`
 }
 
 // Kong hook

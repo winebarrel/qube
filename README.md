@@ -41,9 +41,8 @@ Flags:
   -t, --time=DURATION       Maximum execution time of the test. "0" means
                             unlimited.
       --[no-]progress       Show progress report.
-  -C, --[no-]color          Show progress report.
+  -C, --[no-]color          Color report JSON.
       --version
-
 ```
 
 ```

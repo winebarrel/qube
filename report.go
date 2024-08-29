@@ -1,9 +1,11 @@
 package qube
 
 import (
-	"encoding/json"
 	"runtime"
+	"strings"
 	"time"
+
+	"github.com/neilotoole/jsoncolor"
 
 	"github.com/jamiealquiza/tachymeter"
 )
@@ -73,6 +75,16 @@ func NewReport(rec *Recorder) *Report {
 }
 
 func (report *Report) JSON() string {
-	rawJson, _ := json.MarshalIndent(report, "", "  ")
-	return string(rawJson)
+	var buf strings.Builder
+	enc := jsoncolor.NewEncoder(&buf)
+
+	if report.Options.Color {
+		clrs := jsoncolor.DefaultColors()
+		enc.SetColors(clrs)
+	}
+
+	enc.SetIndent("", "  ")
+	enc.Encode(report)
+
+	return strings.TrimSpace(buf.String())
 }

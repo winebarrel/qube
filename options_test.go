@@ -16,9 +16,8 @@ func Test_Options_BeforerApply_IsTTY(t *testing.T) {
 	require := require.New(t)
 
 	stdout := os.Stdout
-	ptmx, tty, err := pty.Open()
+	ptmx, _, err := pty.Open()
 	require.NoError(err)
-	pty.Setsize(tty, &pty.Winsize{Rows: 30, Cols: 123}) //nolint:errcheck
 	os.Stdout = ptmx
 
 	t.Cleanup(func() {

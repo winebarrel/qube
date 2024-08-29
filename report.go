@@ -84,7 +84,7 @@ func (report *Report) JSON() string {
 	}
 
 	enc.SetIndent("", "  ")
-	enc.Encode(report)
+	enc.Encode(report) // nolint:errcheck
 
 	return strings.TrimSpace(buf.String())
 }

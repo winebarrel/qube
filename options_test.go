@@ -1,13 +1,46 @@
 package qube_test
 
 import (
+	"os"
 	"testing"
 	"time"
 
+	"github.com/creack/pty"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/winebarrel/qube"
 )
+
+func Test_Options_BeforerApply_IsTTY(t *testing.T) {
+	assert := assert.New(t)
+	require := require.New(t)
+
+	stdout := os.Stdout
+	ptmx, _, err := pty.Open()
+	require.NoError(err)
+	os.Stdout = ptmx
+
+	t.Cleanup(func() {
+		os.Stdout = stdout
+	})
+
+	options := qube.Options{}
+	err = options.BeforeApply()
+	require.NoError(err)
+
+	assert.True(options.Color)
+}
+
+func Test_Options_BeforerApply_IsNotTTY(t *testing.T) {
+	assert := assert.New(t)
+	require := require.New(t)
+
+	options := qube.Options{}
+	err := options.BeforeApply()
+	require.NoError(err)
+
+	assert.False(options.Color)
+}
 
 func Test_Options_AfterApply(t *testing.T) {
 	assert := assert.New(t)

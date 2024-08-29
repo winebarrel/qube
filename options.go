@@ -19,10 +19,16 @@ type Options struct {
 	Time     time.Duration `json:"-" kong:"short='t',help='Maximum execution time of the test. \"0\" means unlimited.'"`
 	X_Time   JSONDuration  `json:"Time" kong:"-"` // for report
 	Progress bool          `json:"-" kong:"negatable,help='Show progress report.'"`
+	Color    bool          `json:"-" kong:"negatable,short='C',help='Color report JSON.'"`
 }
 
 // Kong hook
 // see https://github.com/alecthomas/kong#hooks-beforereset-beforeresolve-beforeapply-afterapply-and-the-bind-option
+func (options *Options) BeforeApply() error {
+	options.Color = isatty.IsTerminal(os.Stdout.Fd())
+	return nil
+}
+
 func (options *Options) AfterApply() error {
 	options.X_Time = JSONDuration(options.Time)
 	options.NullDBOut = os.Stderr

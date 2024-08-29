@@ -98,32 +98,32 @@ func Test_Recorder(t *testing.T) {
   "MinQPS": 1,
   "MedianQPS": 4,
   "Duration": {
-    "Time": {
-      "Cumulative": "18ms",
-      "HMean": "999.999µs",
-      "Avg": "1ms",
-      "P50": "1ms",
-      "P75": "1ms",
-      "P95": "1ms",
-      "P99": "1ms",
-      "P999": "1ms",
-      "Long5p": "1ms",
-      "Short5p": "1ms",
-      "Max": "1ms",
-      "Min": "1ms",
-      "Range": "0s",
-      "StdDev": "0s"
-    },
-    "Rate": {
-      "Second": 1000
-    },
-    "Samples": 18,
     "Count": 18,
     "Histogram": [
       {
         "1ms - 1ms": 18
       }
-    ]
+    ],
+    "Rate": {
+      "Second": 1000
+    },
+    "Samples": 18,
+    "Time": {
+      "Avg": "1ms",
+      "Cumulative": "18ms",
+      "HMean": "999.999µs",
+      "Long5p": "1ms",
+      "Max": "1ms",
+      "Min": "1ms",
+      "P50": "1ms",
+      "P75": "1ms",
+      "P95": "1ms",
+      "P99": "1ms",
+      "P999": "1ms",
+      "Range": "0s",
+      "Short5p": "1ms",
+      "StdDev": "0s"
+    }
   }
 }`, report.JSON())
 }
@@ -222,32 +222,32 @@ func Test_Recorder_WithError(t *testing.T) {
   "MinQPS": 1,
   "MedianQPS": 4,
   "Duration": {
-    "Time": {
-      "Cumulative": "18ms",
-      "HMean": "999.999µs",
-      "Avg": "1ms",
-      "P50": "1ms",
-      "P75": "1ms",
-      "P95": "1ms",
-      "P99": "1ms",
-      "P999": "1ms",
-      "Long5p": "1ms",
-      "Short5p": "1ms",
-      "Max": "1ms",
-      "Min": "1ms",
-      "Range": "0s",
-      "StdDev": "0s"
-    },
-    "Rate": {
-      "Second": 1000
-    },
-    "Samples": 18,
     "Count": 18,
     "Histogram": [
       {
         "1ms - 1ms": 18
       }
-    ]
+    ],
+    "Rate": {
+      "Second": 1000
+    },
+    "Samples": 18,
+    "Time": {
+      "Avg": "1ms",
+      "Cumulative": "18ms",
+      "HMean": "999.999µs",
+      "Long5p": "1ms",
+      "Max": "1ms",
+      "Min": "1ms",
+      "P50": "1ms",
+      "P75": "1ms",
+      "P95": "1ms",
+      "P99": "1ms",
+      "P999": "1ms",
+      "Range": "0s",
+      "Short5p": "1ms",
+      "StdDev": "0s"
+    }
   }
 }`, report.JSON())
 }

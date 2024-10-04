@@ -17,7 +17,7 @@ func Test_NullDB(t *testing.T) {
 	var buf bytes.Buffer
 	db = &NullDB{&buf}
 
-	_, err := db.Exec("select 1")
+	_, err := db.ExecContext(context.Background(), "select 1")
 	require.NoError(err)
 
 	_, err = db.ExecContext(context.Background(), "select 2")

@@ -58,7 +58,7 @@ func (agent *Agent) Start(ctx context.Context) error {
 		agent.data.Close()
 	}()
 
-	_, err := agent.db.Exec("select 'start agent - " + agent.ID + "'")
+	_, err := agent.db.ExecContext(ctx, "select 'start agent - "+agent.ID+"'")
 
 	if err != nil {
 		return fmt.Errorf("failed to execute start query (%w)", err)
@@ -70,7 +70,7 @@ func (agent *Agent) Start(ctx context.Context) error {
 		return err
 	}
 
-	_, err = agent.db.Exec("select 'exit agent - " + agent.ID + "'")
+	_, err = agent.db.ExecContext(ctx, "select 'exit agent - "+agent.ID+"'")
 
 	if err != nil {
 		return fmt.Errorf("failed to execute exit query (%w)", err)

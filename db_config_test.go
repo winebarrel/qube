@@ -50,7 +50,7 @@ func TestAcc_DBConfig(t *testing.T) {
 		require.NoError(err)
 		defer db.Close()
 
-		_, err = db.Exec("select 1")
+		_, err = db.ExecContext(context.Background(), "select 1")
 		require.NoError(err)
 		_, err = db.ExecContext(context.Background(), "select 2")
 		require.NoError(err)
@@ -74,7 +74,7 @@ func Test_DBConfig_Noop(t *testing.T) {
 	require.NoError(err)
 	defer db.Close()
 
-	_, err = db.Exec("select 1")
+	_, err = db.ExecContext(context.Background(), "select 1")
 	require.NoError(err)
 	_, err = db.ExecContext(context.Background(), "select 2")
 	require.NoError(err)

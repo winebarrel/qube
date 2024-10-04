@@ -1,6 +1,7 @@
 package qube
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"io"
@@ -57,5 +58,11 @@ func (config *DBConfig) OpenDBWithPing(autoCommit bool) (DBIface, error) {
 		}
 	}
 
-	return db, nil
+	conn, err := db.Conn(context.Background())
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to acquire DB connection (%w)", err)
+	}
+
+	return conn, nil
 }

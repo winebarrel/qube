@@ -88,7 +88,7 @@ func TestAcc_Task(t *testing.T) {
 					Force: false,
 				},
 				DataOptions: qube.DataOptions{
-					DataFile:   f.Name(),
+					DataFiles:  []string{f.Name()},
 					Key:        t.Key,
 					Loop:       t.Loop,
 					Random:     t.Random,
@@ -154,7 +154,7 @@ func TestAcc_Task_CommitRate(t *testing.T) {
 				Force: false,
 			},
 			DataOptions: qube.DataOptions{
-				DataFile:   f.Name(),
+				DataFiles:  []string{f.Name()},
 				Key:        "q",
 				Loop:       true,
 				Random:     false,
@@ -202,7 +202,7 @@ func TestAcc_Task_Force(t *testing.T) {
 				Force: true,
 			},
 			DataOptions: qube.DataOptions{
-				DataFile:   f.Name(),
+				DataFiles:  []string{f.Name()},
 				Key:        "q",
 				Loop:       true,
 				Random:     false,

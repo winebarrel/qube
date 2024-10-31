@@ -20,12 +20,12 @@ func Test_Data(t *testing.T) {
 
 	options := &qube.Options{
 		DataOptions: qube.DataOptions{
-			DataFile: f.Name(),
-			Key:      "q",
+			DataFiles: []string{f.Name()},
+			Key:       "q",
 		},
 	}
 
-	data, err := qube.NewData(options)
+	data, err := qube.NewData(options, 0)
 	require.NoError(err)
 	defer data.Close()
 
@@ -47,13 +47,13 @@ func Test_Data_Loop(t *testing.T) {
 
 	options := &qube.Options{
 		DataOptions: qube.DataOptions{
-			DataFile: f.Name(),
-			Key:      "q",
-			Loop:     true,
+			DataFiles: []string{f.Name()},
+			Key:       "q",
+			Loop:      true,
 		},
 	}
 
-	data, err := qube.NewData(options)
+	data, err := qube.NewData(options, 0)
 	require.NoError(err)
 	defer data.Close()
 
@@ -76,14 +76,14 @@ func Test_Data_Random(t *testing.T) {
 
 	options := &qube.Options{
 		DataOptions: qube.DataOptions{
-			DataFile: f.Name(),
-			Key:      "q",
-			Loop:     true,
-			Random:   true,
+			DataFiles: []string{f.Name()},
+			Key:       "q",
+			Loop:      true,
+			Random:    true,
 		},
 	}
 
-	data, err := qube.NewData(options)
+	data, err := qube.NewData(options, 0)
 	require.NoError(err)
 	defer data.Close()
 
@@ -106,14 +106,14 @@ func Test_Data_WithCommitRate(t *testing.T) {
 
 	options := &qube.Options{
 		DataOptions: qube.DataOptions{
-			DataFile:   f.Name(),
+			DataFiles:  []string{f.Name()},
 			Key:        "q",
 			Loop:       true,
 			CommitRate: 2,
 		},
 	}
 
-	data, err := qube.NewData(options)
+	data, err := qube.NewData(options, 0)
 	require.NoError(err)
 	defer data.Close()
 
@@ -146,13 +146,13 @@ func Test_Data_WithoutKey(t *testing.T) {
 
 	options := &qube.Options{
 		DataOptions: qube.DataOptions{
-			DataFile: f.Name(),
-			Key:      "q",
-			Loop:     true,
+			DataFiles: []string{f.Name()},
+			Key:       "q",
+			Loop:      true,
 		},
 	}
 
-	data, err := qube.NewData(options)
+	data, err := qube.NewData(options, 0)
 	require.NoError(err)
 
 	_, err = data.Next()

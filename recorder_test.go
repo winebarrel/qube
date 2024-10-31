@@ -16,7 +16,7 @@ func Test_Recorder(t *testing.T) {
 			Force: true,
 		},
 		DataOptions: qube.DataOptions{
-			DataFile:   "data.jsonl",
+			DataFiles:  []string{"data.jsonl"},
 			Key:        "q",
 			Loop:       true,
 			Random:     false,
@@ -78,7 +78,9 @@ func Test_Recorder(t *testing.T) {
   "ElapsedTime": "0s",
   "Options": {
     "Force": true,
-    "DataFile": "data.jsonl",
+    "DataFiles": [
+      "data.jsonl"
+    ],
     "Key": "q",
     "Loop": true,
     "Random": false,
@@ -136,7 +138,7 @@ func Test_Recorder_WithError(t *testing.T) {
 			Force: true,
 		},
 		DataOptions: qube.DataOptions{
-			DataFile:   "data.jsonl",
+			DataFiles:  []string{"data.jsonl"},
 			Key:        "q",
 			Loop:       true,
 			Random:     false,
@@ -202,7 +204,9 @@ func Test_Recorder_WithError(t *testing.T) {
   "ElapsedTime": "0s",
   "Options": {
     "Force": true,
-    "DataFile": "data.jsonl",
+    "DataFiles": [
+      "data.jsonl"
+    ],
     "Key": "q",
     "Loop": true,
     "Random": false,

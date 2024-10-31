@@ -17,11 +17,11 @@ var (
 )
 
 type DataOptions struct {
-	DataFile   string `kong:"short='f',required,help='NDJSON file path of queries to execute.'"`
-	Key        string `kong:"default='q',help='Key name of the query field in the test data. e.g. {\"q\":\"SELECT ...\"}'"`
-	Loop       bool   `kong:"negatable,default='true',help='Return to the beginning after reading the test data. (default: enabled)'"`
-	Random     bool   `kong:"negatable,default='false',help='Randomize the starting position of the test data. (default: disabled)'"`
-	CommitRate uint   `kong:"help='Number of queries to execute \"COMMIT\".'"`
+	DataFiles  []string `kong:"short='f',required,help='NDJSON file list of queries to execute.'"`
+	Key        string   `kong:"default='q',help='Key name of the query field in the test data. e.g. {\"q\":\"SELECT ...\"}'"`
+	Loop       bool     `kong:"negatable,default='true',help='Return to the beginning after reading the test data. (default: enabled)'"`
+	Random     bool     `kong:"negatable,default='false',help='Randomize the starting position of the test data. (default: disabled)'"`
+	CommitRate uint     `kong:"help='Number of queries to execute \"COMMIT\".'"`
 }
 
 type Data struct {
@@ -32,11 +32,12 @@ type Data struct {
 	inTxn  bool
 }
 
-func NewData(options *Options) (*Data, error) {
-	file, err := os.OpenFile(options.DataFile, os.O_RDONLY, 0)
+func NewData(options *Options, agentNum uint64) (*Data, error) {
+	dataFile := options.DataFiles[agentNum%uint64(len(options.DataFiles))]
+	file, err := os.OpenFile(dataFile, os.O_RDONLY, 0)
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to open test data - %s (%w)", options.DataFile, err)
+		return nil, fmt.Errorf("failed to open test data - %s (%w)", dataFile, err)
 	}
 
 	if options.Random {

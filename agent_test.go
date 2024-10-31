@@ -31,7 +31,7 @@ func Test_Agent(t *testing.T) {
 			Force: false,
 		},
 		DataOptions: qube.DataOptions{
-			DataFile:   f.Name(),
+			DataFiles:  []string{f.Name()},
 			Key:        "q",
 			Loop:       true,
 			Random:     false,

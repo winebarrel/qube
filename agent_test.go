@@ -66,7 +66,7 @@ func Test_Agent(t *testing.T) {
 	assert.Regexp("select 1", buf.String())
 }
 
-func Test_MultiAgent(t *testing.T) {
+func Test_Agent_MultiData(t *testing.T) {
 	assert := assert.New(t)
 	require := require.New(t)
 

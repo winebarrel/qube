@@ -5,7 +5,7 @@
 
 qube is a DB load testing tool.
 
-![](https://github.com/user-attachments/assets/c25a28ff-3d42-4a2f-860d-2a48fa2c1d86)
+![](https://github.com/user-attachments/assets/ad0078d7-ec2d-4976-b0c3-836e05e557db)
 
 ## Installation
 

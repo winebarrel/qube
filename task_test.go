@@ -88,7 +88,7 @@ func TestAcc_Task(t *testing.T) {
 					Force: false,
 				},
 				DataOptions: qube.DataOptions{
-					DataFile:   f.Name(),
+					DataFiles:  []string{f.Name()},
 					Key:        t.Key,
 					Loop:       t.Loop,
 					Random:     t.Random,
@@ -154,7 +154,7 @@ func TestAcc_Task_CommitRate(t *testing.T) {
 				Force: false,
 			},
 			DataOptions: qube.DataOptions{
-				DataFile:   f.Name(),
+				DataFiles:  []string{f.Name()},
 				Key:        "q",
 				Loop:       true,
 				Random:     false,
@@ -202,7 +202,7 @@ func TestAcc_Task_Force(t *testing.T) {
 				Force: true,
 			},
 			DataOptions: qube.DataOptions{
-				DataFile:   f.Name(),
+				DataFiles:  []string{f.Name()},
 				Key:        "q",
 				Loop:       true,
 				Random:     false,
@@ -244,5 +244,73 @@ func TestAcc_Task_Force(t *testing.T) {
 		assert.NotEqual(0, report.ErrorQueryCount)
 		assert.Equal(report.QueryCount, report.ErrorQueryCount)
 		assert.Equal(float64(0), report.AvgQPS)
+	}
+}
+
+func TestAcc_Task_MultiData(t *testing.T) {
+	if !testAcc {
+		t.Skip()
+	}
+
+	assert := assert.New(t)
+	require := require.New(t)
+
+	f1, _ := os.CreateTemp("", "")
+	defer os.Remove(f1.Name())
+	f1.WriteString(`{"q":"select 1"}` + "\n") //nolint:errcheck
+	f1.Sync()                                 //nolint:errcheck
+
+	f2, _ := os.CreateTemp("", "")
+	defer os.Remove(f2.Name())
+	f2.WriteString(`{"q":"select 2"}` + "\n") //nolint:errcheck
+	f2.Sync()                                 //nolint:errcheck
+
+	task := &qube.Task{
+		Options: &qube.Options{
+			AgentOptions: qube.AgentOptions{
+				Force: false,
+			},
+			DataOptions: qube.DataOptions{
+				DataFiles:  []string{f1.Name(), f2.Name()},
+				Key:        "q",
+				Loop:       true,
+				Random:     false,
+				CommitRate: 0,
+			},
+			DBConfig: qube.DBConfig{
+				Noop: false,
+			},
+			Nagents:  10,
+			Rate:     0,
+			Time:     3 * time.Second,
+			Progress: false,
+		},
+		ID: testUUID,
+	}
+
+	ds := []struct {
+		DSN    string
+		Driver qube.DBDriver
+	}{
+		{
+			DSN:    testDSN_MySQL,
+			Driver: qube.DBDriverMySQL,
+		},
+		{
+			DSN:    testDSN_PostgreSQL,
+			Driver: qube.DBDriverPostgreSQL,
+		},
+	}
+
+	for _, d := range ds {
+		task.DSN = d.DSN
+		task.Driver = d.Driver
+		report, err := task.Run()
+
+		require.NoError(err)
+		assert.Equal(testUUID, report.ID)
+		assert.NotEqual(0, report.QueryCount)
+		assert.Equal(0, report.ErrorQueryCount)
+		assert.NotEqual(0, report.AvgQPS)
 	}
 }

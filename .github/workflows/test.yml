@@ -32,7 +32,11 @@ jobs:
       - run: make testacc
       - name: Check race conditions
         run: |
-          echo '{"q":"select 1"}' > data.jsonl
-          go run -race ./cmd/qube -d 'root@tcp(127.0.0.1:13306)/' -f data.jsonl -t 3s -n 10
-          echo '{"q":"invalid"}' >> data.jsonl
-          go run -race ./cmd/qube -d 'postgres://postgres@localhost:15432' -f data.jsonl -t 3s -n 10 --force
+          echo '{"q":"select 1"}' > data1.jsonl
+          echo '{"q":"select 2"}' > data2.jsonl
+          echo '{"q":"select 3"}' > data3.jsonl
+          go run -race ./cmd/qube -d 'root@tcp(127.0.0.1:13306)/' -f data1.jsonl,data2.jsonl,data3.jsonl -t 3s -n 10
+          echo '{"q":"invalid"}' >> data1.jsonl
+          echo '{"q":"invalid"}' >> data2.jsonl
+          echo '{"q":"invalid"}' >> data3.jsonl
+          go run -race ./cmd/qube -d 'postgres://postgres@localhost:15432' -f data1.jsonl,data2.jsonl,data3.jsonl -t 3s -n 10 --force

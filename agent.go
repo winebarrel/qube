@@ -34,7 +34,7 @@ func NewAgent(taskID string, agentNum uint64, options *Options, rec *Recorder, l
 		return nil, err
 	}
 
-	data, err := NewData(options)
+	data, err := NewData(options, agentNum)
 
 	if err != nil {
 		return nil, err

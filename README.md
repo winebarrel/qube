@@ -16,12 +16,13 @@ brew install winebarrel/qube/qube
 ## Usage
 
 ```
-Usage: qube --data-file=STRING --dsn=STRING [flags]
+Usage: qube --data-files=DATA-FILES,... --dsn=STRING [flags]
 
 Flags:
   -h, --help                Show help.
       --[no-]force          Do not abort test on error. (default: disabled)
-  -f, --data-file=STRING    NDJSON file path of queries to execute.
+  -f, --data-files=DATA-FILES,...
+                            NDJSON file list of queries to execute.
       --key="q"             Key name of the query field in the test data. e.g.
                             {"q":"SELECT ..."}
       --[no-]loop           Return to the beginning after reading the test data.
@@ -60,7 +61,9 @@ $ qube -d 'root@tcp(127.0.0.1:13306)/' -f data.jsonl -n 5 -t 10s
   "ElapsedTime": "10.001173875s",
   "Options": {
     "Force": false,
-    "DataFile": "data.jsonl",
+    "DataFile": [
+      "data.jsonl"
+    ],
     "Key": "q",
     "Loop": true,
     "Random": false,

@@ -1,6 +1,7 @@
 package qube_test
 
 import (
+	"fmt"
 	"os"
 	"testing"
 
@@ -157,4 +158,43 @@ func Test_Data_WithoutKey(t *testing.T) {
 
 	_, err = data.Next()
 	assert.ErrorContains(err, `failed to get query field "q" from '{"_q_":"select 1"}'`)
+}
+
+func Test_MultiData(t *testing.T) {
+	assert := assert.New(t)
+	require := require.New(t)
+
+	f1, _ := os.CreateTemp("", "")
+	defer os.Remove(f1.Name())
+	f1.WriteString(`{"q":"select 1"}` + "\n") //nolint:errcheck
+	f1.Sync()                                 //nolint:errcheck
+
+	f2, _ := os.CreateTemp("", "")
+	defer os.Remove(f2.Name())
+	f2.WriteString(`{"q":"select 2"}` + "\n") //nolint:errcheck
+	f2.Sync()                                 //nolint:errcheck
+
+	f3, _ := os.CreateTemp("", "")
+	defer os.Remove(f3.Name())
+	f3.WriteString(`{"q":"select 3"}` + "\n") //nolint:errcheck
+	f3.Sync()                                 //nolint:errcheck
+
+	options := &qube.Options{
+		DataOptions: qube.DataOptions{
+			DataFiles: []string{f1.Name(), f2.Name(), f3.Name()},
+			Key:       "q",
+		},
+	}
+
+	for i := range 6 {
+		data, err := qube.NewData(options, uint64(i))
+		require.NoError(err)
+		defer data.Close()
+
+		q, err := data.Next()
+		require.NoError(err)
+		assert.Equal(fmt.Sprintf("select %d", i%3+1), q)
+		_, err = data.Next()
+		assert.ErrorIs(err, qube.EOD)
+	}
 }

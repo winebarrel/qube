@@ -1,8 +1,28 @@
 # Changelog
 
+<!--
 ## [Unreleased]
 
 * N/A
+-->
+
+## [1.2.1] - 2024-11-01
+
+### Fixed
+
+- Fix unlimited rate (`-r 0`) option.
+
+## [1.2.0] - 2024-10-31
+
+### Changed
+
+- Supports multiple data files.
+
+## [1.1.0] - 2024-08-29
+
+### Added
+
+- Add "--color" option.
 
 ## [1.0.4] - 2023-11-27
 

@@ -28,7 +28,12 @@ func NewTask(options *Options) *Task {
 func (task *Task) makeAgents() ([]*Agent, *Recorder, error) {
 	agents := make([]*Agent, task.Nagents)
 	rec := NewRecorder(task.ID, task.Options)
-	limiter := rate.NewLimiter(rate.Limit(task.Rate), 1)
+
+	var limiter *rate.Limiter
+
+	if task.Rate > 0 {
+		limiter = rate.NewLimiter(rate.Limit(task.Rate), 1)
+	}
 
 	for i := uint64(0); i < task.Nagents; i++ {
 		var err error

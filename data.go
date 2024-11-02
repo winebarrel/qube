@@ -41,6 +41,16 @@ func NewData(options *Options, agentNum uint64) (*Data, error) {
 		return nil, fmt.Errorf("failed to open test data - %s (%w)", dataFile, err)
 	}
 
+	fileInfo, err := file.Stat()
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to get test data file info - %s (%w)", dataFile, err)
+	}
+
+	if fileInfo.Size() == 0 {
+		return nil, fmt.Errorf("test data is empty - %s", dataFile)
+	}
+
 	if options.Random {
 		err = util.RandSeek(file)
 

@@ -262,3 +262,21 @@ func Test_Data_WithCommentOut(t *testing.T) {
 	_, err = data.Next()
 	assert.ErrorIs(err, qube.EOD)
 }
+
+func Test_Data_Empty(t *testing.T) {
+	assert := assert.New(t)
+
+	f, _ := os.CreateTemp("", "")
+	defer os.Remove(f.Name())
+	f.Sync()
+
+	options := &qube.Options{
+		DataOptions: qube.DataOptions{
+			DataFiles: []string{f.Name()},
+			Key:       "q",
+		},
+	}
+
+	_, err := qube.NewData(options, 0)
+	assert.ErrorContains(err, "test data is empty")
+}

@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.3.1] - 2024-11-02
+
+### Changed
+
+* Update database URL example link.
+
 ## [1.3.0] - 2024-11-02
 
 ### Added

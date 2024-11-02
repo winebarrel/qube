@@ -17,7 +17,7 @@ const (
 )
 
 type DBConfig struct {
-	DSN       string    `kong:"short='d',required,help='DSN to connect to. \n - MySQL: https://github.com/go-sql-driver/mysql#examples \n - PostgreSQL: https://github.com/jackc/pgx/blob/df5d00e/stdlib/sql.go'"`
+	DSN       string    `kong:"short='d',required,help='DSN to connect to. \n - MySQL: https://pkg.go.dev/github.com/go-sql-driver/mysql#readme-dsn-data-source-name \n - PostgreSQL: https://pkg.go.dev/github.com/jackc/pgx/v5/stdlib#pkg-overview'"`
 	Driver    DBDriver  `kong:"-"`
 	Noop      bool      `kong:"negatable,default='false',help='No-op mode. No actual query execution. (default: disabled)'"`
 	NullDBOut io.Writer `json:"-" kong:"-"`

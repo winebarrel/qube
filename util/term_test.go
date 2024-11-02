@@ -15,7 +15,7 @@ func Test_MustGetTermSize(t *testing.T) {
 
 	ptmx, tty, err := pty.Open()
 	require.NoError(err)
-	pty.Setsize(tty, &pty.Winsize{Rows: 30, Cols: 123}) //nolint:errcheck
+	pty.Setsize(tty, &pty.Winsize{Rows: 30, Cols: 123})
 
 	w := util.MustGetTermSize(ptmx.Fd())
 	assert.Equal(123, w)

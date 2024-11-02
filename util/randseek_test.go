@@ -16,11 +16,11 @@ func Test_RandSeek(t *testing.T) {
 
 	f, _ := os.CreateTemp("", "")
 	defer os.Remove(f.Name())
-	f.WriteString(`{"q":"select 1"}` + "\n") //nolint:errcheck
-	f.WriteString(`{"q":"select 2"}` + "\n") //nolint:errcheck
-	f.WriteString(`{"q":"select 3"}` + "\n") //nolint:errcheck
-	f.Sync()                                 //nolint:errcheck
-	f.Seek(0, io.SeekStart)                  //nolint:errcheck
+	f.WriteString(`{"q":"select 1"}` + "\n")
+	f.WriteString(`{"q":"select 2"}` + "\n")
+	f.WriteString(`{"q":"select 3"}` + "\n")
+	f.Sync()
+	f.Seek(0, io.SeekStart)
 
 	offsets := map[int64]struct{}{}
 

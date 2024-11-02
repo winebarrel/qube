@@ -42,6 +42,7 @@ func (config *DBConfig) OpenDBWithPing(autoCommit bool) (DBIface, error) {
 	err = db.Ping()
 
 	if err != nil {
+		db.Close()
 		return nil, fmt.Errorf("failed to ping DB (%w)", err)
 	}
 
@@ -53,6 +54,7 @@ func (config *DBConfig) OpenDBWithPing(autoCommit bool) (DBIface, error) {
 		}
 
 		if err != nil {
+			db.Close()
 			return nil, fmt.Errorf("failed to disable autocommit (%w)", err)
 		}
 	}

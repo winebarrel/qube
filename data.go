@@ -44,6 +44,7 @@ func NewData(options *Options, agentNum uint64) (*Data, error) {
 		err = util.RandSeek(file)
 
 		if err != nil {
+			file.Close()
 			return nil, fmt.Errorf("failed to seek test data (%w)", err)
 		}
 	}
@@ -58,9 +59,11 @@ func NewData(options *Options, agentNum uint64) (*Data, error) {
 			_, err = file.Seek(0, io.SeekStart)
 
 			if err != nil {
+				file.Close()
 				return nil, fmt.Errorf("failed to rewind test data (%w)", err)
 			}
 		} else if err != nil {
+			file.Close()
 			return nil, fmt.Errorf("failed to read test data (%w)", err)
 		}
 	}

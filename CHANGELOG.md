@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.3.2] - 2024-11-02
+
+### Changed
+
+* Use "JSON Lines" instead of "NDJSON".
+
 ## [1.3.1] - 2024-11-02
 
 ### Changed

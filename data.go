@@ -18,7 +18,7 @@ var (
 )
 
 type DataOptions struct {
-	DataFiles  []string `kong:"short='f',required,help='NDJSON file list of queries to execute.'"`
+	DataFiles  []string `kong:"short='f',required,help='JSON Lines file list of queries to execute.'"`
 	Key        string   `kong:"default='q',help='Key name of the query field in the test data. e.g. {\"q\":\"SELECT ...\"}'"`
 	Loop       bool     `kong:"negatable,default='true',help='Return to the beginning after reading the test data. (default: enabled)'"`
 	Random     bool     `kong:"negatable,default='false',help='Randomize the starting position of the test data. (default: disabled)'"`

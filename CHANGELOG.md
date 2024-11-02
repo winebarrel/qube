@@ -1,10 +1,8 @@
 # Changelog
 
-<!--
 ## [Unreleased]
 
-* N/A
--->
+* Allow empty lines.
 
 ## [1.2.1] - 2024-11-01
 

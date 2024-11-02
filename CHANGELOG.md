@@ -2,6 +2,12 @@
 
 ## [1.3.2] - 2024-11-02
 
+### Added
+
+* Add empty test data check.
+
+## [1.3.2] - 2024-11-02
+
 ### Changed
 
 * Use "JSON Lines" instead of "NDJSON".

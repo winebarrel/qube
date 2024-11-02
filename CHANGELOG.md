@@ -2,7 +2,13 @@
 
 ## [Unreleased]
 
+### Added
+
 * Allow empty lines.
+
+### Changed
+
+* Close DB,File on initialization error.
 
 ## [1.2.1] - 2024-11-01
 

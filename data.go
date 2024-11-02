@@ -2,6 +2,7 @@ package qube
 
 import (
 	"bufio"
+	"bytes"
 	"errors"
 	"fmt"
 	"io"
@@ -113,6 +114,10 @@ func (data *Data) Next() (string, error) {
 		}
 
 		if len(line) == 0 {
+			continue
+		}
+
+		if bytes.HasPrefix(line, []byte("//")) {
 			continue
 		}
 

@@ -22,8 +22,8 @@ func Test_Agent(t *testing.T) {
 
 	f, _ := os.CreateTemp("", "")
 	defer os.Remove(f.Name())
-	f.WriteString(`{"q":"select 1"}` + "\n") //nolint:errcheck
-	f.Sync()                                 //nolint:errcheck
+	f.WriteString(`{"q":"select 1"}` + "\n")
+	f.Sync()
 
 	var buf bytes.Buffer
 
@@ -72,13 +72,13 @@ func Test_Agent_MultiData(t *testing.T) {
 
 	f1, _ := os.CreateTemp("", "")
 	defer os.Remove(f1.Name())
-	f1.WriteString(`{"q":"select 1"}` + "\n") //nolint:errcheck
-	f1.Sync()                                 //nolint:errcheck
+	f1.WriteString(`{"q":"select 1"}` + "\n")
+	f1.Sync()
 
 	f2, _ := os.CreateTemp("", "")
 	defer os.Remove(f2.Name())
-	f2.WriteString(`{"q":"select 2"}` + "\n") //nolint:errcheck
-	f2.Sync()                                 //nolint:errcheck
+	f2.WriteString(`{"q":"select 2"}` + "\n")
+	f2.Sync()
 
 	options := &qube.Options{
 		AgentOptions: qube.AgentOptions{

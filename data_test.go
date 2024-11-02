@@ -16,8 +16,8 @@ func Test_Data(t *testing.T) {
 
 	f, _ := os.CreateTemp("", "")
 	defer os.Remove(f.Name())
-	f.WriteString(`{"q":"select 1"}` + "\n") //nolint:errcheck
-	f.Sync()                                 //nolint:errcheck
+	f.WriteString(`{"q":"select 1"}` + "\n")
+	f.Sync()
 
 	options := &qube.Options{
 		DataOptions: qube.DataOptions{
@@ -43,8 +43,8 @@ func Test_Data_Loop(t *testing.T) {
 
 	f, _ := os.CreateTemp("", "")
 	defer os.Remove(f.Name())
-	f.WriteString(`{"q":"select 1"}` + "\n") //nolint:errcheck
-	f.Sync()                                 //nolint:errcheck
+	f.WriteString(`{"q":"select 1"}` + "\n")
+	f.Sync()
 
 	options := &qube.Options{
 		DataOptions: qube.DataOptions{
@@ -72,8 +72,8 @@ func Test_Data_Random(t *testing.T) {
 
 	f, _ := os.CreateTemp("", "")
 	defer os.Remove(f.Name())
-	f.WriteString(`{"q":"select 1"}` + "\n") //nolint:errcheck
-	f.Sync()                                 //nolint:errcheck
+	f.WriteString(`{"q":"select 1"}` + "\n")
+	f.Sync()
 
 	options := &qube.Options{
 		DataOptions: qube.DataOptions{
@@ -102,8 +102,8 @@ func Test_Data_WithCommitRate(t *testing.T) {
 
 	f, _ := os.CreateTemp("", "")
 	defer os.Remove(f.Name())
-	f.WriteString(`{"q":"select 1"}` + "\n") //nolint:errcheck
-	f.Sync()                                 //nolint:errcheck
+	f.WriteString(`{"q":"select 1"}` + "\n")
+	f.Sync()
 
 	options := &qube.Options{
 		DataOptions: qube.DataOptions{
@@ -142,8 +142,8 @@ func Test_Data_WithoutKey(t *testing.T) {
 
 	f, _ := os.CreateTemp("", "")
 	defer os.Remove(f.Name())
-	f.WriteString(`{"_q_":"select 1"}` + "\n") //nolint:errcheck
-	f.Sync()                                   //nolint:errcheck
+	f.WriteString(`{"_q_":"select 1"}` + "\n")
+	f.Sync()
 
 	options := &qube.Options{
 		DataOptions: qube.DataOptions{
@@ -166,18 +166,18 @@ func Test_MultiData(t *testing.T) {
 
 	f1, _ := os.CreateTemp("", "")
 	defer os.Remove(f1.Name())
-	f1.WriteString(`{"q":"select 1"}` + "\n") //nolint:errcheck
-	f1.Sync()                                 //nolint:errcheck
+	f1.WriteString(`{"q":"select 1"}` + "\n")
+	f1.Sync()
 
 	f2, _ := os.CreateTemp("", "")
 	defer os.Remove(f2.Name())
-	f2.WriteString(`{"q":"select 2"}` + "\n") //nolint:errcheck
-	f2.Sync()                                 //nolint:errcheck
+	f2.WriteString(`{"q":"select 2"}` + "\n")
+	f2.Sync()
 
 	f3, _ := os.CreateTemp("", "")
 	defer os.Remove(f3.Name())
-	f3.WriteString(`{"q":"select 3"}` + "\n") //nolint:errcheck
-	f3.Sync()                                 //nolint:errcheck
+	f3.WriteString(`{"q":"select 3"}` + "\n")
+	f3.Sync()
 
 	options := &qube.Options{
 		DataOptions: qube.DataOptions{
@@ -205,8 +205,8 @@ func Test_Data_WithEmptyLine(t *testing.T) {
 
 	f, _ := os.CreateTemp("", "")
 	defer os.Remove(f.Name())
-	f.WriteString(`{"q":"select 1"}` + "\n\n\n" + `{"q":"select 2"}` + "\n") //nolint:errcheck
-	f.Sync()                                                                 //nolint:errcheck
+	f.WriteString(`{"q":"select 1"}` + "\n\n\n" + `{"q":"select 2"}` + "\n")
+	f.Sync()
 
 	options := &qube.Options{
 		DataOptions: qube.DataOptions{
@@ -237,8 +237,8 @@ func Test_Data_WithCommentOut(t *testing.T) {
 
 	f, _ := os.CreateTemp("", "")
 	defer os.Remove(f.Name())
-	f.WriteString(`{"q":"select 1"}` + "\n" + `//{"q":"select 2"}` + "\n" + `{"q":"select 3"}` + "\n") //nolint:errcheck
-	f.Sync()                                                                                           //nolint:errcheck
+	f.WriteString(`{"q":"select 1"}` + "\n" + `//{"q":"select 2"}` + "\n" + `{"q":"select 3"}` + "\n")
+	f.Sync()
 
 	options := &qube.Options{
 		DataOptions: qube.DataOptions{

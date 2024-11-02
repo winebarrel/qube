@@ -2,6 +2,7 @@ package qube_test
 
 import (
 	"bytes"
+	"database/sql"
 	"os"
 	"testing"
 	"time"
@@ -79,8 +80,8 @@ func TestAcc_Task(t *testing.T) {
 	for _, t := range tt {
 		f, _ := os.CreateTemp("", "")
 		defer os.Remove(f.Name())
-		f.WriteString(`{"` + t.Key + `":"select 1"}` + "\n") //nolint:errcheck
-		f.Sync()                                             //nolint:errcheck
+		f.WriteString(`{"` + t.Key + `":"select 1"}` + "\n")
+		f.Sync()
 
 		task := &qube.Task{
 			Options: &qube.Options{
@@ -143,8 +144,8 @@ func TestAcc_Task_CommitRate(t *testing.T) {
 
 	f, _ := os.CreateTemp("", "")
 	defer os.Remove(f.Name())
-	f.WriteString(`{"q":"select 1"}` + "\n") //nolint:errcheck
-	f.Sync()                                 //nolint:errcheck
+	f.WriteString(`{"q":"select 1"}` + "\n")
+	f.Sync()
 
 	var buf bytes.Buffer
 
@@ -193,8 +194,8 @@ func TestAcc_Task_Force(t *testing.T) {
 
 	f, _ := os.CreateTemp("", "")
 	defer os.Remove(f.Name())
-	f.WriteString(`{"q":"invalid"}` + "\n") //nolint:errcheck
-	f.Sync()                                //nolint:errcheck
+	f.WriteString(`{"q":"invalid"}` + "\n")
+	f.Sync()
 
 	task := &qube.Task{
 		Options: &qube.Options{
@@ -257,13 +258,13 @@ func TestAcc_Task_MultiData(t *testing.T) {
 
 	f1, _ := os.CreateTemp("", "")
 	defer os.Remove(f1.Name())
-	f1.WriteString(`{"q":"select 1"}` + "\n") //nolint:errcheck
-	f1.Sync()                                 //nolint:errcheck
+	f1.WriteString(`{"q":"select 1"}` + "\n")
+	f1.Sync()
 
 	f2, _ := os.CreateTemp("", "")
 	defer os.Remove(f2.Name())
-	f2.WriteString(`{"q":"select 2"}` + "\n") //nolint:errcheck
-	f2.Sync()                                 //nolint:errcheck
+	f2.WriteString(`{"q":"select 2"}` + "\n")
+	f2.Sync()
 
 	task := &qube.Task{
 		Options: &qube.Options{
@@ -313,4 +314,136 @@ func TestAcc_Task_MultiData(t *testing.T) {
 		assert.Equal(0, report.ErrorQueryCount)
 		assert.NotEqual(0, report.AvgQPS)
 	}
+}
+
+func TestAcc_Task_MySQLSession(t *testing.T) {
+	if !testAcc {
+		t.Skip()
+	}
+
+	assert := assert.New(t)
+	require := require.New(t)
+
+	db, err := sql.Open("mysql", testDSN_MySQL)
+	require.NoError(err)
+	_, err = db.Exec("create table qube_sess_test (data text not null)")
+	require.NoError(err)
+
+	t.Cleanup(func() {
+		_, err := db.Exec("drop table qube_sess_test")
+		require.NoError(err)
+		db.Close()
+	})
+
+	f, _ := os.CreateTemp("", "")
+	defer os.Remove(f.Name())
+	f.WriteString(`
+{"q":"set @sess_data = 'ABC'"}
+{"q":"insert into qube_sess_test values (@sess_data)"}
+`)
+	f.Sync()
+
+	task := &qube.Task{
+		Options: &qube.Options{
+			AgentOptions: qube.AgentOptions{
+				Force: false,
+			},
+			DataOptions: qube.DataOptions{
+				DataFiles:  []string{f.Name()},
+				Key:        "q",
+				Loop:       true,
+				Random:     false,
+				CommitRate: 0,
+			},
+			DBConfig: qube.DBConfig{
+				DSN:    testDSN_MySQL,
+				Driver: qube.DBDriverMySQL,
+				Noop:   false,
+			},
+			Nagents:  10,
+			Rate:     0,
+			Time:     3 * time.Second,
+			Progress: false,
+		},
+		ID: testUUID,
+	}
+
+	report, err := task.Run()
+
+	require.NoError(err)
+	assert.Equal(testUUID, report.ID)
+	assert.NotEqual(0, report.QueryCount)
+	assert.Equal(0, report.ErrorQueryCount)
+	assert.NotEqual(0, report.AvgQPS)
+
+	var sessData string
+	err = db.QueryRow("select data from qube_sess_test limit 1").Scan(&sessData)
+	require.NoError(err)
+	assert.Equal("ABC", sessData)
+}
+
+func TestAcc_Task_PostgreSQLSession(t *testing.T) {
+	if !testAcc {
+		t.Skip()
+	}
+
+	assert := assert.New(t)
+	require := require.New(t)
+
+	db, err := sql.Open("pgx", testDSN_PostgreSQL)
+	require.NoError(err)
+	_, err = db.Exec("create table qube_sess_test (data text not null)")
+	require.NoError(err)
+
+	t.Cleanup(func() {
+		_, err := db.Exec("drop table qube_sess_test")
+		require.NoError(err)
+		db.Close()
+	})
+
+	f, _ := os.CreateTemp("", "")
+	defer os.Remove(f.Name())
+	f.WriteString(`
+{"q":"select set_config('my.sess_data', 'ABC', false)"}
+{"q":"insert into qube_sess_test values (current_setting('my.sess_data'))"}
+`)
+	f.Sync()
+
+	task := &qube.Task{
+		Options: &qube.Options{
+			AgentOptions: qube.AgentOptions{
+				Force: false,
+			},
+			DataOptions: qube.DataOptions{
+				DataFiles:  []string{f.Name()},
+				Key:        "q",
+				Loop:       true,
+				Random:     false,
+				CommitRate: 0,
+			},
+			DBConfig: qube.DBConfig{
+				DSN:    testDSN_PostgreSQL,
+				Driver: qube.DBDriverPostgreSQL,
+				Noop:   false,
+			},
+			Nagents:  10,
+			Rate:     0,
+			Time:     3 * time.Second,
+			Progress: false,
+		},
+		ID: testUUID,
+	}
+
+	report, err := task.Run()
+
+	require.NoError(err)
+	assert.Equal(testUUID, report.ID)
+	assert.NotEqual(0, report.QueryCount)
+	assert.Equal(0, report.ErrorQueryCount)
+	assert.NotEqual(0, report.AvgQPS)
+
+	var sessData string
+	err = db.QueryRow("select data from qube_sess_test limit 1").Scan(&sessData)
+	require.NoError(err)
+	assert.Equal("ABC", sessData)
 }

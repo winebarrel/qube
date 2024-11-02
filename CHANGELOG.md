@@ -1,10 +1,11 @@
 # Changelog
 
-## [Unreleased]
+## [1.3.0] - 2024-11-02
 
 ### Added
 
 * Allow empty lines.
+* Supports comment out.
 
 ### Changed
 

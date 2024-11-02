@@ -230,3 +230,35 @@ func Test_Data_WithEmptyLine(t *testing.T) {
 	_, err = data.Next()
 	assert.ErrorIs(err, qube.EOD)
 }
+
+func Test_Data_WithCommentOut(t *testing.T) {
+	assert := assert.New(t)
+	require := require.New(t)
+
+	f, _ := os.CreateTemp("", "")
+	defer os.Remove(f.Name())
+	f.WriteString(`{"q":"select 1"}` + "\n" + `//{"q":"select 2"}` + "\n" + `{"q":"select 3"}` + "\n") //nolint:errcheck
+	f.Sync()                                                                                           //nolint:errcheck
+
+	options := &qube.Options{
+		DataOptions: qube.DataOptions{
+			DataFiles: []string{f.Name()},
+			Key:       "q",
+		},
+	}
+
+	data, err := qube.NewData(options, 0)
+	require.NoError(err)
+	defer data.Close()
+
+	q, err := data.Next()
+	require.NoError(err)
+	assert.Equal("select 1", q)
+
+	q, err = data.Next()
+	require.NoError(err)
+	assert.Equal("select 3", q)
+
+	_, err = data.Next()
+	assert.ErrorIs(err, qube.EOD)
+}

@@ -22,7 +22,7 @@ Flags:
   -h, --help                Show help.
       --[no-]force          Do not abort test on error. (default: disabled)
   -f, --data-files=DATA-FILES,...
-                            NDJSON file list of queries to execute.
+                            JSON Lines file list of queries to execute.
       --key="q"             Key name of the query field in the test data. e.g.
                             {"q":"SELECT ..."}
       --[no-]loop           Return to the beginning after reading the test data.
@@ -158,8 +158,7 @@ docker compose up -d
 make testacc
 ```
 
-## Tools to convert logs to NDJSON
-
+## Tools to convert logs to JSON Lines
 * MySQL
     * https://github.com/winebarrel/genlog
 * PostgreSQL

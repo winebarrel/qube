@@ -87,34 +87,40 @@ func (data *Data) Next() (string, error) {
 		return "commit", nil
 	}
 
-	line, err := util.ReadLine(data.reader)
+	for {
+		line, err := util.ReadLine(data.reader)
 
-	if err == io.EOF {
-		if !data.Loop {
-			return "", EOD
+		if err == io.EOF {
+			if !data.Loop {
+				return "", EOD
+			}
+
+			_, err = data.file.Seek(0, io.SeekStart)
+
+			if err != nil {
+				return "", fmt.Errorf("failed to rewind test data (%w)", err)
+			}
+
+			data.reader.Reset(data.file)
+			continue
 		}
-
-		_, err = data.file.Seek(0, io.SeekStart)
 
 		if err != nil {
-			return "", fmt.Errorf("failed to rewind test data (%w)", err)
+			return "", fmt.Errorf("failed to read test data (%w)", err)
 		}
 
-		data.reader.Reset(data.file)
-		line, err = util.ReadLine(data.reader)
+		if len(line) == 0 {
+			continue
+		}
+
+		query := fastjson.GetString(line, data.Key)
+
+		if query == "" {
+			return "", fmt.Errorf(`failed to get query field "%s" from '%s'`, data.Key, line)
+		}
+
+		return query, nil
 	}
-
-	if err != nil {
-		return "", fmt.Errorf("failed to read test data (%w)", err)
-	}
-
-	query := fastjson.GetString(line, data.Key)
-
-	if query == "" {
-		return "", fmt.Errorf(`failed to get query field "%s" from '%s'`, data.Key, line)
-	}
-
-	return query, nil
 }
 
 func (data *Data) Close() error {

@@ -32,9 +32,9 @@ Flags:
       --commit-rate=UINT    Number of queries to execute "COMMIT".
   -d, --dsn=STRING          DSN to connect to.
                               - MySQL:
-                                https://github.com/go-sql-driver/mysql#examples
+                                https://pkg.go.dev/github.com/go-sql-driver/mysql#readme-dsn-data-source-name
                               - PostgreSQL:
-                                https://github.com/jackc/pgx/blob/df5d00e/stdlib/sql.go
+                                https://pkg.go.dev/github.com/jackc/pgx/v5/stdlib#pkg-overview
       --[no-]noop           No-op mode. No actual query execution. (default:
                             disabled)
   -n, --nagents=1           Number of agents.

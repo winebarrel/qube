@@ -11,7 +11,7 @@ require (
 	github.com/jamiealquiza/tachymeter v2.0.0+incompatible
 	github.com/mattn/go-isatty v0.0.20
 	github.com/neilotoole/jsoncolor v0.7.1
-	github.com/stretchr/testify v1.9.0
+	github.com/stretchr/testify v1.10.0
 	github.com/valyala/fastjson v1.6.4
 	golang.org/x/sync v0.9.0
 	golang.org/x/term v0.26.0

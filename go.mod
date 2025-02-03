@@ -3,7 +3,7 @@ module github.com/winebarrel/qube
 go 1.23
 
 require (
-	github.com/alecthomas/kong v1.6.1
+	github.com/alecthomas/kong v1.7.0
 	github.com/creack/pty v1.1.24
 	github.com/go-sql-driver/mysql v1.8.1
 	github.com/google/uuid v1.6.0

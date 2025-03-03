@@ -44,15 +44,22 @@ func (config *DBConfig) OpenDBWithPing(autoCommit bool) (DBIface, error) {
 		connector, err = config.getMySQLConnector()
 	case DBDriverPostgreSQL:
 		connector, err = config.getPostgreSQLConnector()
-	default:
-		err = fmt.Errorf("unimplemented driver - %s", config.Driver)
+	}
+
+	var db *sql.DB
+
+	if err == nil {
+		if connector != nil {
+			db = sql.OpenDB(connector)
+		} else {
+			db, err = sql.Open(string(config.Driver), config.DSN)
+		}
 	}
 
 	if err != nil {
 		return nil, fmt.Errorf("failed to open DB (%w)", err)
 	}
 
-	db := sql.OpenDB(connector)
 	db.SetConnMaxLifetime(0)
 	db.SetConnMaxIdleTime(0)
 	db.SetMaxIdleConns(1)

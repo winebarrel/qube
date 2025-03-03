@@ -1,5 +1,13 @@
 # Changelog
 
+# Changelog
+
+## [1.4.0] - 2025-03-03
+
+### Added
+
+* Support IAM auth.
+
 ## [1.3.3] - 2024-11-02
 
 ### Added

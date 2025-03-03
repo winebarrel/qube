@@ -2,6 +2,7 @@ linters:
   enable:
     - misspell
     - gosimple
+    - govet
 run:
   timeout: 5m
 issues:

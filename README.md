@@ -37,6 +37,7 @@ Flags:
                                 https://pkg.go.dev/github.com/jackc/pgx/v5/stdlib#pkg-overview
       --[no-]noop           No-op mode. No actual query execution. (default:
                             disabled)
+      --[no-]iam-auth       Use IAM authentication.
   -n, --nagents=1           Number of agents.
   -r, --rate=FLOAT-64       Rate limit (qps). "0" means unlimited.
   -t, --time=DURATION       Maximum execution time of the test. "0" means

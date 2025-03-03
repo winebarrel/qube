@@ -72,6 +72,7 @@ $ qube -d 'root@tcp(127.0.0.1:13306)/' -f data.jsonl -n 5 -t 10s
     "DSN": "root@tcp(127.0.0.1:13306)/",
     "Driver": "mysql",
     "Noop": false,
+    "IAMAuth": false,
     "Nagents": 5,
     "Rate": 0,
     "Time": "10s"

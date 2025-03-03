@@ -88,6 +88,7 @@ func Test_Recorder(t *testing.T) {
     "DSN": "root@tcp(127.0.0.1:13306)/mysql",
     "Driver": "mysql",
     "Noop": false,
+    "IAMAuth": false,
     "Nagents": 1,
     "Rate": 0,
     "Time": "0s"

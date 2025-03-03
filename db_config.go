@@ -27,7 +27,7 @@ type DBConfig struct {
 	DSN       string    `kong:"short='d',required,help='DSN to connect to. \n - MySQL: https://pkg.go.dev/github.com/go-sql-driver/mysql#readme-dsn-data-source-name \n - PostgreSQL: https://pkg.go.dev/github.com/jackc/pgx/v5/stdlib#pkg-overview'"`
 	Driver    DBDriver  `kong:"-"`
 	Noop      bool      `kong:"negatable,default='false',help='No-op mode. No actual query execution. (default: disabled)'"`
-	IAMAuth   bool      `kong:"negatable,default='false',help='Use IAM authentication.'"`
+	IAMAuth   bool      `kong:"negatable,default='false',help='Use RDS IAM authentication.'"`
 	NullDBOut io.Writer `json:"-" kong:"-"`
 }
 

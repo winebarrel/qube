@@ -6,7 +6,7 @@
 
 ### Added
 
-* Support IAM auth.
+* Support RDS IAM auth.
 
 ## [1.3.3] - 2024-11-02
 

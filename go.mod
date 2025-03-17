@@ -3,7 +3,7 @@ module github.com/winebarrel/qube
 go 1.24.0
 
 require (
-	github.com/alecthomas/kong v1.8.1
+	github.com/alecthomas/kong v1.9.0
 	github.com/aws/aws-sdk-go-v2/config v1.29.9
 	github.com/aws/aws-sdk-go-v2/feature/rds/auth v1.5.11
 	github.com/creack/pty v1.1.24

@@ -9,10 +9,8 @@ import (
 	"strings"
 
 	"github.com/go-sql-driver/mysql"
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/stdlib"
-	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/winebarrel/qube/rds"
 )
 
@@ -143,14 +141,14 @@ func (cfg *DBConfig) getPostgreSQLConnector() (driver.Connector, error) {
 	}
 
 	if cfg.IAMAuth {
-		host, err := rds.ResolveCNAME(pgcfg.Config.Host)
+		host, err := rds.ResolveCNAME(pgcfg.Host)
 
 		if err != nil {
 			return nil, err
 		}
 
-		endpoint := fmt.Sprintf("%s:%d", host, pgcfg.Config.Port)
-		user := pgcfg.Config.User
+		endpoint := fmt.Sprintf("%s:%d", host, pgcfg.Port)
+		user := pgcfg.User
 
 		opts = append(opts, stdlib.OptionBeforeConnect(func(ctx context.Context, cc *pgx.ConnConfig) error {
 			token, err := rds.BuildIAMAuthToken(ctx, endpoint, user)

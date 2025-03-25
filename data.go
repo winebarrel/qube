@@ -14,7 +14,7 @@ import (
 
 var (
 	// End of data
-	EOD = errors.New("EOD")
+	ErrEOD = errors.New("EOD")
 )
 
 type DataOptions struct {
@@ -106,7 +106,7 @@ func (data *Data) Next() (string, error) {
 
 		if err == io.EOF {
 			if !data.Loop {
-				return "", EOD
+				return "", ErrEOD
 			}
 
 			_, err = data.file.Seek(0, io.SeekStart)

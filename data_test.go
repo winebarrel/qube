@@ -34,7 +34,7 @@ func Test_Data(t *testing.T) {
 	require.NoError(err)
 	assert.Equal("select 1", q)
 	_, err = data.Next()
-	assert.ErrorIs(err, qube.EOD)
+	assert.ErrorIs(err, qube.ErrEOD)
 }
 
 func Test_Data_Loop(t *testing.T) {
@@ -195,7 +195,7 @@ func Test_MultiData(t *testing.T) {
 		require.NoError(err)
 		assert.Equal(fmt.Sprintf("select %d", i%3+1), q)
 		_, err = data.Next()
-		assert.ErrorIs(err, qube.EOD)
+		assert.ErrorIs(err, qube.ErrEOD)
 	}
 }
 
@@ -228,7 +228,7 @@ func Test_Data_WithEmptyLine(t *testing.T) {
 	assert.Equal("select 2", q)
 
 	_, err = data.Next()
-	assert.ErrorIs(err, qube.EOD)
+	assert.ErrorIs(err, qube.ErrEOD)
 }
 
 func Test_Data_WithCommentOut(t *testing.T) {
@@ -260,7 +260,7 @@ func Test_Data_WithCommentOut(t *testing.T) {
 	assert.Equal("select 3", q)
 
 	_, err = data.Next()
-	assert.ErrorIs(err, qube.EOD)
+	assert.ErrorIs(err, qube.ErrEOD)
 }
 
 func Test_Data_Empty(t *testing.T) {

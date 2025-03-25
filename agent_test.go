@@ -107,7 +107,7 @@ func Test_Agent_MultiData(t *testing.T) {
 
 	for i := range 4 {
 		var buf bytes.Buffer
-		options.DBConfig.NullDBOut = &buf
+		options.NullDBOut = &buf
 		agent, err := qube.NewAgent(testUUID, uint64(i), options, rec, limiter)
 		require.NoError(err)
 

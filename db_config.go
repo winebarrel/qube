@@ -11,18 +11,40 @@ import (
 	"github.com/go-sql-driver/mysql"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/stdlib"
+	"github.com/winebarrel/esub"
 	"github.com/winebarrel/qube/rds"
 )
 
 type DBDriver string
+
+func (driver DBDriver) String() string {
+	return string(driver)
+}
 
 const (
 	DBDriverMySQL      DBDriver = "mysql"
 	DBDriverPostgreSQL DBDriver = "pgx"
 )
 
+type DSN string
+
+func (dsn DSN) String() string {
+	return string(dsn)
+}
+
+func (dsn DSN) Fill() string {
+	dsnStr := string(dsn)
+	out, err := esub.Fill(dsnStr)
+
+	if err != nil {
+		return dsnStr
+	} else {
+		return out
+	}
+}
+
 type DBConfig struct {
-	DSN       string    `kong:"short='d',required,help='DSN to connect to. \n - MySQL: https://pkg.go.dev/github.com/go-sql-driver/mysql#readme-dsn-data-source-name \n - PostgreSQL: https://pkg.go.dev/github.com/jackc/pgx/v5/stdlib#pkg-overview'"`
+	DSN       DSN       `kong:"short='d',required,help='DSN to connect to. (${...} is replaced by environment variables)\n - MySQL: https://pkg.go.dev/github.com/go-sql-driver/mysql#readme-dsn-data-source-name \n - PostgreSQL: https://pkg.go.dev/github.com/jackc/pgx/v5/stdlib#pkg-overview'"`
 	Driver    DBDriver  `kong:"-"`
 	Noop      bool      `kong:"negatable,default='false',help='No-op mode. No actual query execution. (default: disabled)'"`
 	IAMAuth   bool      `kong:"negatable,default='false',help='Use RDS IAM authentication.'"`
@@ -50,7 +72,7 @@ func (config *DBConfig) OpenDBWithPing(autoCommit bool) (DBIface, error) {
 		if connector != nil {
 			db = sql.OpenDB(connector)
 		} else {
-			db, err = sql.Open(string(config.Driver), config.DSN)
+			db, err = sql.Open(config.Driver.String(), config.DSN.Fill())
 		}
 	}
 
@@ -87,7 +109,7 @@ func (config *DBConfig) OpenDBWithPing(autoCommit bool) (DBIface, error) {
 }
 
 func (cfg *DBConfig) getMySQLConnector() (driver.Connector, error) {
-	mycfg, err := mysql.ParseDSN(cfg.DSN)
+	mycfg, err := mysql.ParseDSN(cfg.DSN.Fill())
 
 	if err != nil {
 		return nil, err
@@ -134,7 +156,7 @@ func (cfg *DBConfig) getMySQLConnector() (driver.Connector, error) {
 
 func (cfg *DBConfig) getPostgreSQLConnector() (driver.Connector, error) {
 	opts := []stdlib.OptionOpenDB{}
-	pgcfg, err := pgx.ParseConfig(cfg.DSN)
+	pgcfg, err := pgx.ParseConfig(cfg.DSN.Fill())
 
 	if err != nil {
 		return nil, err

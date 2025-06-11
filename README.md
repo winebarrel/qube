@@ -16,34 +16,26 @@ brew install winebarrel/qube/qube
 ## Usage
 
 ```
-Usage: qube --data-files=DATA-FILES,... --dsn=STRING [flags]
+Usage: qube --data-files=DATA-FILES,... --dsn=DSN [flags]
 
 Flags:
-  -h, --help                Show help.
-      --[no-]force          Do not abort test on error. (default: disabled)
-  -f, --data-files=DATA-FILES,...
-                            JSON Lines file list of queries to execute.
-      --key="q"             Key name of the query field in the test data. e.g.
-                            {"q":"SELECT ..."}
-      --[no-]loop           Return to the beginning after reading the test data.
-                            (default: enabled)
-      --[no-]random         Randomize the starting position of the test data.
-                            (default: disabled)
-      --commit-rate=UINT    Number of queries to execute "COMMIT".
-  -d, --dsn=STRING          DSN to connect to.
-                              - MySQL:
-                                https://pkg.go.dev/github.com/go-sql-driver/mysql#readme-dsn-data-source-name
-                              - PostgreSQL:
-                                https://pkg.go.dev/github.com/jackc/pgx/v5/stdlib#pkg-overview
-      --[no-]noop           No-op mode. No actual query execution. (default:
-                            disabled)
-      --[no-]iam-auth       Use RDS IAM authentication.
-  -n, --nagents=1           Number of agents.
-  -r, --rate=FLOAT-64       Rate limit (qps). "0" means unlimited.
-  -t, --time=DURATION       Maximum execution time of the test. "0" means
-                            unlimited.
-      --[no-]progress       Show progress report.
-  -C, --[no-]color          Color report JSON.
+  -h, --help                         Show help.
+      --[no-]force                   Do not abort test on error. (default: disabled)
+  -f, --data-files=DATA-FILES,...    JSON Lines file list of queries to execute.
+      --key="q"                      Key name of the query field in the test data. e.g. {"q":"SELECT ..."}
+      --[no-]loop                    Return to the beginning after reading the test data. (default: enabled)
+      --[no-]random                  Randomize the starting position of the test data. (default: disabled)
+      --commit-rate=UINT             Number of queries to execute "COMMIT".
+  -d, --dsn=DSN                      DSN to connect to. (${...} is replaced by environment variables)
+                                       - MySQL: https://pkg.go.dev/github.com/go-sql-driver/mysql#readme-dsn-data-source-name
+                                       - PostgreSQL: https://pkg.go.dev/github.com/jackc/pgx/v5/stdlib#pkg-overview
+      --[no-]noop                    No-op mode. No actual query execution. (default: disabled)
+      --[no-]iam-auth                Use RDS IAM authentication.
+  -n, --nagents=1                    Number of agents.
+  -r, --rate=FLOAT-64                Rate limit (qps). "0" means unlimited.
+  -t, --time=DURATION                Maximum execution time of the test. "0" means unlimited.
+      --[no-]progress                Show progress report.
+  -C, --[no-]color                   Color report JSON.
       --version
 ```
 
@@ -153,6 +145,13 @@ Lines starting with `//` are ignored as comments.
 {"q":"select 3"}
 ```
 
+### Use Environment Variables in DSN
+
+```
+$ export PASSWORD=mypass
+$ qube -d 'root:${PASSWORD}@tcp(127.0.0.1:13306)/' -f data.jsonl -n 5 -t 10s
+```
+
 ## Test
 
 ```sh
@@ -161,7 +160,8 @@ make testacc
 ```
 
 ## Tools to convert logs to JSON Lines
-* MySQL
-    * https://github.com/winebarrel/genlog
-* PostgreSQL
-    * https://github.com/winebarrel/poslog
+
+- MySQL
+  - https://github.com/winebarrel/genlog
+- PostgreSQL
+  - https://github.com/winebarrel/poslog

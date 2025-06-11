@@ -1,6 +1,6 @@
 module github.com/winebarrel/qube
 
-go 1.24.0
+go 1.24.3
 
 require (
 	github.com/alecthomas/kong v1.11.0
@@ -42,6 +42,7 @@ require (
 	github.com/kr/text v0.2.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rogpeppe/go-internal v1.11.0 // indirect
+	github.com/winebarrel/esub v0.1.0 // indirect
 	golang.org/x/crypto v0.37.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
 	golang.org/x/text v0.24.0 // indirect

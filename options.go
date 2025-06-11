@@ -34,9 +34,9 @@ func (options *Options) AfterApply() error {
 	options.NullDBOut = os.Stderr
 	options.Progress = isatty.IsTerminal(os.Stderr.Fd())
 
-	if _, err := mysql.ParseDSN(options.DSN); err == nil {
+	if _, err := mysql.ParseDSN(options.DSN.Fill()); err == nil {
 		options.Driver = DBDriverMySQL
-	} else if _, err := pgx.ParseConfig(options.DSN); err == nil {
+	} else if _, err := pgx.ParseConfig(options.DSN.Fill()); err == nil {
 		options.Driver = DBDriverPostgreSQL
 	} else {
 		return fmt.Errorf("cannot parse DSN - %s", options.DSN)

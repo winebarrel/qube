@@ -41,7 +41,7 @@ func TestAcc_DBConfig(t *testing.T) {
 
 	for _, d := range ds {
 		config := &qube.DBConfig{
-			DSN:    d.DSN,
+			DSN:    qube.DSN(d.DSN),
 			Driver: d.Driver,
 			Noop:   false,
 		}
@@ -80,4 +80,26 @@ func Test_DBConfig_Noop(t *testing.T) {
 	require.NoError(err)
 
 	assert.Equal("select 1\nselect 2\n", buf.String())
+}
+
+func Test_DBDriver(t *testing.T) {
+	assert := assert.New(t)
+	assert.Equal("mysql", qube.DBDriverMySQL.String())
+	assert.Equal("pgx", qube.DBDriverPostgreSQL.String())
+}
+
+func Test_DSN_OK(t *testing.T) {
+	assert := assert.New(t)
+	t.Setenv("PASSWORD", "secret")
+	t.Setenv("DBNAME", "pgx_test")
+	dsn := qube.DSN("postgres://pgx_md5:${PASSWORD}@localhost:5432/${DBNAME}?sslmode=disable")
+	assert.Equal("postgres://pgx_md5:${PASSWORD}@localhost:5432/${DBNAME}?sslmode=disable", dsn.String())
+	assert.Equal("postgres://pgx_md5:secret@localhost:5432/pgx_test?sslmode=disable", dsn.Fill())
+}
+
+func Test_DSN_Err(t *testing.T) {
+	assert := assert.New(t)
+	dsn := qube.DSN("postgres://pgx_md5:${PASSWORD@localhost:5432/${DBNAME?sslmode=disable")
+	assert.Equal("postgres://pgx_md5:${PASSWORD@localhost:5432/${DBNAME?sslmode=disable", dsn.String())
+	assert.Equal("postgres://pgx_md5:${PASSWORD@localhost:5432/${DBNAME?sslmode=disable", dsn.Fill())
 }

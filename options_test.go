@@ -64,7 +64,7 @@ func Test_Options_AfterApply(t *testing.T) {
 		options := qube.Options{
 			Time: 3 * time.Second,
 			DBConfig: qube.DBConfig{
-				DSN: d.DSN,
+				DSN: qube.DSN(d.DSN),
 			},
 		}
 

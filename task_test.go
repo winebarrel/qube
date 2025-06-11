@@ -17,6 +17,9 @@ func TestAcc_Task(t *testing.T) {
 		t.Skip()
 	}
 
+	t.Setenv("MYSQL_PARAM", "tls=skip-verify")
+	t.Setenv("POSTGRES_PARAM", "sslmode=disable")
+
 	assert := assert.New(t)
 	require := require.New(t)
 
@@ -118,10 +121,18 @@ func TestAcc_Task(t *testing.T) {
 				DSN:    testDSN_PostgreSQL,
 				Driver: qube.DBDriverPostgreSQL,
 			},
+			{
+				DSN:    testDSN_MySQL + "?${MYSQL_PARAM}",
+				Driver: qube.DBDriverMySQL,
+			},
+			{
+				DSN:    testDSN_PostgreSQL + "?${POSTGRES_PARAM}",
+				Driver: qube.DBDriverPostgreSQL,
+			},
 		}
 
 		for _, d := range ds {
-			task.DSN = d.DSN
+			task.DSN = qube.DSN(d.DSN)
 			task.Driver = d.Driver
 			report, err := task.Run()
 
@@ -235,7 +246,7 @@ func TestAcc_Task_Force(t *testing.T) {
 	}
 
 	for _, d := range ds {
-		task.DSN = d.DSN
+		task.DSN = qube.DSN(d.DSN)
 		task.Driver = d.Driver
 		report, err := task.Run()
 
@@ -304,7 +315,7 @@ func TestAcc_Task_MultiData(t *testing.T) {
 	}
 
 	for _, d := range ds {
-		task.DSN = d.DSN
+		task.DSN = qube.DSN(d.DSN)
 		task.Driver = d.Driver
 		report, err := task.Run()
 

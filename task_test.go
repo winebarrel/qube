@@ -141,6 +141,7 @@ func TestAcc_Task(t *testing.T) {
 			assert.NotEqual(0, report.QueryCount)
 			assert.Equal(0, report.ErrorQueryCount)
 			assert.NotEqual(0, report.AvgQPS)
+			assert.Contains(report.JSON(), task.DSN.String())
 		}
 	}
 }

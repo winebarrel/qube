@@ -150,6 +150,11 @@ Lines starting with `//` are ignored as comments.
 ```
 $ export PASSWORD=mypass
 $ qube -d 'root:${PASSWORD}@tcp(127.0.0.1:13306)/' -f data.jsonl -n 5 -t 10s
+00:05 | 5 agents / exec 95788 queries, 0 errors (23637 qps)
+...
+{
+  "Options": {
+    "DSN": "root:${PASSWORD}@tcp(127.0.0.1:13306)/",
 ```
 
 ## Test

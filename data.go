@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 
 	"github.com/valyala/fastjson"
 	"github.com/winebarrel/qube/util"
@@ -27,61 +28,83 @@ type DataOptions struct {
 
 type Data struct {
 	*DataOptions
-	file   *os.File
+	file   io.ReadSeekCloser
 	reader *bufio.Reader
 	count  uint
 	inTxn  bool
 }
 
 func NewData(options *Options, agentNum uint64) (*Data, error) {
-	dataFile := options.DataFiles[agentNum%uint64(len(options.DataFiles))]
-	file, err := os.OpenFile(dataFile, os.O_RDONLY, 0)
+	var (
+		seekReader io.ReadSeekCloser
+		fileSize   int64
+	)
 
-	if err != nil {
-		return nil, fmt.Errorf("failed to open test data - %s (%w)", dataFile, err)
-	}
+	{
+		dataFile := options.DataFiles[agentNum%uint64(len(options.DataFiles))]
+		file, err := os.OpenFile(dataFile, os.O_RDONLY, 0)
 
-	fileInfo, err := file.Stat()
+		if err != nil {
+			return nil, fmt.Errorf("failed to open test data - %s (%w)", dataFile, err)
+		}
 
-	if err != nil {
-		return nil, fmt.Errorf("failed to get test data file info - %s (%w)", dataFile, err)
-	}
-
-	if fileInfo.Size() == 0 {
-		return nil, fmt.Errorf("test data is empty - %s", dataFile)
-	}
-
-	if options.Random {
-		err = util.RandSeek(file)
+		fileInfo, err := file.Stat()
 
 		if err != nil {
 			file.Close()
+			return nil, fmt.Errorf("failed to get test data file info - %s (%w)", dataFile, err)
+		}
+
+		if fileInfo.Size() == 0 {
+			file.Close()
+			return nil, fmt.Errorf("test data is empty - %s", dataFile)
+		}
+
+		if strings.HasSuffix(file.Name(), ".zst") {
+			if zf, err := NewZstdFile(file); err != nil {
+				file.Close()
+				return nil, fmt.Errorf("failed to open zstd file - %s (%w)", dataFile, err)
+			} else {
+				seekReader = zf
+				fileSize = zf.Size()
+			}
+		} else {
+			seekReader = file
+			fileSize = fileInfo.Size()
+		}
+	}
+
+	if options.Random {
+		err := util.RandSeek(seekReader, fileSize)
+
+		if err != nil {
+			seekReader.Close()
 			return nil, fmt.Errorf("failed to seek test data (%w)", err)
 		}
 	}
 
-	reader := bufio.NewReader(file)
+	reader := bufio.NewReader(seekReader)
 
 	if options.Random {
 		// If it is random, skip one line
-		_, err = util.ReadLine(reader)
+		_, err := util.ReadLine(reader)
 
 		if err == io.EOF {
-			_, err = file.Seek(0, io.SeekStart)
+			_, err = seekReader.Seek(0, io.SeekStart)
 
 			if err != nil {
-				file.Close()
+				seekReader.Close()
 				return nil, fmt.Errorf("failed to rewind test data (%w)", err)
 			}
 		} else if err != nil {
-			file.Close()
+			seekReader.Close()
 			return nil, fmt.Errorf("failed to read test data (%w)", err)
 		}
 	}
 
 	data := &Data{
 		DataOptions: &options.DataOptions,
-		file:        file,
+		file:        seekReader,
 		reader:      reader,
 	}
 

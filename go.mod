@@ -3,6 +3,7 @@ module github.com/winebarrel/qube
 go 1.24.3
 
 require (
+	github.com/SaveTheRbtz/zstd-seekable-format-go/pkg v0.7.3
 	github.com/alecthomas/kong v1.12.0
 	github.com/aws/aws-sdk-go-v2/config v1.29.17
 	github.com/aws/aws-sdk-go-v2/feature/rds/auth v1.5.13
@@ -11,6 +12,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/jackc/pgx/v5 v5.7.5
 	github.com/jamiealquiza/tachymeter v2.0.0+incompatible
+	github.com/klauspost/compress v1.17.10
 	github.com/mattn/go-isatty v0.0.20
 	github.com/neilotoole/jsoncolor v0.7.1
 	github.com/stretchr/testify v1.10.0
@@ -35,14 +37,18 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.30.3 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.34.0 // indirect
 	github.com/aws/smithy-go v1.22.4 // indirect
+	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/fatih/color v1.17.0 // indirect
+	github.com/google/btree v1.1.3 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
 	github.com/jackc/puddle/v2 v2.2.2 // indirect
-	github.com/kr/text v0.2.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rogpeppe/go-internal v1.11.0 // indirect
+	go.uber.org/atomic v1.11.0 // indirect
+	go.uber.org/multierr v1.11.0 // indirect
+	go.uber.org/zap v1.27.0 // indirect
 	golang.org/x/crypto v0.37.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
 	golang.org/x/text v0.24.0 // indirect

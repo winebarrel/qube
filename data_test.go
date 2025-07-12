@@ -2,9 +2,12 @@ package qube_test
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"testing"
 
+	seekable "github.com/SaveTheRbtz/zstd-seekable-format-go/pkg"
+	"github.com/klauspost/compress/zstd"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"github.com/winebarrel/qube"
@@ -279,4 +282,47 @@ func Test_Data_Empty(t *testing.T) {
 
 	_, err := qube.NewData(options, 0)
 	assert.ErrorContains(err, "test data is empty")
+}
+
+func Test_Data_ZstdFile(t *testing.T) {
+	assert := assert.New(t)
+	require := require.New(t)
+
+	f, _ := os.CreateTemp("", "*.zst")
+	defer os.Remove(f.Name())
+
+	{
+		enc, _ := zstd.NewWriter(nil)
+		defer enc.Close()
+		w, _ := seekable.NewWriter(f, enc)
+		w.Write([]byte(`{"q":"select 1"}` + "\n"))
+		w.Write([]byte(`{"q":"select 2"}` + "\n"))
+		w.Write([]byte(`{"q":"select 3"}` + "\n"))
+		w.Close()
+		f.Sync()
+		f.Seek(0, io.SeekStart)
+	}
+
+	options := &qube.Options{
+		DataOptions: qube.DataOptions{
+			DataFiles: []string{f.Name()},
+			Key:       "q",
+		},
+	}
+
+	data, err := qube.NewData(options, 0)
+	require.NoError(err)
+	defer data.Close()
+
+	q, err := data.Next()
+	require.NoError(err)
+	assert.Equal("select 1", q)
+	q, err = data.Next()
+	require.NoError(err)
+	assert.Equal("select 2", q)
+	q, err = data.Next()
+	require.NoError(err)
+	assert.Equal("select 3", q)
+	_, err = data.Next()
+	assert.ErrorIs(err, qube.ErrEOD)
 }

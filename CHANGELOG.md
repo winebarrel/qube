@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.6.0] - 2025-07-13
+
+### Added
+
+* Support Seekable ZSTD compression format.
+
 ## [1.5.0] - 2025-06-11
 
 ### Added

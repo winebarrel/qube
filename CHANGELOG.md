@@ -4,7 +4,8 @@
 
 ### Added
 
-* Support Seekable ZSTD compression format.
+* Support Zstandard Seekable Format format for data file.
+    * https://github.com/facebook/zstd/blob/dev/contrib/seekable_format/zstd_seekable_compression_format.md
 
 ## [1.5.0] - 2025-06-11
 

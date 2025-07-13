@@ -157,6 +157,24 @@ $ qube -d 'root:${PASSWORD}@tcp(127.0.0.1:13306)/' -f data.jsonl -n 5 -t 10s
     "DSN": "root:${PASSWORD}@tcp(127.0.0.1:13306)/",
 ```
 
+### Use Zstandard Seekable Format for data file
+
+```
+$ go install github.com/SaveTheRbtz/zstd-seekable-format-go/cmd/zstdseek@latest
+$ zstdseek -f data.jsonl -o data.jsonl.zst
+$ ls -lh salaries.jsonl*
+-rw-r--r--@ 1 sugawara  staff   235M  7 13 09:28 salaries.jsonl
+-rw-r--r--@ 1 sugawara  staff    23M  7 13 09:36 salaries.jsonl.zst
+$ qube -d 'root@tcp(127.0.0.1:13306)/employees' -f salaries.jsonl.zst -n 5 -t 10s --random
+00:05 | 5 agents / exec 89821 queries, 0 errors (22555 qps)
+...
+{
+  "Options": {
+    "DataFiles": [
+      "salaries.jsonl.zst"
+```
+see https://github.com/SaveTheRbtz/zstd-seekable-format-go
+
 ## Test
 
 ```sh

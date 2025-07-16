@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.6.1] - 2025-07-16
+
+### Changed
+
+* Update modules
+
 ## [1.6.0] - 2025-07-13
 
 ### Added

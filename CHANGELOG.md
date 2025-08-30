@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.2] - 2025-08-30
+
+### Changed
+
+* Use `sync.RWMutex` instead of `sync.Mutex`.
+* Update `.goreleaser.yml`. Add `apk` package and use `homebrew_casks`.
+
 ## [1.6.1] - 2025-07-16
 
 ### Changed

@@ -82,14 +82,14 @@ func (rec *Recorder) Report() *Report {
 func (rec *Recorder) CountAll() int {
 	// Lock to avoid race conditions
 	rec.mu.RLock()
-	defer rec.mu.Unlock()
+	defer rec.mu.RUnlock()
 	return len(rec.dataPoints) + rec.errorQueryCount
 }
 
 func (rec *Recorder) CountSuccess() int {
 	// Lock to avoid race conditions
 	rec.mu.RLock()
-	defer rec.mu.Unlock()
+	defer rec.mu.RUnlock()
 	return len(rec.dataPoints)
 }
 
@@ -100,6 +100,6 @@ func (rec *Recorder) DataPoints() []DataPoint {
 func (rec *Recorder) ErrorQueryCount() int {
 	// Lock to avoid race conditions
 	rec.mu.RLock()
-	defer rec.mu.Unlock()
+	defer rec.mu.RUnlock()
 	return rec.errorQueryCount
 }

@@ -13,15 +13,19 @@ builds:
       - darwin
 checksum:
   name_template: "checksums.txt"
-brews:
+homebrew_casks:
   - repository:
       owner: winebarrel
       name: homebrew-qube
     homepage: https://github.com/winebarrel/qube
     description: qube is a DB load testing tool.
     license: MIT
-    install: |
-      bin.install 'qube'
+    hooks:
+      post:
+        install: |
+          if OS.mac?
+            system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/cronviz"]
+          end
 nfpms:
   - file_name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Arch }}"
     homepage: https://github.com/winebarrel/qube
@@ -29,6 +33,6 @@ nfpms:
     license: MIT
     maintainer: "Genki Sugawara <sugawara@winebarrel.jp>"
     formats:
+      - apk
       - deb
       - rpm
-    bindir: /usr/bin

@@ -182,9 +182,12 @@ docker compose up -d
 make testacc
 ```
 
-## Tools to convert logs to JSON Lines
+## Tools
 
-- MySQL
-  - https://github.com/winebarrel/genlog
-- PostgreSQL
-  - https://github.com/winebarrel/poslog
+- Convert logs to JSON Lines
+  - MySQL: https://github.com/winebarrel/genlog
+  - PostgreSQL: https://github.com/winebarrel/poslog
+- Download RDS log
+  - https://github.com/winebarrel/rdslog
+
+

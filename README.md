@@ -151,7 +151,7 @@ Lines starting with `//` are ignored as comments.
 ```
 $ export PASSWORD=mypass
 $ qube -d 'root:${PASSWORD}@tcp(127.0.0.1:13306)/' -f data.jsonl -n 5 -t 10s
-00:05 | 5 agents / exec 95788 queries, 0 errors (23637 qps)
+00:05 | cpu 47% | 5 agents / exec 95788 queries, 0 errors (23637 qps)
 ...
 {
   "Options": {
@@ -167,7 +167,7 @@ $ ls -lh salaries.jsonl*
 -rw-r--r--@ 1 sugawara  staff   235M  7 13 09:28 salaries.jsonl
 -rw-r--r--@ 1 sugawara  staff    23M  7 13 09:36 salaries.jsonl.zst
 $ qube -d 'root@tcp(127.0.0.1:13306)/employees' -f salaries.jsonl.zst -n 5 -t 10s --random
-00:05 | 5 agents / exec 89821 queries, 0 errors (22555 qps)
+00:05 | cpu 50% | 5 agents / exec 89821 queries, 0 errors (22555 qps)
 ...
 {
   "Options": {

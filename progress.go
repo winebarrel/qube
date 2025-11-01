@@ -8,6 +8,7 @@ import (
 	"sync/atomic"
 	"time"
 
+	"github.com/shirou/gopsutil/v4/cpu"
 	"github.com/winebarrel/qube/util"
 )
 
@@ -97,7 +98,14 @@ func (progress *Progress) report(rec *Recorder) {
 	}
 
 	running := rec.Nagents - progress.nDeadAgents.Load()
-	line := fmt.Sprintf("%02d:%02d | %d agents / exec %d queries, %d errors (%.0f qps)", minute, second, running, rec.CountAll(), rec.ErrorQueryCount(), qps)
+	cpuPct := " N/A"
+
+	if pct, err := cpu.Percent(0, false); err == nil {
+		cpuPct = fmt.Sprintf("%3.0f%%", pct[0])
+	}
+
+	line := fmt.Sprintf("%02d:%02d | cpu%s | %d agents / exec %d queries, %d errors (%.0f qps)",
+		minute, second, cpuPct, running, rec.CountAll(), rec.ErrorQueryCount(), qps)
 	fmt.Fprintf(progress.w, "\r%-*s", util.MustGetTermSize(progress.w.Fd()), line)
 }
 

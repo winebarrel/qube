@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.7.0] - 2025-11-01
+
+### Added
+
+* Show client CPU usage in progress.
+
 ## [1.6.2] - 2025-08-30
 
 ### Changed

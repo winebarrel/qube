@@ -16,14 +16,20 @@ Type "jq -c . data.jsonl" Sleep 500ms Enter
 
 Sleep 2s
 
-Type "qube -d 'root@tcp(127.0.0.1:13306)/' -t 3s -n 3 -r 100 -f data.jsonl --noop -C | head -n 25" Sleep 500ms Enter
+Type "qube -d 'root@tcp(127.0.0.1:13306)/' \" Enter
+Type "  -t 3s -n 3 -r 100 -f data.jsonl --noop --color \" Enter
+Type "  | head -n 25" Sleep 500ms Enter
 
 Sleep 5s
 
-Type "qube -d 'root@tcp(127.0.0.1:13306)/' -t 10s -n 3 -r 100 -f data.jsonl -C | head -n 25" Sleep 500ms Enter
+Type "qube -d 'root@tcp(127.0.0.1:13306)/' \" Enter
+Type "  -t 10s -n 3 -r 100 -f data.jsonl --color \" Enter
+Type "  | head -n 25" Sleep 500ms Enter
 
 Sleep 12s
 
-Type "qube -d 'root@tcp(127.0.0.1:13306)/' -t 10s -n 10 -r 1000 -f data.jsonl -C | head -n 25" Sleep 500ms Enter
+Type "qube -d 'root@tcp(127.0.0.1:13306)/' \" Enter
+Type "  -t 10s -n 10 -r 1000 -f data.jsonl --color \" Enter
+Type "  | head -n 25" Sleep 500ms Enter
 
 Sleep 12s

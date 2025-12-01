@@ -3,6 +3,8 @@ package qube_test
 import (
 	"os"
 	"testing"
+
+	"go.uber.org/goleak"
 )
 
 var (
@@ -20,5 +22,5 @@ func TestMain(m *testing.M) {
 		testAcc = true
 	}
 
-	os.Exit(m.Run())
+	goleak.VerifyTestMain(m)
 }

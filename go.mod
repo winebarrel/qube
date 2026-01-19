@@ -12,7 +12,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/jackc/pgx/v5 v5.8.0
 	github.com/jamiealquiza/tachymeter v2.0.0+incompatible
-	github.com/klauspost/compress v1.18.2
+	github.com/klauspost/compress v1.18.3
 	github.com/mattn/go-isatty v0.0.20
 	github.com/neilotoole/jsoncolor v0.7.1
 	github.com/shirou/gopsutil/v4 v4.25.12

@@ -15,7 +15,7 @@ require (
 	github.com/klauspost/compress v1.18.3
 	github.com/mattn/go-isatty v0.0.20
 	github.com/neilotoole/jsoncolor v0.7.1
-	github.com/shirou/gopsutil/v4 v4.25.12
+	github.com/shirou/gopsutil/v4 v4.26.1
 	github.com/stretchr/testify v1.11.1
 	github.com/valyala/fastjson v1.6.7
 	github.com/winebarrel/esub v0.1.0

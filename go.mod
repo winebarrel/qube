@@ -4,7 +4,7 @@ go 1.25.3
 
 require (
 	github.com/SaveTheRbtz/zstd-seekable-format-go/pkg v0.8.0
-	github.com/alecthomas/kong v1.13.0
+	github.com/alecthomas/kong v1.14.0
 	github.com/aws/aws-sdk-go-v2/config v1.32.7
 	github.com/aws/aws-sdk-go-v2/feature/rds/auth v1.6.17
 	github.com/creack/pty v1.1.24
@@ -12,7 +12,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/jackc/pgx/v5 v5.8.0
 	github.com/jamiealquiza/tachymeter v2.0.0+incompatible
-	github.com/klauspost/compress v1.18.3
+	github.com/klauspost/compress v1.18.4
 	github.com/mattn/go-isatty v0.0.20
 	github.com/neilotoole/jsoncolor v0.7.1
 	github.com/shirou/gopsutil/v4 v4.26.1
@@ -21,7 +21,7 @@ require (
 	github.com/winebarrel/esub v0.1.0
 	go.uber.org/goleak v1.3.0
 	golang.org/x/sync v0.19.0
-	golang.org/x/term v0.39.0
+	golang.org/x/term v0.40.0
 	golang.org/x/time v0.14.0
 )
 
@@ -58,7 +58,7 @@ require (
 	go.uber.org/atomic v1.11.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.27.0 // indirect
-	golang.org/x/sys v0.40.0 // indirect
+	golang.org/x/sys v0.41.0 // indirect
 	golang.org/x/text v0.31.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

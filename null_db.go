@@ -11,12 +11,12 @@ type NullDB struct {
 	w io.Writer
 }
 
-func (db *NullDB) Exec(query string, args ...interface{}) (sql.Result, error) {
+func (db *NullDB) Exec(query string, args ...any) (sql.Result, error) {
 	fmt.Fprintln(db.w, query)
 	return nil, nil
 }
 
-func (db *NullDB) ExecContext(ctx context.Context, query string, args ...interface{}) (sql.Result, error) {
+func (db *NullDB) ExecContext(ctx context.Context, query string, args ...any) (sql.Result, error) {
 	fmt.Fprintln(db.w, query)
 	return nil, nil
 }

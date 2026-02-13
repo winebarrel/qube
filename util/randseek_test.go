@@ -29,7 +29,7 @@ func Test_RandSeek(t *testing.T) {
 
 	offsets := map[int64]struct{}{}
 
-	for i := 0; i < 100; i++ {
+	for range 100 {
 		err := util.RandSeek(f, fi.Size())
 		require.NoError(err)
 		offset, _ := f.Seek(0, io.SeekCurrent)
@@ -64,7 +64,7 @@ func Test_RandSeek_ZstdFile(t *testing.T) {
 
 	offsets := map[int64]struct{}{}
 
-	for i := 0; i < 100; i++ {
+	for range 100 {
 		err := util.RandSeek(zf, zf.Size())
 		require.NoError(err)
 		offset, _ := zf.Seek(0, io.SeekCurrent)

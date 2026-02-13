@@ -1,6 +1,6 @@
 module github.com/winebarrel/qube
 
-go 1.25.3
+go 1.26
 
 require (
 	github.com/SaveTheRbtz/zstd-seekable-format-go/pkg v0.8.0

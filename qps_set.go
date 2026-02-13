@@ -1,6 +1,7 @@
 package qube
 
 import (
+	"slices"
 	"sort"
 )
 
@@ -40,9 +41,7 @@ func NewQPSSet(dps []DataPoint) QPSSet {
 }
 
 func (qpsSet QPSSet) Stats() (minQPS float64, maxQPS float64, medianQPS float64) {
-	sort.Slice(qpsSet, func(i, j int) bool {
-		return qpsSet[i] < qpsSet[j]
-	})
+	slices.Sort(qpsSet)
 
 	minQPS = qpsSet[0]
 	maxQPS = qpsSet[len(qpsSet)-1]

@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.7.2] - 2026-02-14
+
+### Changed
+
+* Show qube version in report JSON.
+
 ## [1.7.1] - 2026-02-14
 
 ### Changed

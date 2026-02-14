@@ -33,6 +33,7 @@ func main() {
 	options := parseArgs()
 	task := qube.NewTask(options)
 	report, err := task.Run()
+	report.Version = version
 
 	if err != nil {
 		log.Fatal(err)

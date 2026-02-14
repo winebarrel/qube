@@ -17,6 +17,10 @@ test:
 testacc:
 	$(MAKE) test TEST_ACC=1
 
+.PHONY: bench
+bench:
+	go test -run='0^' --count=3 -bench . -benchmem
+
 .PHONY: lint
 lint:
 	golangci-lint run

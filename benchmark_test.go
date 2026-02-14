@@ -40,7 +40,7 @@ func BenchmarkMySQL(b *testing.B) {
 	task.Driver = qube.DBDriverMySQL
 	report, err := task.Run()
 	require.NoError(b, err)
-	b.Logf("QueryCount:%d, AvgQPS: %.0f, MedianQPS: %.0f\n", report.QueryCount, report.AvgQPS, report.MedianQPS)
+	b.Logf("QueryCount: %d, AvgQPS: %.0f, MedianQPS: %.0f\n", report.QueryCount, report.AvgQPS, report.MedianQPS)
 }
 
 func BenchmarkPostgreSQL(b *testing.B) {

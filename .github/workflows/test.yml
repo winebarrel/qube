@@ -7,7 +7,7 @@ on:
 
 defaults:
   run:
-    shell: bash -xe {0}
+    shell: bash -xeo pipefail {0}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -17,13 +17,14 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-      - uses: actions/setup-go@4dc6199c7b1a012772edbd06daecab0f50c9053c # v6.1.0
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-go@7a3fe6cf4cb3a834922a1244abfce67bcef6a0c5 # v6.2.0
         with:
           go-version-file: go.mod
       - uses: golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
       - run: make vet
-      - name: Start services
+      - &start-service
+        name: Start services
         run: |
           for i in {1..60}; do docker compose up -d --quiet-pull && break; sleep 1; done
           for i in {1..60}; do mysqladmin -u root -h 127.0.0.1 -P 13306 ping && break; sleep 1; done
@@ -39,3 +40,19 @@ jobs:
           echo '{"q":"invalid"}' >> data2.jsonl
           echo '{"q":"invalid"}' >> data3.jsonl
           go run -race ./cmd/qube -d 'postgres://postgres@localhost:15432' -f data1.jsonl,data2.jsonl,data3.jsonl -t 3s -n 10 --force
+  bench:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-go@7a3fe6cf4cb3a834922a1244abfce67bcef6a0c5 # v6.2.0
+        with:
+          go-version-file: go.mod
+      - *start-service
+      - name: Run benchmark
+        run: |
+          make bench | tee bench.log
+          echo '### Benchmark results' >> $GITHUB_STEP_SUMMARY
+          echo '```'                   >> $GITHUB_STEP_SUMMARY
+          go version                   >> $GITHUB_STEP_SUMMARY
+          cat bench.log                >> $GITHUB_STEP_SUMMARY
+          echo '```'                   >> $GITHUB_STEP_SUMMARY

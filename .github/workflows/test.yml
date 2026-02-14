@@ -53,5 +53,6 @@ jobs:
           make bench | tee bench.log
           echo '### Benchmark results' >> $GITHUB_STEP_SUMMARY
           echo '```'                   >> $GITHUB_STEP_SUMMARY
+          go version                   >> $GITHUB_STEP_SUMMARY
           cat bench.log                >> $GITHUB_STEP_SUMMARY
           echo '```'                   >> $GITHUB_STEP_SUMMARY

@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.7.1] - 2026-02-14
+
+### Changed
+
+* Update go version to 1.26.
+
 ## [1.7.0] - 2025-11-01
 
 ### Added

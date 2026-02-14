@@ -38,5 +38,6 @@ func main() {
 		log.Fatal(err)
 	}
 
+	report.Version = version
 	fmt.Println(report.JSON())
 }

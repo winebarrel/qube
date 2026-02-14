@@ -31,6 +31,7 @@ type Report struct {
 	MinQPS          float64
 	MedianQPS       float64
 	Duration        *tachymeter.Metrics
+	Version         string `json:",omitempty"`
 }
 
 func NewReport(rec *Recorder) *Report {

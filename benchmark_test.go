@@ -12,8 +12,6 @@ import (
 )
 
 func BenchmarkMySQL(b *testing.B) {
-	b.Setenv("MYSQL_PARAM", "tls=skip-verify")
-
 	f := filepath.Join(b.TempDir(), "data.jsonl")
 	data := []byte(`{"q":"select 1"}` + "\n")
 	os.WriteFile(f, data, 0400)
@@ -46,8 +44,6 @@ func BenchmarkMySQL(b *testing.B) {
 }
 
 func BenchmarkPostgreSQL(b *testing.B) {
-	b.Setenv("POSTGRES_PARAM", "sslmode=disable")
-
 	f := filepath.Join(b.TempDir(), "data.jsonl")
 	data := []byte(`{"q":"select 1"}` + "\n")
 	os.WriteFile(f, data, 0400)

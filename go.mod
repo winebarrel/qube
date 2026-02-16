@@ -14,7 +14,7 @@ require (
 	github.com/jamiealquiza/tachymeter v2.0.0+incompatible
 	github.com/klauspost/compress v1.18.4
 	github.com/mattn/go-isatty v0.0.20
-	github.com/neilotoole/jsoncolor v0.7.1
+	github.com/neilotoole/jsoncolor v0.7.2
 	github.com/shirou/gopsutil/v4 v4.26.1
 	github.com/stretchr/testify v1.11.1
 	github.com/valyala/fastjson v1.6.7

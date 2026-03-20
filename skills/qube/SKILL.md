@@ -1,3 +1,9 @@
+---
+name: qube
+description: Database load testing tool that measures query performance and throughput against MySQL or PostgreSQL
+allowed-tools: Read, Grep
+---
+
 # qube
 
 Database load testing tool that measures query performance and throughput against MySQL or PostgreSQL.

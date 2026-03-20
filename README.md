@@ -54,7 +54,7 @@ $ qube -d 'root@tcp(127.0.0.1:13306)/' -f data.jsonl -n 5 -t 10s
   "ElapsedTime": "10.001173875s",
   "Options": {
     "Force": false,
-    "DataFile": [
+    "DataFiles": [
       "data.jsonl"
     ],
     "Key": "q",

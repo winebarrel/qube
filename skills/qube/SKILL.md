@@ -111,7 +111,7 @@ JSON report with the following fields:
 
 ### Example Output
 
-```json
+```jsonc
 {
   "ID": "b1e23c00-1601-46eb-ad2b-fdf01154243d",
   "StartedAt": "2023-11-12T12:08:29.296154+09:00",

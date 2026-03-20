@@ -92,7 +92,7 @@ JSON report with the following fields:
 | `ID` | Unique test run ID (UUID) |
 | `StartedAt` / `FinishedAt` | Timestamps of test start and end |
 | `ElapsedTime` | Total test duration |
-| `Options` | Test configuration (Force, DataFile, Key, Loop, Random, CommitRate, DSN, Driver, Noop, IAMAuth, Nagents, Rate, Time) |
+| `Options` | Test configuration (Force, DataFiles, Key, Loop, Random, CommitRate, DSN, Driver, Noop, IAMAuth, Nagents, Rate, Time) |
 | `GOMAXPROCS` | Go runtime parallelism setting |
 | `QueryCount` | Total number of executed queries |
 | `ErrorQueryCount` | Number of failed queries |

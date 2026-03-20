@@ -119,7 +119,7 @@ JSON report with the following fields:
   "ElapsedTime": "10.001173875s",
   "Options": {
     "Force": false,
-    "DataFile": ["data.jsonl"],
+    "DataFiles": ["data.jsonl"],
     "Key": "q",
     "Loop": true,
     "Random": false,

@@ -77,24 +77,6 @@ qube -d 'postgres://user@localhost:5432/mydb' -f data.jsonl -n 10
 qube -d 'root@tcp(127.0.0.1:13306)/' -f data.jsonl --noop
 ```
 
-## Architecture
-
-| Package/File | Purpose |
-|-------------|---------|
-| `cmd/qube/main.go` | Entry point, CLI parsing (Kong) |
-| `task.go` | Orchestrates load test execution |
-| `agent.go` | Individual worker executing queries |
-| `data.go` | JSONL data reading and parsing |
-| `recorder.go` | Thread-safe metrics collection |
-| `report.go` | Final statistics and JSON output |
-| `db_config.go` | DB connection and DSN management |
-| `options.go` | Configuration and auto-detection |
-| `qps_set.go` | QPS statistics calculation |
-| `zstd_file.go` | Zstandard seekable format support |
-| `progress.go` | Real-time progress reporting |
-| `null_db.go` | No-op database implementation |
-| `rds/auth.go` | AWS RDS IAM authentication |
-
 ## Output
 
 JSON report including:

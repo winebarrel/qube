@@ -26,8 +26,11 @@ func (conn *Conn) ExecContext(ctx context.Context, query string, args ...any) (s
 func (conn *Conn) withRetry(ctx context.Context, query string, args ...any) (sql.Result, error) {
 	res, err := conn.raw.ExecContext(ctx, query, args...)
 
-	if errors.Is(err, driver.ErrBadConn) {
-		conn.raw.Close()
+	if errors.Is(err, driver.ErrBadConn) || errors.Is(err, sql.ErrConnDone) {
+		if !errors.Is(err, sql.ErrConnDone) {
+			conn.raw.Close()
+		}
+
 		raw, err := conn.db.Conn(ctx)
 
 		if err != nil {

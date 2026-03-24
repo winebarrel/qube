@@ -21,6 +21,5 @@ func (db *NullDB) ExecContext(ctx context.Context, query string, args ...any) (s
 	return nil, nil
 }
 
-func (db *NullDB) Close() error {
-	return nil
+func (db *NullDB) Close() {
 }

@@ -338,14 +338,12 @@ func TestAcc_Task_MySQLSession(t *testing.T) {
 
 	db, err := sql.Open("mysql", testDSN_MySQL)
 	require.NoError(err)
+	_, err = db.Exec("drop table if exists qube_test")
+	require.NoError(err)
 	_, err = db.Exec("create table qube_test (data text not null)")
 	require.NoError(err)
 
-	t.Cleanup(func() {
-		_, err := db.Exec("drop table qube_test")
-		require.NoError(err)
-		db.Close()
-	})
+	t.Cleanup(func() { db.Close() })
 
 	f, _ := os.CreateTemp("", "")
 	defer os.Remove(f.Name())
@@ -404,14 +402,12 @@ func TestAcc_Task_PostgreSQLSession(t *testing.T) {
 
 	db, err := sql.Open("pgx", testDSN_PostgreSQL)
 	require.NoError(err)
+	_, err = db.Exec("drop table if exists qube_test")
+	require.NoError(err)
 	_, err = db.Exec("create table qube_test (data text not null)")
 	require.NoError(err)
 
-	t.Cleanup(func() {
-		_, err := db.Exec("drop table qube_test")
-		require.NoError(err)
-		db.Close()
-	})
+	t.Cleanup(func() { db.Close() })
 
 	f, _ := os.CreateTemp("", "")
 	defer os.Remove(f.Name())
@@ -470,14 +466,12 @@ func TestAcc_Task_MySQLTx(t *testing.T) {
 
 	db, err := sql.Open("mysql", testDSN_MySQL)
 	require.NoError(err)
+	_, err = db.Exec("drop table if exists qube_test")
+	require.NoError(err)
 	_, err = db.Exec("create table qube_test (data text not null)")
 	require.NoError(err)
 
-	t.Cleanup(func() {
-		_, err := db.Exec("drop table qube_test")
-		require.NoError(err)
-		db.Close()
-	})
+	t.Cleanup(func() { db.Close() })
 
 	f, _ := os.CreateTemp("", "")
 	defer os.Remove(f.Name())
@@ -537,14 +531,12 @@ func TestAcc_Task_PostgreSQLTx(t *testing.T) {
 
 	db, err := sql.Open("pgx", testDSN_PostgreSQL)
 	require.NoError(err)
+	_, err = db.Exec("drop table if exists qube_test")
+	require.NoError(err)
 	_, err = db.Exec("create table qube_test (data text not null)")
 	require.NoError(err)
 
-	t.Cleanup(func() {
-		_, err := db.Exec("drop table qube_test")
-		require.NoError(err)
-		db.Close()
-	})
+	t.Cleanup(func() { db.Close() })
 
 	f, _ := os.CreateTemp("", "")
 	defer os.Remove(f.Name())

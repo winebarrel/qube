@@ -23,8 +23,7 @@ func Test_NullDB(t *testing.T) {
 	_, err = db.ExecContext(context.Background(), "select 2")
 	require.NoError(err)
 
-	err = db.Close()
-	require.NoError(err)
+	db.Close()
 
 	assert.Equal("select 1\nselect 2\n", buf.String())
 }

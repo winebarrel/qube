@@ -92,20 +92,32 @@ func (config *DBConfig) OpenDBWithPing(autoCommit bool) (DBIface, error) {
 		return nil, fmt.Errorf("failed to ping DB (%w)", err)
 	}
 
+	rawConn, err := db.Conn(context.Background())
+
+	if err != nil {
+		db.Close()
+		return nil, fmt.Errorf("failed to get a single DB connection (%w)", err)
+	}
+
+	conn := &Conn{
+		db:  db,
+		raw: rawConn,
+	}
+
 	if config.Driver == DBDriverMySQL {
 		if autoCommit {
-			_, err = db.Exec("set autocommit = 1")
+			_, err = conn.Exec("set autocommit = 1")
 		} else {
-			_, err = db.Exec("set autocommit = 0")
+			_, err = conn.Exec("set autocommit = 0")
 		}
 
 		if err != nil {
-			db.Close()
+			conn.Close()
 			return nil, fmt.Errorf("failed to disable autocommit (%w)", err)
 		}
 	}
 
-	return db, nil
+	return conn, nil
 }
 
 func (cfg *DBConfig) getMySQLConnector() (driver.Connector, error) {

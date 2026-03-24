@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.8.0] - 2026-03-24
+
+### Changed
+
+* Update to pgx v5.9.1 and changed it to use `*sql.Conn`. [pull#255](https://github.com/winebarrel/qube/pull/255)
+
 ## [1.7.2] - 2026-02-14
 
 ### Changed

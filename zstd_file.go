@@ -15,7 +15,7 @@ var (
 type ZstdFile struct {
 	file    *os.File
 	decoder *zstd.Decoder
-	reader  seekable.Reader
+	reader  *seekable.Reader
 	size    int64
 }
 

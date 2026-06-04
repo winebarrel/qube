@@ -3,7 +3,7 @@ module github.com/winebarrel/qube
 go 1.26.3
 
 require (
-	github.com/SaveTheRbtz/zstd-seekable-format-go/pkg v0.10.0-rc.2
+	github.com/SaveTheRbtz/zstd-seekable-format-go/pkg v0.10.0
 	github.com/alecthomas/kong v1.15.0
 	github.com/aws/aws-sdk-go-v2/config v1.32.21
 	github.com/aws/aws-sdk-go-v2/feature/rds/auth v1.6.26

@@ -4,7 +4,7 @@ go 1.26.3
 
 require (
 	github.com/SaveTheRbtz/zstd-seekable-format-go/pkg v0.10.0
-	github.com/alecthomas/kong v1.15.0
+	github.com/alecthomas/kong v1.16.0
 	github.com/aws/aws-sdk-go-v2/config v1.32.30
 	github.com/aws/aws-sdk-go-v2/feature/rds/auth v1.6.30
 	github.com/creack/pty v1.1.24
@@ -12,8 +12,8 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/jackc/pgx/v5 v5.10.0
 	github.com/jamiealquiza/tachymeter v2.0.0+incompatible
-	github.com/klauspost/compress v1.19.0
-	github.com/mattn/go-isatty v0.0.22
+	github.com/klauspost/compress v1.19.1
+	github.com/mattn/go-isatty v0.0.23
 	github.com/neilotoole/jsoncolor v0.9.1
 	github.com/shirou/gopsutil/v4 v4.26.6
 	github.com/stretchr/testify v1.11.1

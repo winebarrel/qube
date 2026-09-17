@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Changed
+
+* The Homebrew cask writes the `postflight_steps` stanza instead of `postflight`, which Homebrew 7 deprecates.
+
 ## [1.8.0] - 2026-03-24
 
 ### Changed

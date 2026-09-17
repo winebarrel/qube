@@ -20,12 +20,17 @@ homebrew_casks:
     homepage: https://github.com/winebarrel/qube
     description: qube is a DB load testing tool.
     license: MIT
-    hooks:
-      post:
-        install: |
-          if OS.mac?
-            system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/qube"]
-          end
+    # Homebrew 7 deprecates the postflight block that hooks.post.install
+    # renders, so emit postflight_steps via custom_block instead. goreleaser
+    # templates the whole cask, so {{staged_path}} is written as a template
+    # producing that literal, expanded by Homebrew at install time. Move this
+    # to the dedicated goreleaser field once it ships (goreleaser#6870).
+    custom_block: |
+      postflight_steps do
+        on_macos do
+          run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "{{ "{{staged_path}}" }}/qube"]
+        end
+      end
 nfpms:
   - file_name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Arch }}"
     homepage: https://github.com/winebarrel/qube

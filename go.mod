@@ -5,14 +5,14 @@ go 1.26.3
 require (
 	github.com/SaveTheRbtz/zstd-seekable-format-go/pkg v0.10.0
 	github.com/alecthomas/kong v1.16.1
-	github.com/aws/aws-sdk-go-v2/config v1.33.5
-	github.com/aws/aws-sdk-go-v2/feature/rds/auth v1.7.3
+	github.com/aws/aws-sdk-go-v2/config v1.33.6
+	github.com/aws/aws-sdk-go-v2/feature/rds/auth v1.7.4
 	github.com/creack/pty v1.1.24
 	github.com/go-sql-driver/mysql v1.10.1
 	github.com/google/uuid v1.6.0
 	github.com/jackc/pgx/v5 v5.11.0
 	github.com/jamiealquiza/tachymeter v2.0.0+incompatible
-	github.com/klauspost/compress v1.20.0
+	github.com/klauspost/compress v1.20.1
 	github.com/mattn/go-isatty v0.0.24
 	github.com/neilotoole/jsoncolor v0.10.1
 	github.com/shirou/gopsutil/v4 v4.26.8
@@ -27,18 +27,18 @@ require (
 
 require (
 	filippo.io/edwards25519 v1.2.0 // indirect
-	github.com/aws/aws-sdk-go-v2 v1.47.0 // indirect
-	github.com/aws/aws-sdk-go-v2/credentials v1.20.5 // indirect
-	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.20.0 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/configsources v1.5.3 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.8.3 // indirect
-	github.com/aws/aws-sdk-go-v2/internal/v4a v1.5.3 // indirect
+	github.com/aws/aws-sdk-go-v2 v1.47.1 // indirect
+	github.com/aws/aws-sdk-go-v2/credentials v1.20.6 // indirect
+	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.20.1 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/configsources v1.5.4 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.8.4 // indirect
+	github.com/aws/aws-sdk-go-v2/internal/v4a v1.5.4 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.13.19 // indirect
-	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.14.3 // indirect
-	github.com/aws/aws-sdk-go-v2/service/signin v1.10.0 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sso v1.38.0 // indirect
-	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.43.0 // indirect
-	github.com/aws/aws-sdk-go-v2/service/sts v1.51.0 // indirect
+	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.14.4 // indirect
+	github.com/aws/aws-sdk-go-v2/service/signin v1.10.1 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sso v1.38.1 // indirect
+	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.43.1 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sts v1.51.1 // indirect
 	github.com/aws/smithy-go v1.28.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/ebitengine/purego v0.10.2 // indirect
